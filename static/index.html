@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stock Timing Radar</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Growth / Quality Timing Scanner</p>
+      <h1>Stock Timing Radar</h1>
+      <p class="subtitle">หา “หุ้นดีที่พักฐานจบ” ด้วย EMA 5/20/89/200, RSI, MACD, Volume และ setup score</p>
+    </div>
+    <div class="hero-card">
+      <span class="hero-number" id="market-clock">Local MVP</span>
+      <span class="muted">Data: Yahoo chart endpoint via local backend</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel controls">
+      <div class="field wide">
+        <label for="symbols">Watchlist</label>
+        <textarea id="symbols" rows="6" spellcheck="false">RKLB
+AMZN
+HOOD
+NVDA
+IREN
+ASTS
+OKLO
+TSLA
+GOOGL
+BMNR
+NBIS
+TEM
+MP
+IONQ
+AMD
+ORCL
+EQT
+TMDX
+EOSE
+PLTR
+UUUU
+PSIX
+CIFR
+RXRX
+JEPQ
+SYM
+TMC
+OSCR
+COPX
+RR
+ZETA
+OPEN
+COST
+BEAM
+BE
+LITE
+CRWV
+CORZ
+APLD
+SNDK
+COHR
+SEI
+TSEM
+RIOT
+KRC
+HUT
+WYFI
+BTDR
+CLSK
+BITF
+LBRT
+PUMP
+BW
+STX
+VST
+INTC
+GLXY
+AAPL
+MSFT
+AVGO
+GOOG
+META
+WMT
+ASML
+MU
+NFLX
+CSCO
+LRCX
+AMAT
+KLAC
+TXN
+ARM
+LIN
+PEP
+TMUS
+ADI
+AMGN
+ISRG
+SHOP
+GILD
+QCOM
+APP
+PANW
+MRVL
+BKNG
+PDD
+WDC
+HON
+CRWD
+CEG
+SBUX
+INTU
+VRTX
+ADBE
+CMCSA
+MAR
+SNPS
+MELI
+CDNS
+ABNB
+CSX
+MPWR
+REGN
+ADP
+ORLY
+DASH
+MNST
+MDLZ
+AEP
+ROST
+CTAS
+BKR
+WBD
+PCAR
+FTNT
+NXPI
+MSTR
+FANG
+FAST
+EA
+ADSK
+FER
+XEL
+MCHP
+EXC
+ODFL
+DDOG
+PYPL
+IDXX
+CCEP
+ALNY
+TRI
+KDP
+TTWO
+ROP
+PAYX
+AXON
+CPRT
+GEHC
+WDAY
+INSM
+CTSH
+KHC
+DXCM
+VRSK
+CHTR
+ZS
+CSGP
+ARKK
+ARKQ
+ARKW
+ARKG
+ARKF
+ARKX
+PRNT
+IZRL
+COIN
+ROKU
+CRCL
+CRSP
+TER
+KTOS
+DE
+AVAV
+TSM
+GH
+NTRA
+ILMN
+IRDM
+ACHR
+PATH
+TWLO
+RBLX
+SOFI
+XYZ
+U
+TDOC
+TWST
+TXG
+PACB
+NTLA
+EXAS
+SDGR
+VCYT
+RGNX
+EDIT
+VERV
+FATE
+DNA
+CDNA
+ABCL
+PRME
+JOBY
+TRMB
+LUNR
+SPCE
+MTLS
+DDD
+SSYS
+VLD
+NNDM
+DM
+CAMT
+CYBR
+NICE
+WIX
+GILT
+PERI
+MNDY
+FROG
+TOST
+BLSH
+Z
+ADYEY
+HIMS
+PINS
+FUTU
+NU
+AFRM
+DLO
+DOCN
+BILL
+DKNG
+9984.T
+QQQI
+SMH
+SOXX
+AIQ
+SMCI
+DELL
+VRT
+ETN
+PWR
+GEV
+MARA
+BRK-B
+AXP
+BAC
+KO
+CVX
+ABBV
+UNH
+TGT
+PL
+BKSY
+RDW
+GSAT
+SATS
+VSAT
+SPIR
+SATL
+SIDU
+TSAT
+MDA.TO
+UFO
+LMT
+NOC
+BA
+RTX
+GD
+LHX
+HWM
+TDG
+HEI
+TXT
+CW
+AIR
+ERJ
+EADSY
+GRMN
+EVTL
+EH
+DRS
+CACI
+LDOS
+SAIC
+BAH
+MRCY
+AAV.BK
+ADVANC.BK
+AEONTS.BK
+AMATA.BK
+AOT.BK
+AP.BK
+AURA.BK
+AWC.BK
+BA.BK
+BAM.BK
+BANPU.BK
+BBL.BK
+BCH.BK
+BCP.BK
+BCPG.BK
+BDMS.BK
+BEM.BK
+BGRIM.BK
+BH.BK
+BJC.BK
+BLA.BK
+BTG.BK
+BTS.BK
+CBG.BK
+CCET.BK
+CENTEL.BK
+CHG.BK
+CK.BK
+COM7.BK
+CPALL.BK
+CPF.BK
+CPN.BK
+CRC.BK
+DELTA.BK
+DOHOME.BK
+EA.BK
+EGCO.BK
+ERW.BK
+GFPT.BK
+GLOBAL.BK
+GPSC.BK
+GULF.BK
+GUNKUL.BK
+HANA.BK
+HMPRO.BK
+ICHI.BK
+IRPC.BK
+IVL.BK
+JAS.BK
+JMART.BK
+JMT.BK
+JTS.BK
+KBANK.BK
+KCE.BK
+KKP.BK
+KTB.BK
+KTC.BK
+LH.BK
+M.BK
+MEGA.BK
+MINT.BK
+MOSHI.BK
+MTC.BK
+OR.BK
+OSP.BK
+PLANB.BK
+PR9.BK
+PRM.BK
+PTG.BK
+PTT.BK
+PTTEP.BK
+PTTGC.BK
+QH.BK
+RATCH.BK
+RCL.BK
+SAWAD.BK
+SCB.BK
+SCC.BK
+SCGP.BK
+SIRI.BK
+SISB.BK
+SJWD.BK
+SPALI.BK
+SPRC.BK
+STA.BK
+STECON.BK
+STGT.BK
+TASCO.BK
+TCAP.BK
+TFG.BK
+TIDLOR.BK
+TISCO.BK
+TLI.BK
+TOA.BK
+TOP.BK
+TRUE.BK
+TTB.BK
+TU.BK
+VGI.BK
+WHA.BK</textarea>
+        <small>ใช้ Yahoo ticker format เช่น <code>PTT.BK</code>, <code>0700.HK</code>, <code>9988.HK</code>, <code>ASML</code></small>
+      </div>
+
+      <div class="field">
+        <label for="range">ช่วงข้อมูล</label>
+        <select id="range">
+          <option value="6mo">6 เดือน</option>
+          <option value="1y" selected>1 ปี</option>
+          <option value="2y">2 ปี</option>
+          <option value="5y">5 ปี</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="minScore">คะแนนขั้นต่ำ</label>
+        <input id="minScore" type="number" min="0" max="100" value="0" />
+      </div>
+
+      <div class="field filters">
+        <label>Filters</label>
+        <label class="check"><input type="checkbox" id="filterAbove200" /> Price &gt; EMA200</label>
+        <label class="check"><input type="checkbox" id="filterEmaStack" /> EMA20 &gt; EMA89</label>
+        <label class="check"><input type="checkbox" id="filterSweetRsi" /> RSI 45-65</label>
+      </div>
+
+      <div class="actions">
+        <button id="scanBtn">Scan Watchlist</button>
+        <button id="refreshBtn" class="secondary">Refresh</button>
+      </div>
+
+      <p class="note">ตารางเรียงแบบ Last Price → EMA price → % vs EMA เป็นคู่ ๆ เพิ่ม MACD 12,26 และทุกคอลัมน์เลือกซ่อนได้จาก Column Manager</p>
+    </section>
+
+    <section class="panel screener-panel">
+      <div class="panel-title-row compact-row">
+        <div>
+          <h2>Saved Screeners</h2>
+          <p>บันทึก watchlist + filters + columns ไว้ใช้ซ้ำ ไม่ต้องกรอกชื่อหุ้นใหม่ทุกครั้ง</p>
+        </div>
+        <div class="screener-status" id="screenerStatus">ยังไม่ได้บันทึก preset</div>
+      </div>
+      <div class="screener-controls">
+        <div class="field">
+          <label for="screenerName">ชื่อ Screener</label>
+          <input id="screenerName" placeholder="เช่น AI Infra, Core Quality, Crypto Miners" />
+        </div>
+        <div class="field">
+          <label for="savedScreeners">โหลด Screener</label>
+          <select id="savedScreeners">
+            <option value="">ยังไม่มี saved screener</option>
+          </select>
+        </div>
+        <div class="actions screener-actions">
+          <button id="saveScreenerBtn">Save Screener</button>
+          <button id="loadScreenerBtn" class="secondary">Load</button>
+          <button id="deleteScreenerBtn" class="danger">Delete</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel column-panel">
+      <div class="panel-title-row compact-row">
+        <div>
+          <h2>Column Manager</h2>
+          <p>ซ่อนคอลัมน์ที่ไม่ต้องการอ่านได้ทีละตัว ตารางหุ้นไม่ควรยาวเหมือน 10-K</p>
+        </div>
+        <div class="column-actions">
+          <button id="showAllColsBtn" class="secondary">Show All</button>
+          <button id="compactColsBtn" class="secondary">Compact</button>
+          <button id="emaFocusColsBtn" class="secondary">EMA Focus</button>
+        </div>
+      </div>
+      <div id="columnToggles" class="column-toggles"></div>
+    </section>
+
+    <section class="panel summary-grid">
+      <div class="metric">
+        <span>Best Setup</span>
+        <strong id="bestSetup">-</strong>
+      </div>
+      <div class="metric">
+        <span>Buy/Watch</span>
+        <strong id="buyWatchCount">-</strong>
+      </div>
+      <div class="metric">
+        <span>Overheated</span>
+        <strong id="hotCount">-</strong>
+      </div>
+      <div class="metric">
+        <span>Last Scan</span>
+        <strong id="lastScan">-</strong>
+      </div>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="panel-title-row">
+        <div>
+          <h2>Scanner</h2>
+          <p>คลิกแถวเพื่อเปิด detail chart</p>
+        </div>
+        <div id="status" class="status">พร้อมยิงเรดาร์</div>
+      </div>
+      <div class="scanner-tabs" role="tablist">
+        <button id="technicalTab" class="tab-button active" data-tab="technical">Technical</button>
+        <button id="fundamentalTab" class="tab-button" data-tab="fundamental">Fundamental</button>
+        <span id="tabNote" class="tab-note">Technical indicators จาก workflow ล่าสุด</span>
+      </div>
+      <div class="table-wrap">
+        <table id="scanTable">
+          <thead>
+            <tr id="scanHeader"></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="mobileCards" class="mobile-cards"></div>
+      <div id="errors" class="errors"></div>
+    </section>
+
+    <section class="panel detail-panel">
+      <div class="panel-title-row">
+        <div>
+          <h2 id="detailTitle">Detail</h2>
+          <p id="detailSub">เลือกหุ้นจากตาราง หรือ search ด้านล่าง</p>
+        </div>
+        <div class="single-search">
+          <input id="singleSymbol" placeholder="เช่น NVDA" />
+          <button id="loadSingleBtn" class="secondary">Load</button>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <canvas id="priceChart" height="260"></canvas>
+        <div class="thesis-box">
+          <h3>Setup อ่านยังไง</h3>
+          <div id="detailSignal" class="signal-pill muted-pill">ยังไม่มีข้อมูล</div>
+          <div id="scoreBars" class="score-bars"></div>
+          <ul id="reasons"></ul>
+        </div>
+      </div>
+      <div id="fundamentalDetail" class="fundamental-detail"></div>
+    </section>
+
+    <section class="panel playbook">
+      <h2>Playbook</h2>
+      <div class="playbook-grid">
+        <div>
+          <h3>Buy Zone</h3>
+          <p>Price &gt; EMA200, EMA20 &gt; EMA89, EMA5 &gt; EMA20, RSI 45-65 และ volume ไม่แห้ง</p>
+        </div>
+        <div>
+          <h3>Watch</h3>
+          <p>Trend ดี แต่ RSI ร้อนหรือ momentum ยังไม่ confirm — รอจังหวะ ไม่ต้องรีบเป็นฮีโร่</p>
+        </div>
+        <div>
+          <h3>Avoid</h3>
+          <p>ต่ำกว่า EMA200 และ score ต่ำ คือยังเป็นสนามของ turnaround ไม่ใช่ compounding</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
