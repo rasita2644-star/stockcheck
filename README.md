@@ -1,3 +1,7 @@
+# V2.7 note — Public GitHub safe mode
+
+This package uses BYOK for Alpha Vantage. Do not commit API keys. Paste the key in the Analyst Consensus tab and save it only in browser localStorage. See `README_SEC_V2_7_PUBLIC_BYOK.md`.
+
 # Stock Timing Radar — GitHub Pages Edition
 
 This repo is ready for GitHub Pages + GitHub Actions.

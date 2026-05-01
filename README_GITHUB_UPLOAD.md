@@ -1,58 +1,42 @@
-# Stockcheck v8.6 — GitHub Pages Yahoo-only
+# Public GitHub Upload Notes — Stock Radar V2.7
 
-เวอร์ชันนี้ทำไว้สำหรับอัปโหลดลง GitHub Pages โดยไม่ต้องใช้ FMP/Finnhub API key
+This project can be uploaded to a public GitHub repository **only if no real API keys are committed**.
 
-## ใช้ข้อมูลจาก
-- Yahoo chart / quoteSummary / quote v7 แบบ best-effort
-- SEC companyfacts สำหรับ quarterly actuals ของหุ้น US
+## Safe Alpha Vantage mode
 
-## โครงสร้างสำคัญ
+V2.7 uses BYOK (Bring Your Own Key):
+
+- No `alpha_vantage_api_key.txt` file is included.
+- No `.env` file is included.
+- Users paste their Alpha Vantage API key in the **Analyst Consensus** tab.
+- The key is saved only in that browser's `localStorage`.
+- The key is sent to the Python backend only when the user clicks **Load consensus for TICKER**.
+
+## Do not commit
+
+```bash
+.env
+alpha_vantage_api_key.txt
+.alpha_vantage_cache/
+.alpha_vantage_quota.json
+__pycache__/
+*.pyc
+```
+
+These are already included in `.gitignore`.
+
+## Important: GitHub Pages is not enough
+
+This version needs the Python backend (`app.py`) for `/api/scan`, SEC EDGAR fetching, Yahoo chart fetching, guidance parsing, and Alpha Vantage on-demand calls. GitHub Pages can host static files only, so for full functionality use a Python-capable host such as Render, Railway, PythonAnywhere, Fly.io, or a VPS.
+
+## Local run
+
+```bash
+python app.py
+```
+
+Then open:
 
 ```text
-.github/workflows/deploy-pages.yml
-scripts/update_data.py
-site/index.html
-site/app.js
-site/styles.css
-site/data/scanner.json
-static/index.html
-static/app.js
-static/styles.css
-app.py
-watchlist.txt
-requirements.txt
+http://localhost:8787
 ```
-
-## วิธีอัปโหลดทับ repo เดิมผ่าน Terminal
-
-```bash
-cd ~/Downloads/stockcheck_github_v8_6_yahoo_only
-git init
-git branch -M main
-git remote add origin https://github.com/rasita2644-star/stockcheck.git
-git add .
-git commit -m "Update Stockcheck v8.6 Yahoo-only GitHub Pages"
-git push -u origin main --force
-```
-
-ถ้า remote มีอยู่แล้ว:
-
-```bash
-git remote set-url origin https://github.com/rasita2644-star/stockcheck.git
-git push -u origin main --force
-```
-
-## หลัง push เสร็จ
-
-1. ไปที่ GitHub repo
-2. Settings → Pages → Source: GitHub Actions
-3. Actions → Update stock data and deploy GitHub Pages → Run workflow
-4. รอเขียว แล้วเปิด Pages URL
-
-## แก้ watchlist
-
-แก้ `watchlist.txt` แล้ว commit/push หรือแก้ผ่าน GitHub web จากนั้น Run workflow ใหม่
-
-## หมายเหตุเรื่อง Price Target
-
-Yahoo free endpoint ไม่รับประกันว่า targetMean/targetLow/targetHigh จะมีทุกตัว ดังนั้นบางตัวจะยังเป็น N/A ได้ โดยเฉพาะ ETF, หุ้นเล็ก, หุ้นต่างประเทศ, IPO ใหม่ หรือวันที่ endpoint ไม่ส่งค่า

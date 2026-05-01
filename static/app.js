@@ -13,7 +13,7 @@ const marketClock = $('#market-clock');
 
 const STORAGE_KEYS = {
   screeners: 'stockTimingRadar.screeners.v3',
-  active: 'stockTimingRadar.activeSettings.v3'
+  active: 'stockTimingRadar.activeSettings.v7.secV2_4_detailTabsSavedKey'
 };
 
 const columnDefs = [
@@ -44,13 +44,15 @@ const fundamentalColumnDefs = [
   { key: 'fundamentalScore', label: 'Fund. Score', sortKey: 'fundamentalScore', align: 'right', group: 'base', defaultVisible: true },
   { key: 'fundamentalSignal', label: 'Signal', sortKey: 'fundamentalSignal', align: 'left', group: 'base', defaultVisible: true },
   { key: 'latestQuarter', label: 'Latest Quarter', sortKey: 'latestQuarter', align: 'left', group: 'fundamental', defaultVisible: true },
-  { key: 'earningsDate', label: 'Earnings Date', sortKey: 'earningsDate', align: 'left', group: 'fundamental', defaultVisible: true },
-  { key: 'daysToNextQuarter', label: 'Days to Next Q', sortKey: 'daysToNextQuarter', align: 'right', group: 'fundamental', defaultVisible: true },
+  { key: 'earningsDate', label: 'Period End', sortKey: 'earningsDate', align: 'left', group: 'fundamental', defaultVisible: true },
   { key: 'revenue', label: 'Revenue', sortKey: 'revenue', align: 'right', group: 'fundamental', defaultVisible: true },
   { key: 'revenuePrevQuarter', label: 'Rev Prev Q', sortKey: 'revenuePrevQuarter', align: 'right', group: 'fundamental', defaultVisible: true },
   { key: 'revenueYearAgo', label: 'Rev Year Ago', sortKey: 'revenueYearAgo', align: 'right', group: 'fundamental', defaultVisible: false },
-  { key: 'estimatedRevenue', label: 'Est. Revenue', sortKey: 'estimatedRevenue', align: 'right', group: 'fundamental', defaultVisible: true },
-  { key: 'revenueSurprisePct', label: 'Rev Surprise %', sortKey: 'revenueSurprisePct', align: 'right', group: 'fundamental', defaultVisible: true },
+  { key: 'priorCompanyGuidanceRevenuePeriod', label: 'Prior Guide Period', sortKey: 'priorCompanyGuidanceRevenuePeriod', align: 'left', group: 'fundamental', defaultVisible: false },
+  { key: 'priorCompanyGuidanceRevenue', label: 'Prior Co. Guide Mid', sortKey: 'priorCompanyGuidanceRevenue', align: 'right', group: 'fundamental', defaultVisible: false },
+  { key: 'actualVsPriorGuidanceRevenuePct', label: 'Actual vs Prior Guide %', sortKey: 'actualVsPriorGuidanceRevenuePct', align: 'right', group: 'fundamental', defaultVisible: false },
+  { key: 'nextCompanyGuidanceRevenue', label: 'Next Co. Guide Mid', sortKey: 'nextCompanyGuidanceRevenue', align: 'right', group: 'fundamental', defaultVisible: false },
+  { key: 'nextCompanyGuidanceRevenuePeriod', label: 'Next Guide Period', sortKey: 'nextCompanyGuidanceRevenuePeriod', align: 'left', group: 'fundamental', defaultVisible: false },
   { key: 'revenueQoQ', label: 'Rev QoQ', sortKey: 'revenueQoQ', align: 'right', group: 'fundamental', defaultVisible: true },
   { key: 'revenueYoY', label: 'Rev YoY', sortKey: 'revenueYoY', align: 'right', group: 'fundamental', defaultVisible: true },
   { key: 'netIncome', label: 'Net Income', sortKey: 'netIncome', align: 'right', group: 'fundamental', defaultVisible: true },
@@ -61,13 +63,8 @@ const fundamentalColumnDefs = [
   { key: 'eps', label: 'EPS', sortKey: 'eps', align: 'right', group: 'fundamental', defaultVisible: true },
   { key: 'epsPrevQuarter', label: 'EPS Prev Q', sortKey: 'epsPrevQuarter', align: 'right', group: 'fundamental', defaultVisible: true },
   { key: 'epsYearAgo', label: 'EPS Year Ago', sortKey: 'epsYearAgo', align: 'right', group: 'fundamental', defaultVisible: false },
-  { key: 'estimatedEps', label: 'Est. EPS', sortKey: 'estimatedEps', align: 'right', group: 'fundamental', defaultVisible: true },
-  { key: 'epsSurprisePct', label: 'EPS Surprise %', sortKey: 'epsSurprisePct', align: 'right', group: 'fundamental', defaultVisible: true },
   { key: 'epsQoQ', label: 'EPS QoQ', sortKey: 'epsQoQ', align: 'right', group: 'fundamental', defaultVisible: true },
-  { key: 'epsYoY', label: 'EPS YoY', sortKey: 'epsYoY', align: 'right', group: 'fundamental', defaultVisible: true },
-  { key: 'targetMeanPrice', label: 'Target Mean', sortKey: 'targetMeanPrice', align: 'right', group: 'target', defaultVisible: true },
-  { key: 'targetUpsidePct', label: 'Upside to Target', sortKey: 'targetUpsidePct', align: 'right', group: 'target', defaultVisible: true },
-  { key: 'targetAnalystCount', label: 'Analysts', sortKey: 'targetAnalystCount', align: 'right', group: 'target', defaultVisible: true }
+  { key: 'epsYoY', label: 'EPS YoY', sortKey: 'epsYoY', align: 'right', group: 'fundamental', defaultVisible: true }
 ];
 
 const defaultFundColumns = Object.fromEntries(fundamentalColumnDefs.map(col => [col.key, col.defaultVisible]));
@@ -128,7 +125,12 @@ const state = {
   fundColumns: { ...defaultFundColumns },
   activeTab: 'technical',
   scannerData: null,
-  quotes: {}
+  quotes: {},
+  currentDetail: null,
+  analystCache: {},
+  analystLoading: {},
+  alphaKeyFetched: false,
+  fundDetailTab: 'earnings'
 };
 
 function escapeHtml(value) {
@@ -140,6 +142,24 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;');
 }
 
+
+function renderAiReasonItem(text) {
+  const raw = String(text ?? '');
+  const parts = raw.split(/\s+[—-]\s*ที่มา:\s*/);
+  if (parts.length < 2) {
+    return `<li>${escapeHtml(raw)}</li>`;
+  }
+  const main = parts.shift();
+  const source = parts.join(' — ที่มา: ').trim();
+  return `<li>
+    <span class="ai-reason-main">${escapeHtml(main)}</span>
+    <details class="ai-source-inline">
+      <summary title="เปิดดูที่มาของข้อมูล">ที่มา</summary>
+      <div>${escapeHtml(source)}</div>
+    </details>
+  </li>`;
+}
+
 function formatNumber(value, digits = 2) {
   if (value === null || value === undefined || Number.isNaN(Number(value))) return '-';
   return Number(value).toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits });
@@ -149,6 +169,14 @@ function formatPct(value) {
   if (value === null || value === undefined || Number.isNaN(Number(value))) return '-';
   const sign = Number(value) > 0 ? '+' : '';
   return `${sign}${formatNumber(value, 2)}%`;
+}
+
+function formatDaysToNextQuarter(value) {
+  if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return 'N/A';
+  const n = Math.round(Number(value));
+  if (n < 0) return `Overdue ${Math.abs(n)}d`;
+  if (n === 0) return 'Today';
+  return `${n}d`;
 }
 
 function clsForPct(value) {
@@ -211,6 +239,11 @@ function getActiveColumnState() {
   return state.activeTab === 'fundamental' ? state.fundColumns : state.columns;
 }
 
+function sanitizeColumnState(colState, defs) {
+  const allowed = new Set(defs.map(col => col.key));
+  return Object.fromEntries(Object.entries(colState || {}).filter(([key]) => allowed.has(key)));
+}
+
 function getVisibleColumns() {
   const defs = getActiveColumnDefs();
   const colState = getActiveColumnState();
@@ -229,17 +262,17 @@ function classForColumn(col) {
 function renderValue(row, col) {
   const value = row[col.key];
   if (value === null || value === undefined || value === '') return 'N/A';
-  if (['pctVsEma5', 'pctVsEma20', 'pctVsEma89', 'pctVsEma200', 'revenueSurprisePct', 'revenueQoQ', 'revenueYoY', 'profitSurprisePct', 'profitQoQ', 'profitYoY', 'epsSurprisePct', 'epsSurprisePct', 'epsQoQ', 'epsYoY', 'targetUpsidePct'].includes(col.key)) return formatPct(value);
+  if (['pctVsEma5', 'pctVsEma20', 'pctVsEma89', 'pctVsEma200', 'revenueSurprisePct', 'revenueQoQ', 'revenueYoY', 'profitSurprisePct', 'profitQoQ', 'profitYoY', 'epsSurprisePct', 'epsQoQ', 'epsYoY', 'guidanceRevenueDeltaPct', 'actualVsPriorGuidanceRevenuePct'].includes(col.key)) return formatPct(value);
   if (col.key === 'rsi14') return formatNumber(value, 1);
   if (col.key === 'volumeRatio20') return `${formatNumber(value, 2)}x`;
   if (['macd1226', 'macdSignal9', 'macdHist', 'eps', 'estimatedEps', 'epsPrevQuarter', 'epsYearAgo'].includes(col.key)) return formatNumber(value, 3);
-  if (['revenue', 'revenuePrevQuarter', 'revenueYearAgo', 'estimatedRevenue', 'netIncome', 'netIncomePrevQuarter', 'netIncomeYearAgo'].includes(col.key)) return formatBig(value);
+  if (['revenue', 'revenuePrevQuarter', 'revenueYearAgo', 'estimatedRevenue', 'companyGuidanceRevenue', 'companyGuidanceRevenueLow', 'companyGuidanceRevenueHigh', 'priorCompanyGuidanceRevenue', 'priorCompanyGuidanceRevenueLow', 'priorCompanyGuidanceRevenueHigh', 'nextCompanyGuidanceRevenue', 'nextCompanyGuidanceRevenueLow', 'nextCompanyGuidanceRevenueHigh', 'netIncome', 'netIncomePrevQuarter', 'netIncomeYearAgo'].includes(col.key)) return formatBig(value);
   if (typeof value === 'string') return escapeHtml(value);
   return formatNumber(value);
 }
 
 function valueClass(row, col) {
-  if (['pctVsEma5', 'pctVsEma20', 'pctVsEma89', 'pctVsEma200', 'revenueSurprisePct', 'revenueQoQ', 'revenueYoY', 'profitSurprisePct', 'profitQoQ', 'profitYoY', 'epsSurprisePct', 'epsQoQ', 'epsYoY', 'targetUpsidePct'].includes(col.key)) return clsForPct(row[col.key]);
+  if (['pctVsEma5', 'pctVsEma20', 'pctVsEma89', 'pctVsEma200', 'revenueSurprisePct', 'revenueQoQ', 'revenueYoY', 'profitSurprisePct', 'profitQoQ', 'profitYoY', 'epsSurprisePct', 'epsQoQ', 'epsYoY', 'guidanceRevenueDeltaPct', 'actualVsPriorGuidanceRevenuePct'].includes(col.key)) return clsForPct(row[col.key]);
   if (col.key === 'rsi14') return clsForRsi(row.rsi14);
   if (['macd1226', 'macdSignal9', 'macdHist'].includes(col.key)) return clsForMacd(row[col.key]);
   return '';
@@ -330,8 +363,8 @@ function applySettingsToUi(settings = {}) {
     $('#filterEmaStack').checked = Boolean(settings.filters.emaStack);
     $('#filterSweetRsi').checked = Boolean(settings.filters.sweetRsi);
   }
-  state.columns = { ...defaultColumns, ...(settings.columns || {}) };
-  state.fundColumns = { ...defaultFundColumns, ...(settings.fundColumns || {}) };
+  state.columns = { ...defaultColumns, ...sanitizeColumnState(settings.columns || {}, columnDefs) };
+  state.fundColumns = { ...defaultFundColumns, ...sanitizeColumnState(settings.fundColumns || {}, fundamentalColumnDefs) };
   state.activeTab = settings.activeTab || 'technical';
   updateTabs();
   state.sortKey = settings.sortKey || (state.activeTab === 'fundamental' ? 'fundamentalScore' : 'score');
@@ -417,6 +450,23 @@ function deleteNamedScreener() {
   setScreenerStatus(`Deleted: ${name}`);
 }
 
+function quarterSortValue(value) {
+  const m = String(value || '').match(/Q([1-4])\s+(\d{4})/i);
+  if (!m) return -999999;
+  return Number(m[2]) * 4 + Number(m[1]);
+}
+
+function dateSortValue(value) {
+  const t = Date.parse(String(value || ''));
+  return Number.isFinite(t) ? t : -9999999999999;
+}
+
+function sortValueForKey(row, key) {
+  if (key === 'latestQuarter') return quarterSortValue(row.latestQuarter);
+  if (['earningsDate', 'periodEnd', 'latestFilingDate'].includes(key)) return dateSortValue(row[key]);
+  return row[key];
+}
+
 function applyFilters() {
   const minScore = Number($('#minScore').value || 0);
   const above200 = $('#filterAbove200').checked;
@@ -435,8 +485,8 @@ function applyFilters() {
 
   rows.sort((a, b) => {
     const key = state.sortKey;
-    const va = a[key];
-    const vb = b[key];
+    const va = sortValueForKey(a, key);
+    const vb = sortValueForKey(b, key);
     let result;
     if (typeof va === 'string' || typeof vb === 'string') {
       result = String(va || '').localeCompare(String(vb || ''));
@@ -542,27 +592,61 @@ function renderErrors(errors = []) {
   errorsEl.innerHTML = `<strong>บางตัวดึงข้อมูลไม่ได้:</strong> ${errors.map(e => `${escapeHtml(e.symbol)}: ${escapeHtml(e.error)}`).join(' | ')}`;
 }
 
-async function loadScannerJson(force = false) {
-  if (state.scannerData && !force) return state.scannerData;
-  const url = `data/scanner.json?v=${force ? Date.now() : 'static'}`;
-  const res = await fetch(url, { cache: force ? 'reload' : 'no-store' });
-  const contentType = res.headers.get('content-type') || '';
-  const raw = await res.text();
-  if (!res.ok) throw new Error(`โหลด scanner.json ไม่สำเร็จ: HTTP ${res.status}`);
-  const first = raw.trim().slice(0, 1);
-  if (first === '<') {
-    throw new Error('data/scanner.json ไม่เจอหรือ workflow ยังไม่ generate — ได้ HTML แทน JSON');
-  }
-  let data;
-  try {
-    data = JSON.parse(raw);
-  } catch (err) {
-    throw new Error(`scanner.json ไม่ใช่ JSON ที่ถูกต้อง: ${err.message || err}`);
-  }
-  state.scannerData = data;
-  state.quotes = data.quotes || {};
-  return data;
+function isLocalPythonApi() {
+  const host = window.location.hostname;
+  return host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0' || window.location.port === '8787';
 }
+
+async function fetchJsonOrThrow(url, options = {}) {
+  const res = await fetch(url, options);
+  const raw = await res.text();
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const first = raw.trim().slice(0, 1);
+  if (first === '<') throw new Error('ได้ HTML แทน JSON');
+  try {
+    return JSON.parse(raw);
+  } catch (err) {
+    throw new Error(`JSON ไม่ถูกต้อง: ${err.message || err}`);
+  }
+}
+
+async function loadScannerJson(force = false, symbolsOverride = null) {
+  const symbols = symbolsOverride || parseSymbols();
+  const range = ($('#range') && $('#range').value) || '1y';
+  const key = `${symbols.map(s => String(s).toUpperCase()).sort().join(',')}|${range}`;
+  if (state.scannerData && state.scannerKey === key && !force) return state.scannerData;
+
+  // Local Python/IDLE mode: use the live backend instead of static scanner.json.
+  // This fixes HTTP 404 when static/data/scanner.json does not exist locally.
+  if (isLocalPythonApi()) {
+    const params = new URLSearchParams({
+      symbols: symbols.join(','),
+      range,
+      interval: '1d',
+      v: force ? String(Date.now()) : 'live'
+    });
+    const data = await fetchJsonOrThrow(`/api/scan?${params.toString()}`, { cache: 'no-store' });
+    data.quotes = data.quotes || {};
+    state.scannerData = data;
+    state.scannerKey = key;
+    state.quotes = data.quotes;
+    return data;
+  }
+
+  // GitHub Pages/static mode: keep the old behavior.
+  const url = `data/scanner.json?v=${force ? Date.now() : 'static'}`;
+  try {
+    const data = await fetchJsonOrThrow(url, { cache: force ? 'reload' : 'no-store' });
+    data.quotes = data.quotes || {};
+    state.scannerData = data;
+    state.scannerKey = key;
+    state.quotes = data.quotes;
+    return data;
+  } catch (err) {
+    throw new Error(`โหลด scanner.json ไม่สำเร็จ: ${err.message || err}`);
+  }
+}
+
 
 async function scan(force = false) {
   const symbols = parseSymbols();
@@ -570,11 +654,11 @@ async function scan(force = false) {
   state.lastSymbols = symbols.join(',');
   scanBtn.disabled = true;
   refreshBtn.disabled = true;
-  setStatus(`กำลังโหลดข้อมูล static ${symbols.length} ตัว...`);
+  setStatus(`กำลังโหลดข้อมูล ${isLocalPythonApi() ? 'local API' : 'static'} ${symbols.length} ตัว...`);
   errorsEl.innerHTML = '';
   saveActiveSettings();
   try {
-    const data = await loadScannerJson(force);
+    const data = await loadScannerJson(force, symbols);
     const wanted = new Set(symbols.map(s => s.toUpperCase()));
     state.rows = (data.rows || []).filter(row => wanted.has(String(row.symbol || '').toUpperCase()));
     marketClock.textContent = `${state.rows.length} tickers`;
@@ -593,12 +677,26 @@ async function scan(force = false) {
 
 async function loadSymbol(symbol, updateInput = true) {
   if (!symbol) return;
+  symbol = symbol.trim().toUpperCase();
   if (updateInput) $('#singleSymbol').value = symbol;
   $('#detailTitle').textContent = `${symbol} detail`;
-  $('#detailSub').textContent = 'กำลังโหลด chart และ indicators จาก scanner.json...';
+  $('#detailSub').textContent = isLocalPythonApi()
+    ? 'กำลังโหลด chart, indicators และ SEC fundamentals จาก local Python API...'
+    : 'กำลังโหลด chart และ indicators จาก scanner.json...';
   try {
-    const data = await loadScannerJson(false);
-    const quote = (data.quotes || {})[symbol] || (data.quotes || {})[symbol.toUpperCase()];
+    let data = await loadScannerJson(false, state.lastSymbols ? state.lastSymbols.split(',') : parseSymbols());
+    let quote = (data.quotes || {})[symbol] || (data.quotes || {})[symbol.toUpperCase()];
+
+    // Local mode can fetch any single ticker on demand even if it was not in the current scan set.
+    if (!quote && isLocalPythonApi()) {
+      const range = ($('#range') && $('#range').value) || '1y';
+      const params = new URLSearchParams({ symbol, range, interval: '1d', v: String(Date.now()) });
+      quote = await fetchJsonOrThrow(`/api/quote?${params.toString()}`, { cache: 'no-store' });
+      data.quotes = data.quotes || {};
+      data.quotes[symbol] = quote;
+      state.quotes = data.quotes;
+    }
+
     if (!quote) throw new Error(`${symbol}: ยังไม่มี detail ใน data/scanner.json — เพิ่มใน watchlist.txt แล้ว Run workflow ใหม่`);
     renderDetail(quote);
   } catch (err) {
@@ -607,6 +705,7 @@ async function loadSymbol(symbol, updateInput = true) {
 }
 
 function renderDetail(data) {
+  state.currentDetail = data;
   const latest = data.latest;
   $('#detailTitle').textContent = `${latest.symbol} — ${latest.close} ${latest.currency || ''}`;
   $('#detailSub').textContent = `Score ${latest.score}/100 • RSI ${formatNumber(latest.rsi14, 1)} • MACD ${formatNumber(latest.macd1226, 3)} • ${latest.exchange || ''} • 52 Wks Low/High ${formatNumber(latest.low52w)} - ${formatNumber(latest.high52w)}`;
@@ -661,55 +760,362 @@ function statementCardHtml(title, cfg) {
         ${metricLine('Year Ago', cfg.yearAgo, kind, '', cfg.yearAgoLabel || '')}
         ${metricLine('Estimate', cfg.estimate, kind, '', cfg.estimateStatus || '')}
         ${metricLine('Surprise', cfg.surprise, 'pct', clsForPct(cfg.surprise), 'vs estimate')}
-        ${metricLine('QoQ', cfg.qoq, 'pct', clsForPct(cfg.qoq), '')}
-        ${metricLine('YoY', cfg.yoy, 'pct', clsForPct(cfg.yoy), '')}
+        ${metricLine('QoQ', cfg.qoq, 'pct', clsForPct(cfg.qoq), cfg.qoqStatus || '')}
+        ${metricLine('YoY', cfg.yoy, 'pct', clsForPct(cfg.yoy), cfg.yoyStatus || '')}
       </div>
     </section>`;
 }
 
-function targetRailHtml(f, currentPrice) {
-  const rawItems = [
-    ['Low', f.targetLowPrice],
-    ['Current', currentPrice],
-    ['Mean', f.targetMeanPrice],
-    ['Median', f.targetMedianPrice],
-    ['High', f.targetHighPrice]
-  ].filter(([, value]) => value !== null && value !== undefined && !Number.isNaN(Number(value)));
 
-  if (!rawItems.length) {
+function analystRatingsSummary(ratings = {}) {
+  const items = [
+    ['Strong Buy', ratings.AnalystRatingStrongBuy],
+    ['Buy', ratings.AnalystRatingBuy],
+    ['Hold', ratings.AnalystRatingHold],
+    ['Sell', ratings.AnalystRatingSell],
+    ['Strong Sell', ratings.AnalystRatingStrongSell],
+  ].filter(([, value]) => value !== null && value !== undefined && value !== '');
+  if (!items.length) return 'N/A';
+  return items.map(([label, value]) => `${label}: ${value}`).join(' • ');
+}
+
+
+function toFiniteNumber(value) {
+  if (value === null || value === undefined || value === '' || value === '-') return null;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
+function analystRatingsBarChartHtml(ratings = {}) {
+  const rows = [
+    { label: 'Strong Buy', key: 'AnalystRatingStrongBuy', tone: 'strong-buy' },
+    { label: 'Buy', key: 'AnalystRatingBuy', tone: 'buy' },
+    { label: 'Hold', key: 'AnalystRatingHold', tone: 'hold' },
+    { label: 'Sell', key: 'AnalystRatingSell', tone: 'sell' },
+    { label: 'Strong Sell', key: 'AnalystRatingStrongSell', tone: 'strong-sell' },
+  ].map(row => ({ ...row, value: toFiniteNumber(ratings[row.key]) ?? 0 }));
+  const total = rows.reduce((sum, row) => sum + row.value, 0);
+  if (!total) {
     return `
-      <div class="target-empty">
-        <strong>Price target ยังไม่เชื่อมสำเร็จ</strong>
-        <p>ถ้าเห็น N/A แปลว่า source ไม่ส่งค่า หรือ Yahoo endpoint ฝั่ง target ถูกบล็อกในรอบนั้น</p>
+      <div class="analyst-chart-card">
+        <div class="analyst-chart-head">
+          <div>
+            <h5>Analyst Rating Distribution</h5>
+            <p>Alpha Vantage OVERVIEW ไม่มี rating split สำหรับหุ้นตัวนี้</p>
+          </div>
+          <span class="mini-chip chip-muted">No split</span>
+        </div>
+        <div class="target-empty compact-empty">ยังไม่มี Strong Buy / Buy / Hold / Sell split ให้ plot</div>
       </div>`;
   }
-
-  const values = rawItems.map(([, value]) => Number(value));
-  const minValue = Math.min(...values);
-  const maxValue = Math.max(...values);
-  const pad = Math.max((maxValue - minValue) * 0.12, maxValue * 0.04 || 1);
-  const scaleMin = minValue - pad;
-  const scaleMax = maxValue + pad;
-  const pos = (value) => `${Math.max(0, Math.min(100, ((Number(value) - scaleMin) / (scaleMax - scaleMin || 1)) * 100))}%`;
-
   return `
-    <div class="target-rail-wrap">
-      <div class="target-scale-row">
-        <span>${escapeHtml(formatNumber(scaleMin, 2))}</span>
-        <span>${escapeHtml(formatNumber(scaleMax, 2))}</span>
+    <div class="analyst-chart-card">
+      <div class="analyst-chart-head">
+        <div>
+          <h5>Analyst Rating Distribution</h5>
+          <p>ดูน้ำหนัก consensus ว่าเป็น buy-heavy หรือแค่ hold-heavy</p>
+        </div>
+        <span class="mini-chip chip-good">${escapeHtml(String(total))} analysts</span>
       </div>
-      <div class="target-rail">
-        <div class="target-rail-line"></div>
-        ${rawItems.map(([label, value]) => `
-          <div class="target-marker target-marker-${label.toLowerCase()}" style="left:${pos(value)}">
-            <span class="marker-dot"></span>
-            <div class="marker-label">
-              <strong>${escapeHtml(label)}</strong>
-              <small>${escapeHtml(formatNumber(value, 2))}</small>
-            </div>
-          </div>`).join('')}
+      <div class="rating-bars">
+        ${rows.map(row => {
+          const pct = total ? (row.value / total) * 100 : 0;
+          return `
+            <div class="rating-bar-row">
+              <div class="rating-bar-label"><span>${escapeHtml(row.label)}</span><strong>${escapeHtml(String(row.value))}</strong></div>
+              <div class="rating-bar-track" aria-label="${escapeHtml(row.label)} ${formatNumber(pct, 1)}%">
+                <div class="rating-bar-fill rating-${escapeHtml(row.tone)}" style="width:${Math.max(0, Math.min(100, pct)).toFixed(2)}%"></div>
+              </div>
+              <div class="rating-bar-pct">${formatNumber(pct, 1)}%</div>
+            </div>`;
+        }).join('')}
       </div>
     </div>`;
+}
+
+function markerHtml(kind, label, value, axisMin, axisMax) {
+  const n = toFiniteNumber(value);
+  if (n === null) return '';
+  const raw = ((n - axisMin) / (axisMax - axisMin)) * 100;
+  const pct = Math.max(1.5, Math.min(98.5, raw));
+  return `
+    <div class="av-price-marker av-price-${escapeHtml(kind)}" style="left:${pct.toFixed(2)}%">
+      <span class="av-marker-dot"></span>
+      <span class="av-marker-label"><strong>${escapeHtml(label)}</strong><small>${formatNumber(n, 2)}</small></span>
+    </div>`;
+}
+
+function analystPricePositionHtml(analyst = {}, overview = {}, currentPrice) {
+  const current = toFiniteNumber(currentPrice);
+  const target = toFiniteNumber(analyst.targetMeanPrice);
+  const low52 = toFiniteNumber(overview.fiftyTwoWeekLow);
+  const high52 = toFiniteNumber(overview.fiftyTwoWeekHigh);
+  const values = [current, target, low52, high52].filter(v => v !== null && Number.isFinite(v));
+  if (values.length < 2) {
+    return `
+      <div class="analyst-chart-card">
+        <div class="analyst-chart-head">
+          <div>
+            <h5>Current vs Target Position</h5>
+            <p>ต้องมีอย่างน้อย current price + target หรือ 52W range</p>
+          </div>
+          <span class="mini-chip chip-muted">No range</span>
+        </div>
+        <div class="target-empty compact-empty">ยังไม่มีข้อมูลพอสำหรับทำ price map</div>
+      </div>`;
+  }
+  let axisMin = Math.min(...values);
+  let axisMax = Math.max(...values);
+  if (axisMax === axisMin) {
+    axisMin = axisMin * 0.95;
+    axisMax = axisMax * 1.05;
+  }
+  const pad = Math.max((axisMax - axisMin) * 0.08, Math.abs(axisMax || 1) * 0.01);
+  axisMin = Math.max(0, axisMin - pad);
+  axisMax = axisMax + pad;
+  const upsideText = analyst.targetUpsidePct !== null && analyst.targetUpsidePct !== undefined ? formatPct(analyst.targetUpsidePct) : 'N/A';
+  const targetContext = target !== null && high52 !== null && target > high52
+    ? 'target above 52W high'
+    : target !== null && low52 !== null && target < low52
+      ? 'target below 52W low'
+      : 'target inside visible range';
+  return `
+    <div class="analyst-chart-card price-position-card">
+      <div class="analyst-chart-head">
+        <div>
+          <h5>Current vs Target Position</h5>
+          <p>แผนที่ราคา: 52W low/high + ราคาปัจจุบัน + target จาก Alpha Vantage</p>
+        </div>
+        <span class="mini-chip ${analyst.targetUpsidePct > 0 ? 'chip-good' : analyst.targetUpsidePct < 0 ? 'chip-bad' : 'chip-muted'}">Upside ${escapeHtml(upsideText)}</span>
+      </div>
+      <div class="av-price-scale"><span>${formatNumber(axisMin, 2)}</span><span>${formatNumber(axisMax, 2)}</span></div>
+      <div class="av-price-map">
+        <div class="av-price-line"></div>
+        ${markerHtml('low52', '52W Low', low52, axisMin, axisMax)}
+        ${markerHtml('current', 'Current', current, axisMin, axisMax)}
+        ${markerHtml('target', 'Target', target, axisMin, axisMax)}
+        ${markerHtml('high52', '52W High', high52, axisMin, axisMax)}
+      </div>
+      <div class="av-price-note">
+        <span>${escapeHtml(targetContext)}</span>
+        <span>52W: ${low52 !== null ? formatNumber(low52, 2) : 'N/A'} → ${high52 !== null ? formatNumber(high52, 2) : 'N/A'}</span>
+      </div>
+    </div>`;
+}
+
+function analystVisualsHtml(analyst = {}, overview = {}, currentPrice) {
+  return `
+    <div class="analyst-visual-grid">
+      ${analystRatingsBarChartHtml(analyst.ratings || {})}
+      ${analystPricePositionHtml(analyst, overview, currentPrice)}
+    </div>`;
+}
+
+function getStoredAlphaKey() {
+  try {
+    return String(localStorage.getItem(AV_API_KEY_STORAGE_KEY) || '').trim();
+  } catch (_) {
+    return '';
+  }
+}
+
+function setStoredAlphaKey(key) {
+  try {
+    if (key) localStorage.setItem(AV_API_KEY_STORAGE_KEY, key);
+    else localStorage.removeItem(AV_API_KEY_STORAGE_KEY);
+  } catch (_) {
+    // Ignore browsers/storage modes that block localStorage.
+  }
+}
+
+function maskApiKey(key) {
+  key = String(key || '').trim();
+  if (!key) return '';
+  if (key.length <= 8) return '****';
+  return `${key.slice(0, 4)}…${key.slice(-4)}`;
+}
+
+function alphaQuotaText(quota) {
+  if (!quota) return 'Quota: unknown';
+  return `Alpha Vantage quota: ${quota.used}/${quota.limit} used • ${quota.remaining} left • reset ${quota.resetAtLocal || quota.resetAtUtc || ''}`;
+}
+
+async function fetchAlphaKeyStatus() {
+  const storedKey = getStoredAlphaKey();
+  let quota = null;
+  try {
+    const payload = await fetchJsonOrThrow('/api/alpha-vantage/quota', { cache: 'no-store' });
+    quota = payload.quota || null;
+  } catch (_) {
+    quota = null;
+  }
+  state.alphaKeyStatus = {
+    ok: true,
+    hasKey: Boolean(storedKey),
+    maskedKey: storedKey ? maskApiKey(storedKey) : null,
+    storage: 'browser-localStorage',
+    quota
+  };
+  state.alphaKeyFetched = true;
+  return state.alphaKeyStatus;
+}
+
+async function saveAlphaKeyFromInput() {
+  const input = $('#avApiKeyInput');
+  const status = $('#avKeyStatus');
+  const apiKey = String(input?.value || '').trim();
+  if (!apiKey || apiKey.length < 8) {
+    if (status) status.textContent = 'ใส่ Alpha Vantage API key ให้ถูกต้องก่อน';
+    return;
+  }
+  setStoredAlphaKey(apiKey);
+  state.alphaKeyStatus = {
+    ok: true,
+    hasKey: true,
+    maskedKey: maskApiKey(apiKey),
+    storage: 'browser-localStorage',
+    quota: state.alphaKeyStatus?.quota || null
+  };
+  state.alphaKeyFetched = true;
+  if (input) input.value = '';
+  if (status) status.textContent = `Saved in this browser only (${maskApiKey(apiKey)}).`;
+  if (state.currentDetail) renderFundamentalDetail(state.currentDetail);
+}
+
+function clearAlphaKey() {
+  setStoredAlphaKey('');
+  state.alphaKeyStatus = { ok: true, hasKey: false, storage: 'browser-localStorage', quota: state.alphaKeyStatus?.quota || null };
+  state.alphaKeyFetched = true;
+  state.analystCache = {};
+  if (state.currentDetail) renderFundamentalDetail(state.currentDetail);
+}
+
+async function loadAnalystConsensus(symbol, currentPrice) {
+  symbol = String(symbol || '').trim().toUpperCase();
+  if (!symbol) return;
+  const apiKey = getStoredAlphaKey();
+  const btn = $('#loadAnalystBtn');
+  const status = $('#analystV2Status');
+  if (!apiKey || apiKey.length < 8) {
+    if (status) status.textContent = 'กรอกและ Save Alpha Vantage API key ใน browser นี้ก่อน';
+    const input = $('#avApiKeyInput');
+    if (input) input.focus();
+    return;
+  }
+  state.analystLoading[symbol] = true;
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Loading...';
+  }
+  if (status) status.textContent = 'กำลังดึง Alpha Vantage OVERVIEW แบบ on-demand...';
+  try {
+    const payload = await fetchJsonOrThrow('/api/analyst-consensus', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+      body: JSON.stringify({ symbol, currentPrice: currentPrice ?? null, apiKey })
+    });
+    state.analystCache[symbol] = payload;
+    if (payload.quota) {
+      state.alphaKeyStatus = { ...(state.alphaKeyStatus || {}), quota: payload.quota, hasKey: true, maskedKey: maskApiKey(apiKey), storage: 'browser-localStorage' };
+    }
+    if (status) status.textContent = payload.cached ? 'Loaded from same-day cache; quota not used again.' : 'Loaded from Alpha Vantage.';
+  } catch (err) {
+    state.analystCache[symbol] = {
+      ok: false,
+      error: err.message || String(err),
+      quota: state.alphaKeyStatus?.quota || null
+    };
+  } finally {
+    state.analystLoading[symbol] = false;
+    if (state.currentDetail) renderFundamentalDetail(state.currentDetail);
+  }
+}
+
+function analystTargetSectionHtml(symbol, currentPrice) {
+  const payload = state.analystCache[symbol];
+  const loading = Boolean(state.analystLoading[symbol]);
+  const ok = payload && payload.ok;
+  const analyst = ok ? (payload.analyst || {}) : {};
+  const overview = ok ? (payload.overview || {}) : {};
+  const quota = payload && payload.quota;
+  const errorText = payload && !payload.ok ? (payload.error || 'Could not load analyst consensus') : '';
+  const sourceText = ok ? `${payload.source || 'Alpha Vantage'}${payload.cached ? ' • cached today' : ''}` : 'ยังไม่ดึงข้อมูล — กดปุ่มด้านล่างเท่านั้น';
+  const keyStatus = state.alphaKeyStatus || {};
+  const storedKey = getStoredAlphaKey();
+  const hasLocalKey = Boolean(storedKey);
+  const keyLine = hasLocalKey
+    ? `API key saved in this browser only (${maskApiKey(storedKey)})`
+    : (state.alphaKeyFetched ? 'ยังไม่ได้ใส่ API key ใน browser นี้' : 'กำลังเช็ก API key ใน browser...');
+  const keyActionHtml = `
+          <div class="analyst-key-actions">
+            <input id="avApiKeyInput" type="password" autocomplete="off" placeholder="Paste Alpha Vantage API key here" />
+            <button id="saveAvKeyBtn" type="button">Save locally</button>
+            ${hasLocalKey ? '<button id="clearAvKeyBtn" type="button" class="secondary">Clear key</button>' : ''}
+          </div>
+          <small class="detail-muted">Public-safe BYOK mode: key is stored only in this browser localStorage, sent only when you click Load, and never written to project files.</small>`;
+  return `
+      <section class="target-section analyst-v2-section">
+        <div class="target-section-head">
+          <div>
+            <h4>Analyst Consensus — Alpha Vantage V2.7 BYOK Manual Loader</h4>
+            <p>ส่วนนี้แยกจากตาราง SEC: scan ปกติไม่เรียก Alpha Vantage, กดดึงทีละหุ้นเท่านั้น, API key เก็บเฉพาะใน browser นี้</p>
+          </div>
+          <span class="mini-chip ${ok ? 'chip-good' : 'chip-muted'}">${escapeHtml(ok ? 'Loaded' : 'Manual only')}</span>
+        </div>
+        <div class="analyst-key-box">
+          <div>
+            <strong>API key status</strong>
+            <p id="avKeyStatus" class="detail-muted">${escapeHtml(errorText || keyLine)}</p>
+          </div>
+          ${keyActionHtml}
+        </div>
+        <div class="analyst-actions">
+          <button id="loadAnalystBtn" type="button" ${loading ? 'disabled' : ''}>${loading ? 'Loading...' : `Load consensus for ${escapeHtml(symbol)}`}</button>
+          <span id="analystV2Status" class="detail-muted">${escapeHtml(sourceText)}</span>
+        </div>
+        <div class="target-summary-grid analyst-only-grid">
+          <div class="target-mini-card"><span>Current Price</span><strong>${formatNumber(currentPrice, 2)}</strong><small>from Yahoo chart</small></div>
+          <div class="target-mini-card"><span>Analyst Target</span><strong>${formatNumber(analyst.targetMeanPrice, 2)}</strong><small class="${clsForPct(analyst.targetUpsidePct)}">${formatPct(analyst.targetUpsidePct)}</small></div>
+          <div class="target-mini-card"><span>Analyst Count</span><strong>${analyst.targetAnalystCount ?? 'N/A'}</strong><small>${escapeHtml(analyst.status || 'not loaded')}</small></div>
+          <div class="target-mini-card"><span>Rating Score</span><strong>${formatNumber(analyst.ratingScore, 2)}</strong><small>-2 sell to +2 buy</small></div>
+          <div class="target-mini-card"><span>AV Latest Quarter</span><strong>${escapeHtml(overview.latestQuarter || 'N/A')}</strong><small>${escapeHtml(overview.sector || '')}</small></div>
+          <div class="target-mini-card"><span>PE / PEG</span><strong>${formatNumber(overview.peRatio, 2)} / ${formatNumber(overview.pegRatio, 2)}</strong><small>Alpha overview fields</small></div>
+        </div>
+        ${ok ? analystVisualsHtml(analyst, overview, currentPrice) : `
+          <div class="analyst-visual-grid">
+            <div class="analyst-chart-card">
+              <div class="analyst-chart-head"><div><h5>Analyst Rating Distribution</h5><p>กด Load consensus ก่อนเพื่อสร้าง bar chart</p></div><span class="mini-chip chip-muted">Manual</span></div>
+              <div class="target-empty compact-empty">ยังไม่เรียก Alpha Vantage</div>
+            </div>
+            <div class="analyst-chart-card">
+              <div class="analyst-chart-head"><div><h5>Current vs Target Position</h5><p>กด Load consensus เพื่อวาง target บน price range</p></div><span class="mini-chip chip-muted">Manual</span></div>
+              <div class="target-empty compact-empty">รอข้อมูล target / 52W range</div>
+            </div>
+          </div>`}
+        <p class="detail-muted">${escapeHtml(alphaQuotaText(quota || keyStatus.quota))}</p>
+        <p class="detail-muted">${escapeHtml(analystRatingsSummary(analyst.ratings || {}))}</p>
+        ${errorText ? `<p class="detail-muted bad">Error: ${escapeHtml(errorText)}</p>` : ''}
+      </section>`;
+}
+
+
+function fundDetailTabsHtml(activeTab) {
+  const tabs = [
+    ['earnings', 'Earnings Snapshot'],
+    ['guidance', 'Company Guidance View'],
+    ['analyst', 'Analyst Consensus']
+  ];
+  return `
+      <div class="fund-detail-tabs" role="tablist" aria-label="Fundamental detail sections">
+        ${tabs.map(([key, label]) => `<button type="button" class="fund-detail-tab ${activeTab === key ? 'active' : ''}" data-fund-detail-tab="${key}">${label}</button>`).join('')}
+      </div>`;
+}
+
+function setFundDetailTab(tab) {
+  if (!['earnings', 'guidance', 'analyst'].includes(tab)) return;
+  state.fundDetailTab = tab;
+  if (state.currentDetail) renderFundamentalDetail(state.currentDetail);
 }
 
 function renderFundamentalDetail(data) {
@@ -721,19 +1127,140 @@ function renderFundamentalDetail(data) {
   if (!detail) return;
 
   const currentPrice = latest.close;
-  const analystCount = f.targetAnalystCount ?? null;
-  const allTargetsAbove = analystCount !== null && analystCount !== undefined && f.targetLowPrice !== null && f.targetLowPrice !== undefined && currentPrice !== null && currentPrice !== undefined && Number(f.targetLowPrice) > Number(currentPrice);
-  const allTargetsBelow = analystCount !== null && analystCount !== undefined && f.targetHighPrice !== null && f.targetHighPrice !== undefined && currentPrice !== null && currentPrice !== undefined && Number(f.targetHighPrice) < Number(currentPrice);
-  const aboveCount = allTargetsAbove ? analystCount : null;
-  const belowCount = allTargetsBelow ? analystCount : null;
+  const activeDetailTab = state.fundDetailTab || 'earnings';
+
+  const earningsPanelHtml = `
+      <div class="fund-tab-panel">
+        <div class="statement-card-grid">
+          ${statementCardHtml('Revenue', {
+            kind: 'money',
+            period: f.latestQuarter,
+            current: f.revenue,
+            prev: f.revenuePrevQuarter,
+            prevLabel: f.revenuePrevQuarterLabel,
+            yearAgo: f.revenueYearAgo,
+            yearAgoLabel: f.revenueYearAgoLabel,
+            estimate: f.estimatedRevenue,
+            estimateStatus: f.estimatedRevenueStatus,
+            surprise: f.revenueSurprisePct,
+            qoq: f.revenueQoQ,
+            yoy: f.revenueYoY,
+          })}
+          ${statementCardHtml('Net Income', {
+            kind: 'money',
+            period: f.latestQuarter,
+            current: f.netIncome,
+            prev: f.netIncomePrevQuarter,
+            prevLabel: f.netIncomePrevQuarterLabel,
+            yearAgo: f.netIncomeYearAgo,
+            yearAgoLabel: f.netIncomeYearAgoLabel,
+            estimate: f.estimatedNetIncome,
+            estimateStatus: 'Estimate ไม่มีใน source นี้',
+            surprise: f.profitSurprisePct,
+            qoq: f.profitQoQ,
+            qoqStatus: f.profitQoQStatus,
+            yoy: f.profitYoY,
+            yoyStatus: f.profitYoYStatus,
+          })}
+          ${statementCardHtml('EPS', {
+            kind: 'eps',
+            period: f.latestQuarter,
+            current: f.eps,
+            prev: f.epsPrevQuarter,
+            prevLabel: f.epsPrevQuarterLabel,
+            yearAgo: f.epsYearAgo,
+            yearAgoLabel: f.epsYearAgoLabel,
+            estimate: f.estimatedEps,
+            estimateStatus: f.estimatedEpsStatus,
+            surprise: f.epsSurprisePct,
+            qoq: f.epsQoQ,
+            qoqStatus: f.epsQoQStatus,
+            yoy: f.epsYoY,
+            yoyStatus: f.epsYoYStatus,
+          })}
+        </div>
+        <div class="fund-two-col fund-two-col-premium">
+          <div class="insight-card">
+            <h4>What stood out</h4>
+            <ul>${highlights.map(x => `<li>${escapeHtml(x)}</li>`).join('') || '<li>Insufficient data</li>'}</ul>
+          </div>
+          <div class="insight-card">
+            <h4>AI view</h4>
+            <ul class="ai-view-list">${reasons.map(renderAiReasonItem).join('') || '<li>ข้อมูลพื้นฐานไม่พอ ยังไม่ควรสรุปเชิงพื้นฐาน</li>'}</ul>
+          </div>
+        </div>
+      </div>`;
+
+  const guidanceStats = f.guidanceParseStats || {};
+  const guidanceHistoryRows = Array.isArray(f.guidanceHistory) ? f.guidanceHistory.slice(0, 8) : [];
+  const guidanceDebugRows = Array.isArray(f.guidanceDebug) ? f.guidanceDebug.slice(0, 8) : [];
+  const guidanceHistoryHtml = guidanceHistoryRows.length ? `
+        <div class="insight-card" style="margin-top:16px;">
+          <h4>Guidance History — medium/high confidence</h4>
+          <div class="mini-table-wrap">
+            <table class="mini-table">
+              <thead><tr><th>Filed</th><th>Period</th><th>Mid</th><th>Range</th><th>Conf.</th><th>Source</th></tr></thead>
+              <tbody>
+                ${guidanceHistoryRows.map(g => `<tr>
+                  <td>${escapeHtml(g.filedDate || '')}</td>
+                  <td>${escapeHtml(g.period || 'N/A')}</td>
+                  <td>${formatBig(g.midpoint)}</td>
+                  <td>${formatBig(g.low)} - ${formatBig(g.high)}</td>
+                  <td>${escapeHtml(g.confidence || 'N/A')}</td>
+                  <td>${escapeHtml(g.sourceDocument || '')}</td>
+                </tr>`).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>` : '';
+  const guidanceDebugHtml = guidanceDebugRows.length ? `
+        <details class="debug-details">
+          <summary>Guidance debug snippets (${guidanceStats.revenueMatches || guidanceDebugRows.length} raw revenue candidate${(guidanceStats.revenueMatches || guidanceDebugRows.length) === 1 ? '' : 's'})</summary>
+          ${guidanceDebugRows.map(g => `<div class="debug-snippet">
+            <div><strong>${escapeHtml(g.confidence || 'low')}</strong> · ${escapeHtml(g.period || 'N/A')} · ${formatBig(g.midpoint)} · ${escapeHtml(g.filedDate || '')} · ${escapeHtml(g.sourceDocument || '')}</div>
+            <small>${escapeHtml(g.confidenceReason || '')}</small>
+            <p>${escapeHtml((g.textSnippet || '').slice(0, 420))}</p>
+          </div>`).join('')}
+        </details>` : '';
+
+  const guidancePanelHtml = `
+      <section class="target-section fund-tab-panel">
+        <div class="target-section-head">
+          <div>
+            <h4>Company Guidance View</h4>
+            <p>ดึงจาก SEC 8-K/6-K / Exhibit 99.1 แบบ conservative parser — ไม่ใช่ analyst consensus</p>
+          </div>
+          <span class="mini-chip ${f.companyGuidanceConnected ? 'chip-good' : 'chip-muted'}">${escapeHtml(f.companyGuidanceConnected ? 'Guidance parsed' : 'No guidance found')}</span>
+        </div>
+        <div class="target-summary-grid">
+          <div class="target-mini-card"><span>Prior Guide Period</span><strong>${escapeHtml(f.priorCompanyGuidanceRevenuePeriod || 'N/A')}</strong><small>${escapeHtml(f.priorCompanyGuidanceRevenueFiledDate || '')}</small></div>
+          <div class="target-mini-card"><span>Prior Rev Guide Mid</span><strong>${formatBig(f.priorCompanyGuidanceRevenue)}</strong><small>${formatBig(f.priorCompanyGuidanceRevenueLow)} - ${formatBig(f.priorCompanyGuidanceRevenueHigh)}</small></div>
+          <div class="target-mini-card"><span>Prior Guide Confidence</span><strong>${escapeHtml(f.priorCompanyGuidanceRevenueConfidence || 'N/A')}</strong><small>${escapeHtml(f.priorCompanyGuidanceRevenueConfidenceReason || '')}</small></div>
+          <div class="target-mini-card"><span>Actual vs Prior Guide</span><strong class="${clsForPct(f.actualVsPriorGuidanceRevenuePct)}">${formatPct(f.actualVsPriorGuidanceRevenuePct)}</strong><small>${escapeHtml(f.actualVsPriorGuidanceRevenueStatus || 'N/A')}</small></div>
+          <div class="target-mini-card"><span>Actual Used</span><strong>${formatBig(f.priorGuidanceRevenueActual)}</strong><small>${escapeHtml(f.priorGuidanceRevenueActualPeriod || 'N/A')}</small></div>
+          <div class="target-mini-card"><span>Next Guide Period</span><strong>${escapeHtml(f.nextCompanyGuidanceRevenuePeriod || 'N/A')}</strong><small>${escapeHtml(f.nextCompanyGuidanceRevenueFiledDate || '')}</small></div>
+          <div class="target-mini-card"><span>Next Rev Guide Mid</span><strong>${formatBig(f.nextCompanyGuidanceRevenue)}</strong><small>${formatBig(f.nextCompanyGuidanceRevenueLow)} - ${formatBig(f.nextCompanyGuidanceRevenueHigh)}</small></div>
+          <div class="target-mini-card"><span>Next Guide Confidence</span><strong>${escapeHtml(f.nextCompanyGuidanceRevenueConfidence || 'N/A')}</strong><small>${escapeHtml(f.nextCompanyGuidanceRevenueConfidenceReason || '')}</small></div>
+          <div class="target-mini-card"><span>Next EPS Guide Mid</span><strong>${formatNumber(f.nextCompanyGuidanceEps ?? f.companyGuidanceEps, 3)}</strong><small>${(f.nextCompanyGuidanceEpsLow != null || f.nextCompanyGuidanceEpsHigh != null) ? `${formatNumber(f.nextCompanyGuidanceEpsLow, 3)} - ${formatNumber(f.nextCompanyGuidanceEpsHigh, 3)}` : 'N/A'}</small></div>
+        </div>
+        <p class="detail-muted">${escapeHtml(f.companyGuidanceStatus || 'No company guidance parsed')}</p>
+        <p class="detail-muted">Scanned ${guidanceStats.filingsScanned || 0} SEC 8-K/6-K filing(s), ${guidanceStats.documentsScanned || 0} exhibit/document(s), ${guidanceStats.revenueMatches || 0} raw revenue candidate(s). High/Medium/Low: ${guidanceStats.highConfidence || 0}/${guidanceStats.mediumConfidence || 0}/${guidanceStats.lowConfidence || 0}</p>
+        ${f.priorCompanyGuidanceRevenueSourceDocument ? `<p class="detail-muted">Prior guide source: ${escapeHtml(f.priorCompanyGuidanceRevenueSourceDocument)}</p>` : ''}
+        ${f.nextCompanyGuidanceRevenueSourceDocument ? `<p class="detail-muted">Next guide source: ${escapeHtml(f.nextCompanyGuidanceRevenueSourceDocument)}</p>` : ''}
+        ${guidanceHistoryHtml}
+        ${guidanceDebugHtml}
+      </section>`;
+
+  const analystPanelHtml = analystTargetSectionHtml(String(latest.symbol || '').toUpperCase(), currentPrice);
+  const activePanelHtml = activeDetailTab === 'guidance' ? guidancePanelHtml : (activeDetailTab === 'analyst' ? analystPanelHtml : earningsPanelHtml);
 
   detail.innerHTML = `
     <div class="fund-card fund-card-premium">
       <div class="fund-head fund-head-premium">
         <div>
           <p class="fund-kicker">Fundamental Dashboard</p>
-          <h3>${escapeHtml(latest.symbol || '')} earnings snapshot</h3>
-          <p>ดีไซน์ใหม่ให้อ่านงบง่ายขึ้น: มี latest / prev quarter / year ago / estimate ในการ์ดเดียว</p>
+          <h3>${escapeHtml(latest.symbol || '')} dashboard</h3>
+          <p>เลือกมุมมอง: Earnings Snapshot / Company Guidance View / Analyst Consensus</p>
         </div>
         <div class="fund-head-side">
           <span class="pill ${signalClass(f.fundamentalSignal || '')}">${escapeHtml(f.fundamentalSignal || 'Insufficient data')}</span>
@@ -744,89 +1271,55 @@ function renderFundamentalDetail(data) {
       <div class="fund-hero-grid">
         <div class="hero-mini-card"><span>Fundamental Score</span><strong>${f.fundamentalScore ?? 'N/A'}</strong><small>/100 rules-based</small></div>
         <div class="hero-mini-card"><span>Latest Quarter</span><strong>${escapeHtml(f.latestQuarter || 'N/A')}</strong><small>actual reported quarter</small></div>
-        <div class="hero-mini-card"><span>Earnings Date</span><strong>${escapeHtml(f.earningsDate || 'N/A')}</strong><small>${f.daysToNextQuarter === null || f.daysToNextQuarter === undefined ? 'reported date / no next date yet' : `${f.daysToNextQuarter} days to next`}</small></div>
-        <div class="hero-mini-card"><span>Price Target Status</span><strong>${escapeHtml(f.priceTargetStatus || 'N/A')}</strong><small>${f.targetAnalystCount ? `${f.targetAnalystCount} analyst opinions` : 'analyst count unavailable'}</small></div>
+        <div class="hero-mini-card"><span>Period End</span><strong>${escapeHtml(f.earningsDate || 'N/A')}</strong><small>SEC reported accounting period</small></div>
+        <div class="hero-mini-card"><span>Active View</span><strong>${activeDetailTab === 'earnings' ? 'Earnings' : activeDetailTab === 'guidance' ? 'Guidance' : 'Analyst'}</strong><small>switch tabs below</small></div>
       </div>
+
+      ${fundDetailTabsHtml(activeDetailTab)}
 
       <div class="fund-note-strip">
-        <div class="note-pill note-info">N/A ใน Est. Revenue = ${escapeHtml(f.estimatedRevenueStatus || 'ไม่มี consensus estimate หรือ source ไม่ส่งค่า')}</div>
-        <div class="note-pill note-info">N/A ใน Est. EPS = ${escapeHtml(f.estimatedEpsStatus || 'ไม่มี consensus estimate หรือ source ไม่ส่งค่า')}</div>
-        <div class="note-pill note-info">ตัวเลขในตารางย่อเป็นหน่วย M / B / T เพื่อให้อ่านง่าย</div>
+        <div class="note-pill note-info">SEC core fundamental remains the scoring source</div>
+        <div class="note-pill note-info">Alpha Vantage only runs in Analyst Consensus tab after clicking Load</div>
       </div>
 
-      <div class="statement-card-grid">
-        ${statementCardHtml('Revenue', {
-          kind: 'money',
-          period: f.latestQuarter,
-          current: f.revenue,
-          prev: f.revenuePrevQuarter,
-          prevLabel: f.revenuePrevQuarterLabel,
-          yearAgo: f.revenueYearAgo,
-          yearAgoLabel: f.revenueYearAgoLabel,
-          estimate: f.estimatedRevenue,
-          estimateStatus: f.estimatedRevenueStatus,
-          surprise: f.revenueSurprisePct,
-          qoq: f.revenueQoQ,
-          yoy: f.revenueYoY,
-        })}
-        ${statementCardHtml('Net Income', {
-          kind: 'money',
-          period: f.latestQuarter,
-          current: f.netIncome,
-          prev: f.netIncomePrevQuarter,
-          prevLabel: f.netIncomePrevQuarterLabel,
-          yearAgo: f.netIncomeYearAgo,
-          yearAgoLabel: f.netIncomeYearAgoLabel,
-          estimate: f.estimatedNetIncome,
-          estimateStatus: 'Estimate ไม่มีใน source นี้',
-          surprise: f.profitSurprisePct,
-          qoq: f.profitQoQ,
-          yoy: f.profitYoY,
-        })}
-        ${statementCardHtml('EPS', {
-          kind: 'eps',
-          period: f.latestQuarter,
-          current: f.eps,
-          prev: f.epsPrevQuarter,
-          prevLabel: f.epsPrevQuarterLabel,
-          yearAgo: f.epsYearAgo,
-          yearAgoLabel: f.epsYearAgoLabel,
-          estimate: f.estimatedEps,
-          estimateStatus: f.estimatedEpsStatus,
-          surprise: f.epsSurprisePct,
-          qoq: f.epsQoQ,
-          yoy: f.epsYoY,
-        })}
-      </div>
-
-      <div class="fund-two-col fund-two-col-premium">
-        <div class="insight-card">
-          <h4>What stood out</h4>
-          <ul>${highlights.map(x => `<li>${escapeHtml(x)}</li>`).join('') || '<li>Insufficient data</li>'}</ul>
-        </div>
-        <div class="insight-card">
-          <h4>AI view</h4>
-          <ul>${reasons.map(x => `<li>${escapeHtml(x)}</li>`).join('') || '<li>ข้อมูลพื้นฐานไม่พอ ยังไม่ควรสรุปเชิงพื้นฐาน</li>'}</ul>
-        </div>
-      </div>
-
-      <section class="target-section">
-        <div class="target-section-head">
-          <div>
-            <h4>Analyst Target View</h4>
-            <p>เปลี่ยนจากกล่องธรรมดาเป็นเส้นตรงแบบอ่านระยะ current → target ชัดขึ้น</p>
-          </div>
-          <span class="mini-chip ${f.priceTargetConnected ? 'chip-good' : 'chip-muted'}">${escapeHtml(f.priceTargetConnected ? 'Price target connected' : 'No target data')}</span>
-        </div>
-        <div class="target-summary-grid">
-          <div class="target-mini-card"><span>Current</span><strong>${formatNumber(currentPrice, 2)}</strong></div>
-          <div class="target-mini-card"><span>Mean Target</span><strong>${formatNumber(f.targetMeanPrice, 2)}</strong><small class="${clsForPct(f.targetUpsidePct)}">${formatPct(f.targetUpsidePct)}</small></div>
-          <div class="target-mini-card"><span>Analysts</span><strong>${f.targetAnalystCount ?? 'N/A'}</strong><small>consensus count</small></div>
-          <div class="target-mini-card"><span>Above / Below Current</span><strong>${aboveCount ?? 'N/A'} / ${belowCount ?? 'N/A'}</strong><small>มีค่าเมื่อทั้ง range อยู่เหนือ/ต่ำกว่าราคาปัจจุบัน; ถ้า N/A แปลว่า source ไม่มี per-analyst split</small></div>
-        </div>
-        ${targetRailHtml(f, currentPrice)}
-      </section>
+      ${activePanelHtml}
     </div>`;
+
+  $$('.fund-detail-tab').forEach(btn => {
+    btn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      setFundDetailTab(btn.dataset.fundDetailTab);
+    });
+  });
+
+  const saveKeyBtn = $('#saveAvKeyBtn');
+  if (saveKeyBtn) {
+    saveKeyBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      saveAlphaKeyFromInput();
+    });
+  }
+  const clearKeyBtn = $('#clearAvKeyBtn');
+  if (clearKeyBtn) {
+    clearKeyBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      clearAlphaKey();
+    });
+  }
+  const analystBtn = $('#loadAnalystBtn');
+  if (analystBtn) {
+    analystBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      loadAnalystConsensus(String(latest.symbol || '').toUpperCase(), currentPrice);
+    });
+  }
+  if (activeDetailTab === 'analyst' && !state.alphaKeyFetched) {
+    fetchAlphaKeyStatus().then(() => {
+      if (state.currentDetail && (state.fundDetailTab || 'earnings') === 'analyst') {
+        renderFundamentalDetail(state.currentDetail);
+      }
+    });
+  }
 }
 
 function renderScoreBars(parts) {
@@ -1097,7 +1590,7 @@ function updateTabs() {
   $$('.tab-button').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === state.activeTab));
   const note = $('#tabNote');
   if (note) note.textContent = state.activeTab === 'fundamental'
-    ? 'Fundamental tab เน้นอ่านงบให้ง่ายขึ้น • N/A = ไม่มี consensus estimate / source ไม่ส่งค่า / endpoint ถูกบล็อก'
+    ? 'Fundamental tab ใช้ SEC EDGAR เป็นแกนหลัก • V2.7 Analyst Consensus ใช้ Alpha Vantage แบบ BYOK กดดึงทีละหุ้น ไม่กิน quota ตอน scan'
     : 'Technical indicators จาก workflow ล่าสุด';
 }
 

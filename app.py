@@ -21,6 +21,7 @@ import io
 import json
 import math
 import os
+import shutil
 import statistics
 import sys
 import time
@@ -44,6 +45,30 @@ PORT = int(os.environ.get("PORT", "8787"))
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
 CACHE_TTL_SECONDS = int(os.environ.get("CACHE_TTL_SECONDS", "120"))
+HTTP_VERBOSE_LOG = os.environ.get("STOCK_RADAR_HTTP_LOG", "0").lower() in {"1", "true", "yes", "verbose"}
+
+def _load_local_env_files() -> None:
+    """Tiny .env/key-file loader for IDLE use. No third-party dotenv needed."""
+    env_file = BASE_DIR / ".env"
+    if env_file.exists():
+        for raw in env_file.read_text(encoding="utf-8", errors="replace").splitlines():
+            line = raw.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+
+_load_local_env_files()
+
+ALPHA_VANTAGE_DAILY_LIMIT = int(os.environ.get("ALPHA_VANTAGE_DAILY_LIMIT", "25"))
+ALPHA_VANTAGE_CACHE_DIR = BASE_DIR / ".alpha_vantage_cache"
+ALPHA_VANTAGE_QUOTA_FILE = BASE_DIR / ".alpha_vantage_quota.json"
+ALPHA_VANTAGE_CACHE_DIR.mkdir(exist_ok=True)
+
 
 # In-memory cache: key -> (timestamp, payload)
 CACHE: Dict[str, Tuple[float, Dict[str, Any]]] = {}
@@ -60,6 +85,16 @@ DEFAULT_WATCHLIST = [
 WATCHLIST_FILE = BASE_DIR / "watchlist.txt"
 SCAN_WORKERS = int(os.environ.get("SCAN_WORKERS", "8"))
 INCLUDE_FUNDAMENTALS = os.environ.get("INCLUDE_FUNDAMENTALS", "1") != "0"
+
+# SEC-first fundamental V1. Keep this as a separate Python module so it can
+# be opened and run in IDLE independently before touching the web UI.
+try:
+    from sec_v1_fundamentals import build_fundamental_sec_v1
+except Exception as _sec_v1_import_error:  # noqa: BLE001
+    build_fundamental_sec_v1 = None  # type: ignore[assignment]
+    SEC_V1_IMPORT_ERROR = str(_sec_v1_import_error)
+else:
+    SEC_V1_IMPORT_ERROR = None
 
 
 def read_watchlist_file() -> List[str]:
@@ -726,13 +761,14 @@ def _score_fundamental(f: Dict[str, Any]) -> Tuple[Optional[int], str, List[str]
         else:
             reasons.append(f"{metric} อ่อน/ติดลบ ({v:.1f}%)")
 
-    add_points("Revenue surprise", f.get("revenueSurprisePct"), 20, "surprise")
-    add_points("Revenue YoY", f.get("revenueYoY"), 15, "growth")
-    add_points("Revenue QoQ", f.get("revenueQoQ"), 10, "growth")
-    add_points("EPS surprise", f.get("epsSurprisePct"), 20, "surprise")
+    # SEC V2.1 core score: keep analyst consensus/targets out of the table and out of the score.
+    add_points("Revenue YoY", f.get("revenueYoY"), 20, "growth")
+    add_points("Revenue QoQ", f.get("revenueQoQ"), 15, "growth")
     add_points("EPS YoY", f.get("epsYoY"), 15, "growth")
     add_points("EPS QoQ", f.get("epsQoQ"), 10, "growth")
-    add_points("Upside to target", f.get("targetUpsidePct"), 10, "target")
+    add_points("Profit YoY", f.get("profitYoY"), 15, "growth")
+    add_points("Profit QoQ", f.get("profitQoQ"), 10, "growth")
+    add_points("Actual vs prior company guide", f.get("actualVsPriorGuidanceRevenuePct"), 15, "surprise")
 
     if possible == 0:
         return None, "Insufficient data", ["ข้อมูลพื้นฐาน/estimate ไม่พอสำหรับให้คะแนน"]
@@ -898,10 +934,7 @@ def build_fundamental(symbol: str, latest: Dict[str, Any]) -> Dict[str, Any]:
         highlights.append(f"Revenue เทียบ estimate: {f['revenueSurprisePct']:+.2f}%")
     if f.get("epsSurprisePct") is not None:
         highlights.append(f"EPS เทียบ estimate/forward EPS: {f['epsSurprisePct']:+.2f}%")
-    if f.get("targetUpsidePct") is not None:
-        highlights.append(f"Upside to analyst mean target: {f['targetUpsidePct']:+.2f}%")
-    if f.get("priceTargetStatus"):
-        highlights.append(f"Price target source: {f['priceTargetStatus']}")
+    # Analyst target is intentionally excluded from SEC core highlights.
     if not highlights:
         highlights.append("ข้อมูลพื้นฐานยังไม่พอ: Yahoo/SEC ไม่มี field ที่ต้องใช้สำหรับ ticker นี้")
     f["fundamentalHighlights"] = highlights
@@ -1106,7 +1139,17 @@ def build_analysis(symbol: str, range_: str = "1y", interval: str = "1d") -> Dic
         else:
             latest["reasons"].append("MACD 12,26 ยังต่ำกว่า Signal 9 = momentum ยังต้องรอ")
 
-    fundamental = build_fundamental(symbol, latest)
+    # V8.9 / SEC V1: use SEC EDGAR for core fundamentals.
+    # Yahoo remains the price/technical source only. Analyst target is reserved for V2.
+    if build_fundamental_sec_v1 is not None:
+        fundamental = build_fundamental_sec_v1(symbol, latest, include=INCLUDE_FUNDAMENTALS)
+    else:
+        fundamental = {
+            "fundamentalScore": None,
+            "fundamentalSignal": "SEC V1 import error",
+            "fundamentalReasons": [SEC_V1_IMPORT_ERROR or "Cannot import sec_v1_fundamentals.py"],
+            "fundamentalSource": "SEC V1 module import failed",
+        }
     latest.update(fundamental)
 
     return {
@@ -1124,7 +1167,16 @@ def build_analysis(symbol: str, range_: str = "1y", interval: str = "1d") -> Dic
 
 
 def scan_symbols(symbols: Iterable[str], range_: str = "1y", interval: str = "1d") -> Dict[str, Any]:
+    """Scan a symbol list and return both table rows and full quote payloads.
+
+    The original GitHub Pages UI expects data/scanner.json to contain:
+      { rows: [...], quotes: { TICKER: full_detail_payload }, errors: [...] }
+
+    Local Python/IDLE mode now returns the same shape from /api/scan, so the
+    browser no longer depends on a pre-generated static scanner.json file.
+    """
     rows: List[Dict[str, Any]] = []
+    quotes: Dict[str, Dict[str, Any]] = {}
     errors: List[Dict[str, str]] = []
     seen = set()
     clean_symbols: List[str] = []
@@ -1135,30 +1187,320 @@ def scan_symbols(symbols: Iterable[str], range_: str = "1y", interval: str = "1d
         seen.add(symbol)
         clean_symbols.append(symbol)
 
-    def one(symbol: str) -> Tuple[Optional[Dict[str, Any]], Optional[Dict[str, str]]]:
+    def one(symbol: str) -> Tuple[Optional[Dict[str, Any]], Optional[Dict[str, Any]], Optional[Dict[str, str]]]:
         try:
             data = build_analysis(symbol, range_, interval)
-            return data["latest"], None
+            return data["latest"], data, None
         except Exception as exc:  # noqa: BLE001
-            return None, {"symbol": symbol, "error": str(exc) or repr(exc) or type(exc).__name__}
+            return None, None, {"symbol": symbol, "error": str(exc) or repr(exc) or type(exc).__name__}
 
     workers = max(1, min(SCAN_WORKERS, len(clean_symbols) or 1))
     with ThreadPoolExecutor(max_workers=workers) as executor:
         futures = {executor.submit(one, symbol): symbol for symbol in clean_symbols}
         for future in as_completed(futures):
-            row, err = future.result()
+            row, detail, err = future.result()
             if row is not None:
                 rows.append(row)
+                sym = str(row.get("symbol") or futures[future]).upper()
+                if detail is not None:
+                    quotes[sym] = detail
             if err is not None:
                 errors.append(err)
 
     rows.sort(key=lambda r: (r.get("score") is not None, r.get("score", -1)), reverse=True)
     return {
         "rows": rows,
+        "quotes": quotes,
         "errors": sorted(errors, key=lambda e: e.get("symbol", "")),
         "count": len(rows),
         "generatedAt": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
+        "mode": "local-python-api-sec-v1",
     }
+
+
+def _safe_float(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    if isinstance(value, (int, float)) and math.isfinite(float(value)):
+        return float(value)
+    text = str(value).strip().replace(",", "")
+    if not text or text.lower() in {"none", "null", "nan", "-", "n/a"}:
+        return None
+    try:
+        n = float(text)
+        if not math.isfinite(n):
+            return None
+        return n
+    except Exception:
+        return None
+
+
+def _safe_int(value: Any) -> Optional[int]:
+    n = _safe_float(value)
+    return int(n) if n is not None else None
+
+
+def _utc_day() -> str:
+    return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
+
+
+def _next_utc_midnight_iso() -> str:
+    now = dt.datetime.now(dt.timezone.utc)
+    nxt = (now + dt.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    return nxt.isoformat().replace("+00:00", "Z")
+
+
+def _next_local_reset_text() -> str:
+    now = dt.datetime.now(dt.timezone.utc)
+    nxt_utc = (now + dt.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    return nxt_utc.astimezone().strftime("%Y-%m-%d %H:%M %Z")
+
+
+def _read_json_file(path: Path, default: Any) -> Any:
+    try:
+        if path.exists():
+            return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        pass
+    return default
+
+
+def _write_json_file(path: Path, payload: Any) -> None:
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp.replace(path)
+
+
+
+def _mask_secret(value: str) -> str:
+    value = (value or "").strip()
+    if len(value) <= 8:
+        return "****"
+    return f"{value[:4]}…{value[-4:]}"
+
+
+def alpha_vantage_key_status() -> Dict[str, Any]:
+    key = os.environ.get("ALPHA_VANTAGE_API_KEY", "").strip()
+    return {
+        "ok": True,
+        "hasKey": bool(key),
+        "maskedKey": _mask_secret(key) if key else None,
+        "quota": alpha_vantage_quota_status(),
+    }
+
+
+def save_alpha_vantage_key(api_key: str) -> Dict[str, Any]:
+    """Deprecated in V2.7.
+
+    Public-GitHub-safe mode no longer writes API keys to local files. The
+    browser stores the key in localStorage and sends it only with the manual
+    analyst-consensus request. This endpoint is kept only so older frontends do
+    not crash; it intentionally does not persist secrets.
+    """
+    api_key = (api_key or "").strip().strip('"').strip("'")
+    if not api_key or len(api_key) < 8:
+        raise ValueError("Invalid Alpha Vantage API key")
+    return {
+        "ok": True,
+        "hasKey": False,
+        "maskedKey": _mask_secret(api_key),
+        "storage": "browser-localStorage-only",
+        "note": "V2.7 does not persist API keys on the server.",
+        "quota": alpha_vantage_quota_status(),
+    }
+
+def alpha_vantage_key(provided_api_key: Optional[str] = None) -> str:
+    key = (provided_api_key or "").strip().strip('"').strip("'")
+    if not key:
+        # Optional deployment fallback. Safe for private deployments using host
+        # environment variables; not required for public BYOK/localStorage mode.
+        key = os.environ.get("ALPHA_VANTAGE_API_KEY", "").strip()
+    if not key or "PASTE" in key.upper() or len(key) < 8:
+        raise RuntimeError(
+            "Missing Alpha Vantage API key. Paste your key in the Analyst Consensus tab "
+            "or set ALPHA_VANTAGE_API_KEY as a private environment variable."
+        )
+    return key
+
+
+def alpha_vantage_quota_status() -> Dict[str, Any]:
+    today = _utc_day()
+    raw = _read_json_file(ALPHA_VANTAGE_QUOTA_FILE, {})
+    if raw.get("date") != today:
+        raw = {"date": today, "used": 0, "calls": []}
+    used = int(raw.get("used") or 0)
+    return {
+        "dateUtc": today,
+        "used": used,
+        "limit": ALPHA_VANTAGE_DAILY_LIMIT,
+        "remaining": max(0, ALPHA_VANTAGE_DAILY_LIMIT - used),
+        "resetAtUtc": _next_utc_midnight_iso(),
+        "resetAtLocal": _next_local_reset_text(),
+    }
+
+
+def _increment_alpha_vantage_quota(ticker: str, endpoint: str) -> Dict[str, Any]:
+    today = _utc_day()
+    raw = _read_json_file(ALPHA_VANTAGE_QUOTA_FILE, {})
+    if raw.get("date") != today:
+        raw = {"date": today, "used": 0, "calls": []}
+    used = int(raw.get("used") or 0)
+    if used >= ALPHA_VANTAGE_DAILY_LIMIT:
+        raise RuntimeError("ALPHA_VANTAGE_DAILY_LIMIT_REACHED")
+    raw["used"] = used + 1
+    raw.setdefault("calls", []).append({
+        "ticker": ticker.upper(),
+        "endpoint": endpoint,
+        "atUtc": dt.datetime.now(dt.timezone.utc).isoformat().replace("+00:00", "Z"),
+    })
+    _write_json_file(ALPHA_VANTAGE_QUOTA_FILE, raw)
+    return alpha_vantage_quota_status()
+
+
+def _av_cache_path(ticker: str, endpoint: str) -> Path:
+    safe = "".join(ch for ch in ticker.upper() if ch.isalnum() or ch in {".", "-", "_"})
+    return ALPHA_VANTAGE_CACHE_DIR / f"{_utc_day()}_{endpoint}_{safe}.json"
+
+
+def _fetch_alpha_vantage_overview(ticker: str, api_key: Optional[str] = None) -> Tuple[Dict[str, Any], bool, Dict[str, Any]]:
+    ticker = ticker.strip().upper()
+    if not ticker:
+        raise ValueError("Missing ticker")
+    cache_path = _av_cache_path(ticker, "OVERVIEW")
+    cached = _read_json_file(cache_path, None)
+    if isinstance(cached, dict) and cached.get("raw"):
+        return cached["raw"], True, alpha_vantage_quota_status()
+
+    status = alpha_vantage_quota_status()
+    if status["remaining"] <= 0:
+        raise RuntimeError("ALPHA_VANTAGE_DAILY_LIMIT_REACHED")
+
+    api_key = alpha_vantage_key(api_key)
+    _increment_alpha_vantage_quota(ticker, "OVERVIEW")
+    params = urllib.parse.urlencode({"function": "OVERVIEW", "symbol": ticker, "apikey": api_key})
+    url = f"https://www.alphavantage.co/query?{params}"
+    req = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "StockRadarV2/1.0 local-idle-app",
+            "Accept": "application/json,text/plain,*/*",
+            "Connection": "close",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        raw_text = resp.read().decode("utf-8", errors="replace")
+    try:
+        data = json.loads(raw_text)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"Alpha Vantage returned non-JSON response: {raw_text[:160]}") from exc
+
+    if isinstance(data, dict) and (data.get("Note") or data.get("Information") or data.get("Error Message")):
+        return data, False, alpha_vantage_quota_status()
+
+    _write_json_file(cache_path, {
+        "ticker": ticker,
+        "endpoint": "OVERVIEW",
+        "fetchedAtUtc": dt.datetime.now(dt.timezone.utc).isoformat().replace("+00:00", "Z"),
+        "raw": data,
+    })
+    return data, False, alpha_vantage_quota_status()
+
+
+def parse_alpha_vantage_overview(ticker: str, raw: Dict[str, Any], current_price: Optional[float] = None) -> Dict[str, Any]:
+    ticker = ticker.upper()
+    if not raw or not isinstance(raw, dict):
+        raise RuntimeError("Alpha Vantage returned empty overview data")
+    if raw.get("Note"):
+        raise RuntimeError("Alpha Vantage provider limit reached. Try again after the provider resets quota.")
+    if raw.get("Information"):
+        raise RuntimeError(str(raw.get("Information")))
+    if raw.get("Error Message"):
+        raise RuntimeError(str(raw.get("Error Message")))
+    if not raw.get("Symbol") and len(raw.keys()) <= 2:
+        raise RuntimeError("Alpha Vantage returned no overview data for this ticker")
+
+    target = _safe_float(raw.get("AnalystTargetPrice"))
+    current = _safe_float(current_price)
+    upside = ((target / current) - 1.0) * 100.0 if target is not None and current and current > 0 else None
+    rating_keys = [
+        "AnalystRatingStrongBuy",
+        "AnalystRatingBuy",
+        "AnalystRatingHold",
+        "AnalystRatingSell",
+        "AnalystRatingStrongSell",
+    ]
+    ratings = {key: _safe_int(raw.get(key)) for key in rating_keys}
+    analyst_count = sum(v for v in ratings.values() if v is not None) or None
+    rating_score = None
+    if analyst_count:
+        weights = {
+            "AnalystRatingStrongBuy": 2,
+            "AnalystRatingBuy": 1,
+            "AnalystRatingHold": 0,
+            "AnalystRatingSell": -1,
+            "AnalystRatingStrongSell": -2,
+        }
+        rating_score = sum((ratings[k] or 0) * weights[k] for k in rating_keys) / analyst_count
+
+    return {
+        "ticker": raw.get("Symbol") or ticker,
+        "name": raw.get("Name"),
+        "source": "Alpha Vantage OVERVIEW",
+        "fetchedAtUtc": dt.datetime.now(dt.timezone.utc).isoformat().replace("+00:00", "Z"),
+        "analyst": {
+            "targetMeanPrice": target,
+            "targetUpsidePct": upside,
+            "targetAnalystCount": analyst_count,
+            "ratings": ratings,
+            "ratingScore": rating_score,
+            "status": "Loaded" if target is not None or analyst_count else "No analyst target fields in OVERVIEW response",
+        },
+        "overview": {
+            "sector": raw.get("Sector"),
+            "industry": raw.get("Industry"),
+            "latestQuarter": raw.get("LatestQuarter"),
+            "marketCapitalization": _safe_float(raw.get("MarketCapitalization")),
+            "epsTtm": _safe_float(raw.get("EPS")),
+            "revenueTtm": _safe_float(raw.get("RevenueTTM")),
+            "profitMargin": _safe_float(raw.get("ProfitMargin")),
+            "returnOnEquityTtm": _safe_float(raw.get("ReturnOnEquityTTM")),
+            "peRatio": _safe_float(raw.get("PERatio")),
+            "pegRatio": _safe_float(raw.get("PEGRatio")),
+            "beta": _safe_float(raw.get("Beta")),
+            "fiftyTwoWeekHigh": _safe_float(raw.get("52WeekHigh")),
+            "fiftyTwoWeekLow": _safe_float(raw.get("52WeekLow")),
+        },
+    }
+
+
+def build_alpha_vantage_consensus_payload(ticker: str, current_price: Optional[float] = None, api_key: Optional[str] = None) -> Dict[str, Any]:
+    try:
+        raw, cached, quota = _fetch_alpha_vantage_overview(ticker, api_key=api_key)
+        parsed = parse_alpha_vantage_overview(ticker, raw, current_price=current_price)
+        parsed.update({"ok": True, "cached": cached, "quota": quota})
+        return parsed
+    except RuntimeError as exc:
+        msg = str(exc)
+        if msg == "ALPHA_VANTAGE_DAILY_LIMIT_REACHED":
+            return {
+                "ok": False,
+                "errorCode": "DAILY_LIMIT_REACHED",
+                "error": "Daily Alpha Vantage limit reached.",
+                "quota": alpha_vantage_quota_status(),
+            }
+        if "Missing Alpha Vantage API key" in msg:
+            return {
+                "ok": False,
+                "errorCode": "MISSING_API_KEY",
+                "error": "Missing Alpha Vantage API key. Paste and save the key in the Analyst Consensus panel first.",
+                "quota": alpha_vantage_quota_status(),
+            }
+        return {
+            "ok": False,
+            "errorCode": "ALPHA_VANTAGE_ERROR",
+            "error": msg,
+            "quota": alpha_vantage_quota_status(),
+        }
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -1166,16 +1508,68 @@ class Handler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(STATIC_DIR), **kwargs)
 
     def log_message(self, fmt: str, *args: Any) -> None:
-        sys.stdout.write("%s - %s\n" % (self.log_date_time_string(), fmt % args))
+        message = fmt % args
+        if HTTP_VERBOSE_LOG or any(code in message for code in (' 400 ', ' 401 ', ' 403 ', ' 404 ', ' 429 ', ' 500 ', ' 502 ')):
+            sys.stdout.write("%s - %s\n" % (self.log_date_time_string(), message))
+
+    def _client_disconnected(self, exc: BaseException) -> None:
+        # Browsers often abort an in-flight /api/scan request when the page is
+        # refreshed, a tab is closed, or a new scan starts. Python's built-in
+        # HTTP server reports that as BrokenPipeError / ConnectionResetError.
+        # It is not a data or SEC parsing failure, so keep IDLE clean.
+        sys.stdout.write(f"{self.log_date_time_string()} - client disconnected while sending response; ignored.\n")
 
     def send_json(self, status: int, payload: Dict[str, Any]) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Cache-Control", "no-store")
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
+        try:
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError) as exc:
+            self._client_disconnected(exc)
+
+    def end_headers(self) -> None:
+        # IDLE/local mode: avoid browser 304 caching while iterating on app.js/styles.css.
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
+        super().end_headers()
+
+    def copyfile(self, source: Any, outputfile: Any) -> None:
+        # Same protection for static files such as app.js/index.html.
+        try:
+            shutil.copyfileobj(source, outputfile)
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError) as exc:
+            self._client_disconnected(exc)
+
+    def do_POST(self) -> None:  # noqa: N802
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path
+        try:
+            length = int(self.headers.get("Content-Length", "0") or 0)
+            raw_body = self.rfile.read(length).decode("utf-8", errors="replace") if length else "{}"
+            try:
+                payload_in = json.loads(raw_body or "{}")
+            except json.JSONDecodeError:
+                payload_in = {}
+            if path == "/api/analyst-consensus":
+                symbol = str(payload_in.get("symbol") or payload_in.get("ticker") or "").strip().upper()
+                current_price = _safe_float(payload_in.get("currentPrice") or payload_in.get("price"))
+                api_key = str(payload_in.get("apiKey") or payload_in.get("key") or "").strip()
+                payload = build_alpha_vantage_consensus_payload(symbol, current_price=current_price, api_key=api_key)
+                status_code = 429 if payload.get("errorCode") == "DAILY_LIMIT_REACHED" else 200
+                self.send_json(status_code, payload)
+                return
+            if path == "/api/alpha-vantage/key":
+                api_key = str(payload_in.get("apiKey") or payload_in.get("key") or "").strip()
+                self.send_json(200, save_alpha_vantage_key(api_key))
+                return
+            self.send_json(404, {"ok": False, "error": "Unknown POST route"})
+        except Exception as exc:  # noqa: BLE001
+            self.send_json(400, {"ok": False, "error": str(exc)})
 
     def do_GET(self) -> None:  # noqa: N802
         parsed = urllib.parse.urlparse(self.path)
@@ -1198,8 +1592,35 @@ class Handler(SimpleHTTPRequestHandler):
                 self.send_json(200, scan_symbols(symbols, range_, interval))
                 return
 
+            if path == "/api/analyst-consensus":
+                symbol = (params.get("symbol") or params.get("ticker") or [""])[0].strip().upper()
+                current_price = _safe_float((params.get("currentPrice") or params.get("price") or [None])[0])
+                payload = build_alpha_vantage_consensus_payload(symbol, current_price=current_price)
+                status_code = 429 if payload.get("errorCode") == "DAILY_LIMIT_REACHED" else 200
+                self.send_json(status_code, payload)
+                return
+
+            if path == "/api/alpha-vantage/key-status":
+                self.send_json(200, alpha_vantage_key_status())
+                return
+
+            if path == "/api/alpha-vantage/quota":
+                self.send_json(200, {"ok": True, "quota": alpha_vantage_quota_status()})
+                return
+
             if path == "/api/health":
-                self.send_json(200, {"ok": True, "app": "Stock Timing Radar", "priceTargetMode": "Yahoo-only no API key", "priceTargetSources": ["Yahoo quoteSummary", "Yahoo quote v7 fallback"], "fundamentalFallback": "SEC companyfacts for US actuals"})
+                self.send_json(200, {"ok": True, "app": "Stock Timing Radar", "fundamentalMode": "SEC EDGAR V2.7 first + upgraded guidance engine + public-safe BYOK Alpha Vantage", "priceTargetMode": "V2.7 Alpha Vantage OVERVIEW BYOK manual loader; browser localStorage key; one click = max one API call; same-day cache is free; excluded from SEC table", "priceTargetSources": ["Alpha Vantage OVERVIEW"], "secV1ImportError": SEC_V1_IMPORT_ERROR, "alphaVantageQuota": alpha_vantage_quota_status()})
+                return
+
+            # Compatibility fix for the original static GitHub Pages UI.
+            # In local Python mode, /data/scanner.json is generated on demand
+            # instead of being a pre-built file under static/data/.
+            if path == "/data/scanner.json":
+                raw_symbols = (params.get("symbols") or [",".join(read_watchlist_file())])[0]
+                symbols = [s.strip() for s in raw_symbols.replace("\n", ",").split(",")]
+                range_ = (params.get("range") or ["1y"])[0]
+                interval = (params.get("interval") or ["1d"])[0]
+                self.send_json(200, scan_symbols(symbols, range_, interval))
                 return
 
             return super().do_GET()
@@ -1207,6 +1628,8 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_json(exc.code, {"error": f"Market data HTTP error: {exc.code} {exc.reason}"})
         except urllib.error.URLError as exc:
             self.send_json(502, {"error": f"Could not reach market data source: {exc.reason}"})
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError) as exc:
+            self._client_disconnected(exc)
         except Exception as exc:  # noqa: BLE001
             self.send_json(400, {"error": str(exc)})
 
