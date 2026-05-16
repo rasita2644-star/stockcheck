@@ -3600,3 +3600,193 @@ if (state.staticMode || isStaticDeployHost()) {
   });
   setTimeout(() => { ensureV70Sheet(); patchExistingButtons(); renderPortfolioTabs(); updateTabs(); }, 0);
 })();
+
+/* v7.1 — Mobile fixed reserve screeners
+   Mobile + New screener creation was unreliable on Safari due to legacy tab handlers.
+   Instead, expose three permanent reserve portfolio slots after Thai: Port 1 / Port 2 / Port 3.
+   They are normal screeners stored in localStorage and can be edited via Import/Replace/Append.
+*/
+(function v71MobileReserveScreeners(){
+  const MOBILE_QUERY = "(max-width: 767px)";
+  const reserveTabs = [
+    ["default", "Default"],
+    ["momentum", "Momentum"],
+    ["thai", "Thai"],
+    ["port1", "Port 1"],
+    ["port2", "Port 2"],
+    ["port3", "Port 3"],
+  ];
+  const defaultLists = {
+    default: BASE_WATCHLIST,
+    momentum: ["NVDA", "AMD", "AVGO", "TSLA", "PLTR", "APP", "CRWD", "DDOG", "HOOD", "COIN"],
+    thai: ["PTT.BK", "CPALL.BK", "AOT.BK", "ADVANC.BK", "KBANK.BK", "BDMS.BK", "DELTA.BK", "GULF.BK", "TRUE.BK", "PTTEP.BK"],
+    port1: [],
+    port2: [],
+    port3: [],
+  };
+  const escHtml = (x) => String(x ?? "").replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const mobile = () => window.matchMedia(MOBILE_QUERY).matches;
+  const getAll = () => {
+    try { return JSON.parse(localStorage.getItem(STORAGE.screeners) || "{}"); }
+    catch (_) { return {}; }
+  };
+  const setAll = (obj) => localStorage.setItem(STORAGE.screeners, JSON.stringify(obj || {}));
+  function snapshot(label){
+    return {
+      label,
+      name: label,
+      watchlist: Array.isArray(state.watchlist) ? [...state.watchlist] : [],
+      filters: { ...state.filters },
+      columns: { ...state.columns },
+      scannerTab: state.scannerTab,
+      mobileView: state.mobileView,
+      sortKey: state.sortKey,
+      sortAsc: state.sortAsc,
+      savedAt: new Date().toISOString(),
+    };
+  }
+  function ensureReserveRecords(){
+    const screeners = getAll();
+    let changed = false;
+    for (const [key, label] of reserveTabs) {
+      if (!screeners[key]) {
+        screeners[key] = {
+          label,
+          name: label,
+          watchlist: defaultLists[key] || [],
+          filters: { ...state.filters },
+          columns: { ...state.columns },
+          scannerTab: state.scannerTab || "technical",
+          mobileView: state.mobileView || "cards",
+          sortKey: state.sortKey || "score",
+          sortAsc: !!state.sortAsc,
+          savedAt: new Date().toISOString(),
+          reserved: true,
+        };
+        changed = true;
+      }
+    }
+    if (changed) setAll(screeners);
+    return screeners;
+  }
+  function saveCurrentIntoActive(){
+    try {
+      const key = state.activeScreener || "default";
+      const screeners = ensureReserveRecords();
+      const existing = screeners[key] || {};
+      const label = existing.label || existing.name || reserveTabs.find(([k]) => k === key)?.[1] || key;
+      screeners[key] = { ...existing, ...snapshot(label), reserved: existing.reserved || ["default","momentum","thai","port1","port2","port3"].includes(key) };
+      setAll(screeners);
+    } catch (err) {
+      console.warn("v7.1 save current screener failed", err);
+    }
+  }
+  function renderMobileReserveTabs(){
+    const nav = document.querySelector(".portfolio-tabs");
+    if (!nav) return;
+    ensureReserveRecords();
+    nav.classList.add("portfolio-tabs-v71");
+    const active = state.activeScreener || "default";
+    nav.innerHTML = reserveTabs.map(([key, fallback]) => {
+      const rec = getAll()[key] || {};
+      const label = rec.label || rec.name || fallback;
+      return `<button type="button" role="tab" class="portfolio-tab-v71 ${key === active ? "active" : ""}" data-v71-screener="${escHtml(key)}" aria-selected="${key === active ? "true" : "false"}">${escHtml(label)}</button>`;
+    }).join("") + `<button type="button" class="portfolio-tab-v71 settings" data-v71-screener-settings aria-label="Screener settings">Settings</button>`;
+    const activeBtn = nav.querySelector(`[data-v71-screener="${CSS.escape(active)}"]`);
+    setTimeout(() => activeBtn?.scrollIntoView({ inline: "center", block: "nearest" }), 0);
+  }
+  const previousRenderPortfolioTabs = renderPortfolioTabs;
+  renderPortfolioTabs = function renderPortfolioTabsV71(...args){
+    if (mobile()) return renderMobileReserveTabs();
+    return previousRenderPortfolioTabs.apply(this, args);
+  };
+  function switchToReserve(key){
+    if (!key) return;
+    saveCurrentIntoActive();
+    const screeners = ensureReserveRecords();
+    const rec = screeners[key] || {};
+    state.activeScreener = key;
+    state.watchlist = normalizeTickers(rec.watchlist || defaultLists[key] || []);
+    state.filters = { ...state.filters, ...(rec.filters || {}) };
+    state.columns = { ...state.columns, ...(rec.columns || {}) };
+    state.scannerTab = rec.scannerTab || state.scannerTab || "technical";
+    state.mobileView = rec.mobileView || state.mobileView || "cards";
+    state.sortKey = rec.sortKey || state.sortKey || "score";
+    state.sortAsc = !!rec.sortAsc;
+    state.selected = state.watchlist[0] || state.selected || "NVDA";
+    try { localStorage.setItem(STORAGE.activeScreener, key); } catch (_) {}
+    try { saveSettings(); } catch (_) {}
+    renderMobileReserveTabs();
+    try { renderAll(); } catch (err) { console.warn("v7.1 render after reserve switch failed", err); }
+  }
+  document.addEventListener("click", function(e){
+    if (!mobile()) return;
+    const target = e.target;
+    if (!target || !target.closest) return;
+    const tab = target.closest("[data-v71-screener]");
+    if (tab) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      switchToReserve(tab.getAttribute("data-v71-screener"));
+      return;
+    }
+    if (target.closest("[data-v71-screener-settings]")) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      try {
+        const el = document.getElementById("activeScreenerLabel");
+        if (el) el.textContent = `Active screener: ${getAll()[state.activeScreener]?.label || state.activeScreener || "Default"}`;
+        openSheet("screenerSettingsSheet");
+      } catch (err) {
+        alert(`Active screener: ${state.activeScreener || "default"}`);
+      }
+      return;
+    }
+  }, true);
+  // Make Rename update the fixed Port label instead of creating a hidden custom tab on mobile.
+  const previousRename = typeof renameActiveScreener === "function" ? renameActiveScreener : null;
+  renameActiveScreener = function renameActiveScreenerV71(){
+    if (!mobile()) return previousRename ? previousRename() : undefined;
+    const key = state.activeScreener || "default";
+    const screeners = ensureReserveRecords();
+    const current = screeners[key]?.label || reserveTabs.find(([k]) => k === key)?.[1] || key;
+    const name = prompt("Rename screener", current);
+    if (!name) return;
+    screeners[key] = { ...(screeners[key] || {}), label: name.trim(), name: name.trim(), savedAt: new Date().toISOString() };
+    setAll(screeners);
+    renderMobileReserveTabs();
+    try { renderAll(); } catch (_) {}
+  };
+  // Delete on mobile clears the reserved slot instead of removing its tab.
+  const previousDelete = typeof deleteActiveScreener === "function" ? deleteActiveScreener : null;
+  deleteActiveScreener = function deleteActiveScreenerV71(){
+    if (!mobile()) return previousDelete ? previousDelete() : undefined;
+    const key = state.activeScreener || "default";
+    const label = getAll()[key]?.label || reserveTabs.find(([k]) => k === key)?.[1] || key;
+    if (!confirm(`Clear screener ${label}?`)) return;
+    const screeners = ensureReserveRecords();
+    screeners[key] = {
+      label,
+      name: label,
+      watchlist: [],
+      filters: { ...state.filters },
+      columns: { ...state.columns },
+      scannerTab: state.scannerTab || "technical",
+      mobileView: state.mobileView || "cards",
+      sortKey: state.sortKey || "score",
+      sortAsc: !!state.sortAsc,
+      savedAt: new Date().toISOString(),
+      reserved: true,
+    };
+    setAll(screeners);
+    state.watchlist = [];
+    state.rows = [];
+    state.quotes = {};
+    try { saveSettings(); } catch (_) {}
+    renderMobileReserveTabs();
+    try { renderAll(); } catch (_) {}
+  };
+  window.__stockcheckRenderReserveTabsV71 = renderMobileReserveTabs;
+  window.__stockcheckSwitchReserveV71 = switchToReserve;
+  setTimeout(() => { if (mobile()) { ensureReserveRecords(); renderMobileReserveTabs(); } }, 0);
+})();
