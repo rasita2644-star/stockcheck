@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-17T13:11:29+07:00",
+  "updated_at": "2026-05-17T13:33:27+07:00",
   "market": "US",
   "total_monitored": 10,
   "items": [
@@ -18,7 +18,7 @@
       "trim_zone": 245.0,
       "buy_zone_distance_pct": 9.912195121951216,
       "trim_zone_distance_pct": -8.032653061224494,
-      "earnings_source": "manual",
+      "earnings_source": "manual_fallback",
       "actions": {
         "tradingview": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
         "yahoo": "https://finance.yahoo.com/quote/NVDA",
@@ -119,10 +119,33 @@
   "errors": [],
   "data_quality": {
     "price_source": "technical.json first, Yahoo fallback",
-    "earnings_source": "manual earnings_calendar.json first, Yahoo fallback",
+    "earnings_source": "Finnhub primary, Yahoo fallback, manual fallback; manual force overrides all",
     "zone_logic": "buy_zone triggers only -10% to +5%; trim_zone triggers only -3% to +10%; stale zones are suppressed",
     "scanner_synced": true,
     "technical_rows": 376,
-    "manual_earnings_rows": 1
+    "manual_earnings_rows": 1,
+    "finnhub_rows": 0
+  },
+  "earnings_diagnostics": {
+    "checked": 10,
+    "finnhub_enabled": false,
+    "finnhub_status": "missing_api_key",
+    "loaded_from_finnhub": [],
+    "loaded_from_yahoo": [],
+    "loaded_from_manual": [
+      "NVDA"
+    ],
+    "missing": [
+      "AAPL",
+      "AMD",
+      "AMZN",
+      "HOOD",
+      "MSFT",
+      "PLTR",
+      "PUMP",
+      "SEI",
+      "TSLA"
+    ],
+    "api_failed": []
   }
 }
