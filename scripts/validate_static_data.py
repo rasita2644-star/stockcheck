@@ -87,17 +87,26 @@ def main() -> None:
             if not isinstance(item, dict):
                 continue
             ticker = str(item.get("ticker") or "").upper()
-            technical_trigger = item.get("primary_trigger") in {"price_move", "buy_zone", "trim_zone"}
-            if technical_trigger and (item.get("price") is None or item.get("day_change_pct") is None):
-                raise SystemExit(f"attention_today: {ticker} technical trigger lacks price/day_change_pct")
-            if item.get("primary_trigger") == "buy_zone":
+            primary_trigger = item.get("primary_trigger")
+
+            # v8.1.5 fix:
+            # Price is required for all market/technical attention rows.
+            # day_change_pct is required only for price_move.
+            # Buy/trim zone rows can still be valid when the scanner has price
+            # and zone distance, but the provider did not return daily % change.
+            if primary_trigger in {"price_move", "buy_zone", "trim_zone"} and item.get("price") is None:
+                raise SystemExit(f"attention_today: {ticker} technical trigger lacks price")
+            if primary_trigger == "price_move" and item.get("day_change_pct") is None:
+                raise SystemExit(f"attention_today: {ticker} price_move trigger lacks day_change_pct")
+
+            if primary_trigger == "buy_zone":
                 d = item.get("buy_zone_distance_pct")
                 try:
                     if not (-10.01 <= float(d) <= 5.01):
                         raise SystemExit(f"attention_today: {ticker} buy_zone distance outside valid range: {d}")
                 except (TypeError, ValueError):
                     raise SystemExit(f"attention_today: {ticker} buy_zone item lacks valid buy_zone_distance_pct")
-            if item.get("primary_trigger") == "trim_zone":
+            if primary_trigger == "trim_zone":
                 d = item.get("trim_zone_distance_pct")
                 try:
                     if not (-3.01 <= float(d) <= 10.01):
@@ -114,13 +123,17 @@ def main() -> None:
                     raise SystemExit(f"attention_today: {ticker} price mismatch with technical.json ({ap} vs {sp})")
             except (TypeError, ValueError):
                 pass
-            try:
-                ac = float(item.get("day_change_pct"))
-                sc = float(row.get("dayPct"))
-                if abs(ac - sc) > 0.25:
-                    raise SystemExit(f"attention_today: {ticker} day_change_pct mismatch with technical.json ({ac} vs {sc})")
-            except (TypeError, ValueError):
-                pass
+
+            # Only compare day change when attention has the field. Zone-only
+            # rows are allowed to omit day_change_pct; price_move rows are not.
+            if item.get("day_change_pct") is not None:
+                try:
+                    ac = float(item.get("day_change_pct"))
+                    sc = float(row.get("dayPct"))
+                    if abs(ac - sc) > 0.25:
+                        raise SystemExit(f"attention_today: {ticker} day_change_pct mismatch with technical.json ({ac} vs {sc})")
+                except (TypeError, ValueError):
+                    pass
     for warning in all_warnings:
         print(f"::warning::{warning}")
     print("Static data validation passed")
