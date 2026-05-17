@@ -1,11 +1,16 @@
 {
-  "generated_at": "2026-05-17T14:35:17.124721+00:00",
+  "generated_at": "2026-05-17T14:47:30.042784+00:00",
   "version": "8.2.6",
   "api_key_present": true,
   "offline": false,
   "tickers_checked": 406,
   "selected_finnhub": [
     "NVDA",
+    "TER",
+    "GOOG",
+    "ONDS"
+  ],
+  "selected_sec": [
     "PLTR",
     "SNDK",
     "MU",
@@ -15,7 +20,6 @@
     "META",
     "ADI",
     "WDC",
-    "TER",
     "ANET",
     "MPWR",
     "MNST",
@@ -42,7 +46,6 @@
     "WDAY",
     "DXCM",
     "GOOGL",
-    "GOOG",
     "CEG",
     "ROP",
     "CSCO",
@@ -53,7 +56,6 @@
     "PANW",
     "PATH",
     "SITM",
-    "ONDS",
     "NXPI",
     "AXON",
     "VRTX",
@@ -64,9 +66,7 @@
     "AAPL",
     "IDXX",
     "ROKU",
-    "Z"
-  ],
-  "selected_sec": [
+    "Z",
     "IOT",
     "CSGP",
     "AFRM",

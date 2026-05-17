@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-17T15:03:53+07:00",
+  "updated_at": "2026-05-17T21:47:27+07:00",
   "market": "US",
   "total_monitored": 10,
   "items": [
@@ -122,7 +122,7 @@
     "earnings_source": "Finnhub primary, Yahoo fallback, manual fallback; manual force overrides all",
     "zone_logic": "buy_zone triggers only -10% to +5%; trim_zone triggers only -3% to +10%; stale zones are suppressed",
     "scanner_synced": true,
-    "technical_rows": 376,
+    "technical_rows": 406,
     "manual_earnings_rows": 1,
     "finnhub_rows": 1
   },
