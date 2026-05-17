@@ -1,6 +1,7 @@
-/* v8.2.1 Finnhub Recommendation Trends Chart loader fix
+/* v8.2.2 Finnhub Recommendation Trends Chart
    Static-site safe: reads generated data/recommendation_trends.json.
-   No Finnhub API key is exposed in the browser. */
+   No Finnhub API key is exposed in the browser.
+   v8.2.2 fixes ticker parsing: "Ticker: NVDA Source" must not become NVDASOURCE. */
 (function recommendationTrendsPatch(){
   const DATA_URL = "data/recommendation_trends.json";
   const CATEGORIES = [
@@ -49,17 +50,36 @@
     return loading;
   }
 
+  function cleanTicker(raw){
+    let value = String(raw || "").trim().toUpperCase();
+    value = value.replace(/[^A-Z0-9.\-].*$/, "");
+    value = value.replace(/SOURCE$/, "");
+    value = value.replace(/YAHOO$/, "");
+    return value;
+  }
+
   function getTicker(card){
-    const text = card.textContent || "";
-    const tickerMatch = text.match(/Ticker:\s*([A-Z0-9.\-]+)/i);
-    if (tickerMatch) return tickerMatch[1].toUpperCase();
-    const dashboard = card.closest(".fundamental-dashboard") || document.querySelector("#fundamentalDashboard");
+    // Most reliable source on desktop: "NVDA dashboard · ..." in the parent panel.
+    const dashboard = card.closest(".fundamental-dashboard");
     const note = dashboard?.querySelector(".note")?.textContent || "";
     const noteMatch = note.match(/^\s*([A-Z0-9.\-]+)\s+dashboard/i);
-    if (noteMatch) return noteMatch[1].toUpperCase();
-    const title = document.querySelector("#detailCard h2, .detail-identity h2, #mobileDetailTitle")?.textContent || "";
-    const titleMatch = title.match(/([A-Z0-9.\-]{1,10})/);
-    return titleMatch ? titleMatch[1].toUpperCase() : "";
+    if (noteMatch) return cleanTicker(noteMatch[1]);
+
+    const detailTicker = document.querySelector(".detail-identity h2")?.textContent?.trim();
+    if (detailTicker) return cleanTicker(detailTicker);
+
+    // Avoid parsing card.textContent first: grid columns can concatenate
+    // "Ticker: NVDA" and "Source: Yahoo" into "Ticker: NVDASOURCE".
+    const tickerLine = Array.from(card.querySelectorAll("li, p, span, div"))
+      .map(el => el.textContent || "")
+      .find(text => /Ticker\s*:/i.test(text));
+    const lineMatch = tickerLine && tickerLine.match(/Ticker\s*:\s*([A-Z0-9.\-]+)/i);
+    if (lineMatch) return cleanTicker(lineMatch[1]);
+
+    const text = (card.textContent || "").replace(/\s+/g, " ").trim();
+    const tickerMatch = text.match(/Ticker\s*:\s*([A-Z0-9.\-]+)/i);
+    if (tickerMatch) return cleanTicker(tickerMatch[1]);
+    return "";
   }
 
   function periodLabel(period){
@@ -113,23 +133,25 @@
     const mount = document.createElement("div");
     mount.className = "recommendation-mount";
     mount.innerHTML = `<section class="recommendation-section"><div class="rec-head"><strong>${esc(ticker)} Recommendation Trends</strong><span>Finnhub</span></div><div class="rec-loading">Loading recommendation trends…</div></section>`;
-    const linkRow = card.querySelector(".link-row, .action-buttons, .button-row");
+    const linkRow = card.querySelector(".link-row");
     card.insertBefore(mount, linkRow || card.firstChild);
     loadData().then(data => { mount.innerHTML = renderSection(ticker, data || {}); });
   }
 
-  function findYahooCards(){
-    const out = new Set(document.querySelectorAll(".yahoo-analysis-card"));
-    const candidates = document.querySelectorAll("#fundamentalDashboard section, #fundamentalDashboard article, #fundamentalDashboard .card, #fundamentalDashboard .panel-card, #fundamentalDashboard div, .fundamental-dashboard section, .fundamental-dashboard article, .fundamental-dashboard .card, .fundamental-dashboard div");
-    candidates.forEach(el => {
-      if (el.closest(".recommendation-section") || el.querySelector(":scope > .recommendation-mount")) return;
-      const text = el.textContent || "";
-      if (text.includes("Yahoo Finance Analysis") && el.querySelector('a[href*="finance.yahoo.com/quote"]')) out.add(el);
-    });
-    return Array.from(out);
+  function isYahooAnalysisBlock(el){
+    if (!el || el.dataset?.recTrendsScanned === "1") return false;
+    const txt = (el.textContent || "").replace(/\s+/g, " ").trim();
+    return /Yahoo Finance Analysis/i.test(txt) && /Open Yahoo Analysis/i.test(txt) && /Ticker\s*:/i.test(txt);
   }
 
-  function scan(){ findYahooCards().forEach(patchCard); }
+  function scan(){
+    const direct = Array.from(document.querySelectorAll(".yahoo-analysis-card"));
+    const fallback = Array.from(document.querySelectorAll(".target-section, .insight-card, section, article, div")).filter(isYahooAnalysisBlock);
+    [...direct, ...fallback].forEach(card => {
+      card.dataset.recTrendsScanned = "1";
+      patchCard(card);
+    });
+  }
 
   function init(){
     injectStyles();
@@ -138,9 +160,10 @@
     observer.observe(document.body, { childList: true, subtree: true });
     window.__stockcheckRecommendationTrendsRefresh = function(){
       payload = null; loading = null;
-      document.querySelectorAll("[data-rec-trends-patched='1']").forEach(card => {
+      document.querySelectorAll(".recommendation-mount").forEach(x => x.remove());
+      document.querySelectorAll("[data-rec-trends-patched], [data-rec-trends-scanned]").forEach(card => {
         card.dataset.recTrendsPatched = "";
-        card.querySelectorAll(".recommendation-mount").forEach(x => x.remove());
+        card.dataset.recTrendsScanned = "";
       });
       scan();
     };
