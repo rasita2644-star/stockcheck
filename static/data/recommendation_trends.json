@@ -1,8 +1,46 @@
 {
-  "generated_at": "2026-05-17T15:21:12.111161+00:00",
-  "source": "Finnhub recommendation_trends cached",
+  "generated_at": "2026-05-17T15:33:12.372774+00:00",
+  "source": "Finnhub recommendation_trends cached by unified budget manager",
   "api_key_present": true,
   "trends": {
+    "AAOI": [
+      {
+        "period": "2026-02-01",
+        "strongBuy": 2,
+        "buy": 8,
+        "hold": 2,
+        "sell": 1,
+        "strongSell": 0,
+        "symbol": "AAOI"
+      },
+      {
+        "period": "2026-03-01",
+        "strongBuy": 2,
+        "buy": 7,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "AAOI"
+      },
+      {
+        "period": "2026-04-01",
+        "strongBuy": 2,
+        "buy": 7,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "AAOI"
+      },
+      {
+        "period": "2026-05-01",
+        "strongBuy": 2,
+        "buy": 7,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "AAOI"
+      }
+    ],
     "AAPL": [
       {
         "period": "2026-02-01",
@@ -41,1106 +79,194 @@
         "symbol": "AAPL"
       }
     ],
-    "AMD": [
+    "ABBV": [
       {
         "period": "2026-02-01",
-        "strongBuy": 15,
-        "buy": 31,
-        "hold": 13,
-        "sell": 0,
-        "strongSell": 1,
-        "symbol": "AMD"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 15,
-        "buy": 32,
-        "hold": 13,
-        "sell": 0,
-        "strongSell": 1,
-        "symbol": "AMD"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 15,
-        "buy": 30,
-        "hold": 13,
-        "sell": 0,
-        "strongSell": 1,
-        "symbol": "AMD"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 15,
-        "buy": 30,
-        "hold": 13,
-        "sell": 0,
-        "strongSell": 1,
-        "symbol": "AMD"
-      }
-    ],
-    "AMZN": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 21,
-        "buy": 50,
-        "hold": 5,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "AMZN"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 21,
-        "buy": 50,
-        "hold": 5,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "AMZN"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 21,
-        "buy": 50,
-        "hold": 5,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "AMZN"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 22,
-        "buy": 50,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "AMZN"
-      }
-    ],
-    "HOOD": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 8,
+        "strongBuy": 7,
         "buy": 18,
-        "hold": 5,
-        "sell": 1,
+        "hold": 12,
+        "sell": 0,
         "strongSell": 0,
-        "symbol": "HOOD"
+        "symbol": "ABBV"
       },
       {
         "period": "2026-03-01",
-        "strongBuy": 8,
-        "buy": 19,
-        "hold": 4,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "HOOD"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 9,
-        "buy": 19,
-        "hold": 4,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "HOOD"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 9,
-        "buy": 19,
-        "hold": 5,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "HOOD"
-      }
-    ],
-    "MSFT": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 25,
-        "buy": 37,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MSFT"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 24,
-        "buy": 36,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MSFT"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 23,
-        "buy": 36,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MSFT"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 24,
-        "buy": 36,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MSFT"
-      }
-    ],
-    "NVDA": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 25,
-        "buy": 40,
-        "hold": 6,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "NVDA"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 25,
-        "buy": 42,
-        "hold": 5,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "NVDA"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 24,
-        "buy": 42,
-        "hold": 4,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "NVDA"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 24,
-        "buy": 42,
-        "hold": 4,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "NVDA"
-      }
-    ],
-    "PLTR": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 5,
-        "buy": 8,
-        "hold": 17,
-        "sell": 2,
-        "strongSell": 1,
-        "symbol": "PLTR"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 8,
-        "buy": 14,
-        "hold": 10,
-        "sell": 1,
-        "strongSell": 1,
-        "symbol": "PLTR"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 9,
-        "buy": 15,
-        "hold": 10,
-        "sell": 1,
-        "strongSell": 1,
-        "symbol": "PLTR"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 11,
-        "buy": 15,
-        "hold": 10,
-        "sell": 1,
-        "strongSell": 1,
-        "symbol": "PLTR"
-      }
-    ],
-    "PUMP": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 3,
-        "buy": 6,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "PUMP"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 3,
-        "buy": 6,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "PUMP"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 4,
-        "buy": 6,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "PUMP"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 5,
-        "buy": 6,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "PUMP"
-      }
-    ],
-    "SEI": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 4,
-        "buy": 10,
-        "hold": 1,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SEI"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 4,
-        "buy": 10,
-        "hold": 1,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SEI"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 4,
-        "buy": 11,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SEI"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 4,
-        "buy": 12,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SEI"
-      }
-    ],
-    "TSLA": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 8,
-        "buy": 19,
-        "hold": 21,
-        "sell": 8,
-        "strongSell": 2,
-        "symbol": "TSLA"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 8,
+        "strongBuy": 7,
         "buy": 20,
-        "hold": 21,
-        "sell": 8,
-        "strongSell": 2,
-        "symbol": "TSLA"
+        "hold": 12,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ABBV"
       },
       {
         "period": "2026-04-01",
-        "strongBuy": 9,
-        "buy": 20,
-        "hold": 21,
-        "sell": 8,
-        "strongSell": 2,
-        "symbol": "TSLA"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 9,
-        "buy": 20,
-        "hold": 24,
-        "sell": 7,
-        "strongSell": 1,
-        "symbol": "TSLA"
-      }
-    ],
-    "WMT": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 14,
-        "buy": 32,
-        "hold": 3,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "WMT"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 14,
-        "buy": 31,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "WMT"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 14,
-        "buy": 30,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "WMT"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 14,
-        "buy": 30,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "WMT"
-      }
-    ],
-    "AMAT": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 10,
-        "buy": 23,
-        "hold": 10,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "AMAT"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 11,
-        "buy": 24,
-        "hold": 8,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "AMAT"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 11,
-        "buy": 24,
-        "hold": 8,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "AMAT"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 11,
-        "buy": 25,
-        "hold": 7,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "AMAT"
-      }
-    ],
-    "SPIR": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 3,
-        "buy": 6,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SPIR"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 3,
-        "buy": 6,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SPIR"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 3,
-        "buy": 6,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SPIR"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 3,
-        "buy": 6,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SPIR"
-      }
-    ],
-    "SATS": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 2,
-        "buy": 6,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SATS"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 2,
-        "buy": 6,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SATS"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 2,
-        "buy": 5,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SATS"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 2,
-        "buy": 5,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "SATS"
-      }
-    ],
-    "CSX": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 8,
-        "buy": 15,
-        "hold": 7,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "CSX"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 8,
-        "buy": 15,
-        "hold": 7,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "CSX"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 8,
-        "buy": 14,
-        "hold": 8,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "CSX"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 6,
-        "buy": 13,
-        "hold": 9,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "CSX"
-      }
-    ],
-    "FANG": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 11,
-        "buy": 25,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "FANG"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 10,
-        "buy": 26,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "FANG"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 10,
-        "buy": 27,
-        "hold": 3,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "FANG"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 10,
-        "buy": 23,
-        "hold": 5,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "FANG"
-      }
-    ],
-    "PL": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 5,
-        "buy": 10,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "PL"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 5,
-        "buy": 10,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "PL"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 5,
-        "buy": 10,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "PL"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 5,
-        "buy": 10,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "PL"
-      }
-    ],
-    "MRCY": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 5,
-        "buy": 6,
-        "hold": 3,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "MRCY"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 5,
-        "buy": 6,
-        "hold": 3,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "MRCY"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 5,
-        "buy": 6,
-        "hold": 3,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "MRCY"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 5,
-        "buy": 6,
-        "hold": 3,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "MRCY"
-      }
-    ],
-    "LLY": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 11,
-        "buy": 16,
-        "hold": 10,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "LLY"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 12,
-        "buy": 18,
-        "hold": 9,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "LLY"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 12,
-        "buy": 18,
-        "hold": 8,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "LLY"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 11,
-        "buy": 19,
-        "hold": 8,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "LLY"
-      }
-    ],
-    "COST": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 13,
-        "buy": 17,
-        "hold": 13,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "COST"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 13,
-        "buy": 17,
-        "hold": 13,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "COST"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 13,
-        "buy": 17,
-        "hold": 13,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "COST"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 13,
-        "buy": 17,
-        "hold": 13,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "COST"
-      }
-    ],
-    "KO": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 9,
+        "strongBuy": 7,
         "buy": 21,
-        "hold": 5,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "KO"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 9,
-        "buy": 20,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "KO"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 9,
-        "buy": 20,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "KO"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 9,
-        "buy": 20,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "KO"
-      }
-    ],
-    "LITE": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 7,
-        "buy": 16,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "LITE"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 7,
-        "buy": 17,
-        "hold": 5,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "LITE"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 7,
-        "buy": 17,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "LITE"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 8,
-        "buy": 16,
-        "hold": 6,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "LITE"
-      }
-    ],
-    "ASTS": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 2,
-        "buy": 7,
-        "hold": 7,
-        "sell": 2,
-        "strongSell": 0,
-        "symbol": "ASTS"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 2,
-        "buy": 7,
-        "hold": 7,
-        "sell": 2,
-        "strongSell": 0,
-        "symbol": "ASTS"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 2,
-        "buy": 7,
-        "hold": 7,
-        "sell": 2,
-        "strongSell": 0,
-        "symbol": "ASTS"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 2,
-        "buy": 7,
-        "hold": 7,
-        "sell": 2,
-        "strongSell": 0,
-        "symbol": "ASTS"
-      }
-    ],
-    "NBIS": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 2,
-        "buy": 11,
-        "hold": 3,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "NBIS"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 3,
-        "buy": 12,
-        "hold": 3,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "NBIS"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 5,
-        "buy": 12,
-        "hold": 3,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "NBIS"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 5,
-        "buy": 12,
-        "hold": 5,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "NBIS"
-      }
-    ],
-    "CORZ": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 7,
-        "buy": 14,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "CORZ"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 7,
-        "buy": 14,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "CORZ"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 7,
-        "buy": 14,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "CORZ"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 7,
-        "buy": 15,
-        "hold": 3,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "CORZ"
-      }
-    ],
-    "COHR": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 8,
-        "buy": 14,
-        "hold": 7,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "COHR"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 8,
-        "buy": 13,
-        "hold": 7,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "COHR"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 8,
-        "buy": 14,
-        "hold": 7,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "COHR"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 8,
-        "buy": 14,
-        "hold": 7,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "COHR"
-      }
-    ],
-    "BW": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 3,
-        "buy": 7,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "BW"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 3,
-        "buy": 7,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "BW"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 3,
-        "buy": 7,
-        "hold": 2,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "BW"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 3,
-        "buy": 7,
-        "hold": 1,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "BW"
-      }
-    ],
-    "GOOG": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 19,
-        "buy": 40,
-        "hold": 10,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "GOOGL"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 19,
-        "buy": 41,
-        "hold": 9,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "GOOGL"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 19,
-        "buy": 41,
-        "hold": 8,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "GOOGL"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 21,
-        "buy": 41,
-        "hold": 8,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "GOOGL"
-      }
-    ],
-    "ASML": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 8,
-        "buy": 24,
-        "hold": 8,
-        "sell": 1,
-        "strongSell": 1,
-        "symbol": "ASML.AS"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 8,
-        "buy": 25,
-        "hold": 7,
-        "sell": 1,
-        "strongSell": 1,
-        "symbol": "ASML.AS"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 8,
-        "buy": 26,
-        "hold": 6,
-        "sell": 1,
-        "strongSell": 1,
-        "symbol": "ASML.AS"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 8,
-        "buy": 26,
-        "hold": 6,
-        "sell": 1,
-        "strongSell": 1,
-        "symbol": "ASML.AS"
-      }
-    ],
-    "LRCX": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 10,
-        "buy": 20,
         "hold": 11,
         "sell": 0,
         "strongSell": 0,
-        "symbol": "LRCX"
+        "symbol": "ABBV"
       },
       {
-        "period": "2026-03-01",
-        "strongBuy": 10,
-        "buy": 21,
+        "period": "2026-05-01",
+        "strongBuy": 8,
+        "buy": 22,
         "hold": 10,
         "sell": 0,
         "strongSell": 0,
-        "symbol": "LRCX"
+        "symbol": "ABBV"
+      }
+    ],
+    "ABCL": [
+      {
+        "period": "2026-02-01",
+        "strongBuy": 3,
+        "buy": 9,
+        "hold": 2,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ABCL"
+      },
+      {
+        "period": "2026-03-01",
+        "strongBuy": 3,
+        "buy": 9,
+        "hold": 2,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ABCL"
+      },
+      {
+        "period": "2026-04-01",
+        "strongBuy": 3,
+        "buy": 9,
+        "hold": 2,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ABCL"
+      },
+      {
+        "period": "2026-05-01",
+        "strongBuy": 3,
+        "buy": 9,
+        "hold": 2,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ABCL"
+      }
+    ],
+    "ABNB": [
+      {
+        "period": "2026-02-01",
+        "strongBuy": 8,
+        "buy": 13,
+        "hold": 24,
+        "sell": 3,
+        "strongSell": 0,
+        "symbol": "ABNB"
+      },
+      {
+        "period": "2026-03-01",
+        "strongBuy": 8,
+        "buy": 16,
+        "hold": 21,
+        "sell": 3,
+        "strongSell": 0,
+        "symbol": "ABNB"
+      },
+      {
+        "period": "2026-04-01",
+        "strongBuy": 8,
+        "buy": 16,
+        "hold": 22,
+        "sell": 2,
+        "strongSell": 0,
+        "symbol": "ABNB"
+      },
+      {
+        "period": "2026-05-01",
+        "strongBuy": 8,
+        "buy": 18,
+        "hold": 21,
+        "sell": 2,
+        "strongSell": 0,
+        "symbol": "ABNB"
+      }
+    ],
+    "ACHR": [
+      {
+        "period": "2026-02-01",
+        "strongBuy": 2,
+        "buy": 9,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ACHR"
+      },
+      {
+        "period": "2026-03-01",
+        "strongBuy": 2,
+        "buy": 9,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ACHR"
+      },
+      {
+        "period": "2026-04-01",
+        "strongBuy": 2,
+        "buy": 9,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ACHR"
+      },
+      {
+        "period": "2026-05-01",
+        "strongBuy": 2,
+        "buy": 9,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ACHR"
+      }
+    ],
+    "ADBE": [
+      {
+        "period": "2026-02-01",
+        "strongBuy": 12,
+        "buy": 16,
+        "hold": 14,
+        "sell": 4,
+        "strongSell": 0,
+        "symbol": "ADBE"
+      },
+      {
+        "period": "2026-03-01",
+        "strongBuy": 12,
+        "buy": 15,
+        "hold": 15,
+        "sell": 4,
+        "strongSell": 0,
+        "symbol": "ADBE"
       },
       {
         "period": "2026-04-01",
         "strongBuy": 10,
-        "buy": 21,
-        "hold": 10,
-        "sell": 0,
+        "buy": 12,
+        "hold": 19,
+        "sell": 4,
         "strongSell": 0,
-        "symbol": "LRCX"
+        "symbol": "ADBE"
       },
       {
         "period": "2026-05-01",
         "strongBuy": 10,
-        "buy": 22,
-        "hold": 9,
-        "sell": 0,
+        "buy": 11,
+        "hold": 21,
+        "sell": 4,
         "strongSell": 0,
-        "symbol": "LRCX"
+        "symbol": "ADBE"
       }
     ],
     "ADI": [
@@ -1181,247 +307,119 @@
         "symbol": "ADI"
       }
     ],
-    "LIN": [
+    "ADP": [
       {
         "period": "2026-02-01",
-        "strongBuy": 7,
-        "buy": 19,
-        "hold": 4,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "LIN"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 6,
-        "buy": 18,
-        "hold": 6,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "LIN"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 6,
-        "buy": 19,
-        "hold": 5,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "LIN"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 6,
-        "buy": 18,
-        "hold": 5,
-        "sell": 1,
-        "strongSell": 0,
-        "symbol": "LIN"
-      }
-    ],
-    "MRVL": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 11,
-        "buy": 26,
-        "hold": 14,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MRVL"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 11,
-        "buy": 27,
-        "hold": 13,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MRVL"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 13,
-        "buy": 28,
-        "hold": 9,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MRVL"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 13,
-        "buy": 29,
-        "hold": 8,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MRVL"
-      }
-    ],
-    "SBUX": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 10,
-        "buy": 14,
-        "hold": 16,
-        "sell": 3,
-        "strongSell": 2,
-        "symbol": "SBUX"
-      },
-      {
-        "period": "2026-03-01",
-        "strongBuy": 10,
-        "buy": 14,
-        "hold": 16,
-        "sell": 3,
-        "strongSell": 2,
-        "symbol": "SBUX"
-      },
-      {
-        "period": "2026-04-01",
-        "strongBuy": 9,
-        "buy": 13,
-        "hold": 20,
-        "sell": 4,
-        "strongSell": 2,
-        "symbol": "SBUX"
-      },
-      {
-        "period": "2026-05-01",
-        "strongBuy": 9,
-        "buy": 14,
-        "hold": 21,
-        "sell": 4,
+        "strongBuy": 2,
+        "buy": 5,
+        "hold": 12,
+        "sell": 2,
         "strongSell": 1,
-        "symbol": "SBUX"
-      }
-    ],
-    "MPWR": [
-      {
-        "period": "2026-02-01",
-        "strongBuy": 7,
-        "buy": 15,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MPWR"
+        "symbol": "ADP"
       },
       {
         "period": "2026-03-01",
-        "strongBuy": 8,
-        "buy": 14,
-        "hold": 4,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MPWR"
+        "strongBuy": 2,
+        "buy": 5,
+        "hold": 12,
+        "sell": 2,
+        "strongSell": 1,
+        "symbol": "ADP"
       },
       {
         "period": "2026-04-01",
-        "strongBuy": 8,
-        "buy": 14,
-        "hold": 3,
-        "sell": 0,
-        "strongSell": 0,
-        "symbol": "MPWR"
+        "strongBuy": 3,
+        "buy": 5,
+        "hold": 12,
+        "sell": 2,
+        "strongSell": 1,
+        "symbol": "ADP"
       },
       {
         "period": "2026-05-01",
-        "strongBuy": 8,
-        "buy": 14,
-        "hold": 3,
+        "strongBuy": 3,
+        "buy": 5,
+        "hold": 12,
+        "sell": 2,
+        "strongSell": 1,
+        "symbol": "ADP"
+      }
+    ],
+    "ADSK": [
+      {
+        "period": "2026-02-01",
+        "strongBuy": 11,
+        "buy": 22,
+        "hold": 5,
         "sell": 0,
         "strongSell": 0,
-        "symbol": "MPWR"
+        "symbol": "ADSK"
+      },
+      {
+        "period": "2026-03-01",
+        "strongBuy": 11,
+        "buy": 23,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ADSK"
+      },
+      {
+        "period": "2026-04-01",
+        "strongBuy": 11,
+        "buy": 24,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ADSK"
+      },
+      {
+        "period": "2026-05-01",
+        "strongBuy": 11,
+        "buy": 24,
+        "hold": 5,
+        "sell": 0,
+        "strongSell": 0,
+        "symbol": "ADSK"
       }
     ]
   },
   "_cache": {
     "fetched_at": {
-      "NVDA": "2026-05-17T15:21:12.853060+00:00",
-      "AMD": "2026-05-17T15:21:12.869116+00:00",
-      "MSFT": "2026-05-17T15:21:12.888712+00:00",
-      "AMZN": "2026-05-17T15:21:12.902119+00:00",
-      "PLTR": "2026-05-17T15:21:12.915666+00:00",
-      "HOOD": "2026-05-17T15:21:12.929817+00:00",
-      "TSLA": "2026-05-17T15:21:12.946482+00:00",
-      "AAPL": "2026-05-17T15:21:12.961070+00:00",
-      "SEI": "2026-05-17T15:21:12.979512+00:00",
-      "PUMP": "2026-05-17T15:21:12.996008+00:00",
-      "WMT": "2026-05-17T15:21:13.009613+00:00",
-      "AMAT": "2026-05-17T15:21:13.028493+00:00",
-      "SPIR": "2026-05-17T15:21:13.042117+00:00",
-      "SATS": "2026-05-17T15:21:13.055966+00:00",
-      "CSX": "2026-05-17T15:21:13.073919+00:00",
-      "FANG": "2026-05-17T15:21:13.092378+00:00",
-      "PL": "2026-05-17T15:21:13.106465+00:00",
-      "MRCY": "2026-05-17T15:21:13.120641+00:00",
-      "LLY": "2026-05-17T15:21:13.136215+00:00",
-      "COST": "2026-05-17T15:21:13.153670+00:00",
-      "KO": "2026-05-17T15:21:13.169339+00:00",
-      "LITE": "2026-05-17T15:21:13.195467+00:00",
-      "ASTS": "2026-05-17T15:21:13.241265+00:00",
-      "NBIS": "2026-05-17T15:21:13.259316+00:00",
-      "CORZ": "2026-05-17T15:21:13.280102+00:00",
-      "COHR": "2026-05-17T15:21:13.297939+00:00",
-      "BW": "2026-05-17T15:21:13.312745+00:00",
-      "GOOG": "2026-05-17T15:21:13.332469+00:00",
-      "ASML": "2026-05-17T15:21:13.347003+00:00",
-      "LRCX": "2026-05-17T15:21:13.365036+00:00",
-      "ADI": "2026-05-17T15:21:13.436188+00:00",
-      "LIN": "2026-05-17T15:21:13.450578+00:00",
-      "MRVL": "2026-05-17T15:21:13.465959+00:00",
-      "SBUX": "2026-05-17T15:21:13.488704+00:00",
-      "MPWR": "2026-05-17T15:21:13.531241+00:00"
+      "AAOI": "2026-05-17T15:33:09.607512+00:00",
+      "AAPL": "2026-05-17T15:33:09.887903+00:00",
+      "ABBV": "2026-05-17T15:33:10.164976+00:00",
+      "ABCL": "2026-05-17T15:33:10.441397+00:00",
+      "ABNB": "2026-05-17T15:33:10.717504+00:00",
+      "ACHR": "2026-05-17T15:33:10.997967+00:00",
+      "ADBE": "2026-05-17T15:33:11.277482+00:00",
+      "ADI": "2026-05-17T15:33:11.563693+00:00",
+      "ADP": "2026-05-17T15:33:11.839958+00:00",
+      "ADSK": "2026-05-17T15:33:12.122061+00:00"
     }
   },
   "_meta": {
-    "version": "8.2.10",
-    "ttl_hours": 168.0,
-    "max_calls_per_run": 35,
-    "policy": "unique US tickers only; skip .BK/non-US; preserve cached data",
+    "version": "8.2.11",
     "finnhub_status": "loaded",
-    "checked_count": 248,
+    "ttl_hours": 168.0,
+    "global_budget_per_run": 30,
+    "endpoint_budget_per_run": 10,
+    "calls_used": 10,
     "refreshed": [
-      "NVDA",
-      "AMD",
-      "MSFT",
-      "AMZN",
-      "PLTR",
-      "HOOD",
-      "TSLA",
+      "AAOI",
       "AAPL",
-      "SEI",
-      "PUMP",
-      "WMT",
-      "AMAT",
-      "SPIR",
-      "SATS",
-      "CSX",
-      "FANG",
-      "PL",
-      "MRCY",
-      "LLY",
-      "COST",
-      "KO",
-      "LITE",
-      "ASTS",
-      "NBIS",
-      "CORZ",
-      "COHR",
-      "BW",
-      "GOOG",
-      "ASML",
-      "LRCX",
+      "ABBV",
+      "ABCL",
+      "ABNB",
+      "ACHR",
+      "ADBE",
       "ADI",
-      "LIN",
-      "MRVL",
-      "SBUX",
-      "MPWR"
+      "ADP",
+      "ADSK"
     ],
     "skipped_fresh_count": 0,
-    "skipped_fresh_sample": [],
+    "skipped_budget_count": 293,
     "failed": [],
-    "calls_used": 35,
-    "calls_left": 0,
-    "tracked_count": 35
+    "policy": "One global Finnhub budget shared by financials, EPS surprise, and recommendation trends; unique US tickers only; skip .BK/non-US."
   }
 }
