@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-17T13:33:27+07:00",
+  "updated_at": "2026-05-17T13:40:44+07:00",
   "market": "US",
   "total_monitored": 10,
   "items": [
@@ -18,7 +18,7 @@
       "trim_zone": 245.0,
       "buy_zone_distance_pct": 9.912195121951216,
       "trim_zone_distance_pct": -8.032653061224494,
-      "earnings_source": "manual_fallback",
+      "earnings_source": "finnhub",
       "actions": {
         "tradingview": "https://www.tradingview.com/symbols/NASDAQ-NVDA/",
         "yahoo": "https://finance.yahoo.com/quote/NVDA",
@@ -124,17 +124,17 @@
     "scanner_synced": true,
     "technical_rows": 376,
     "manual_earnings_rows": 1,
-    "finnhub_rows": 0
+    "finnhub_rows": 1
   },
   "earnings_diagnostics": {
     "checked": 10,
-    "finnhub_enabled": false,
-    "finnhub_status": "missing_api_key",
-    "loaded_from_finnhub": [],
-    "loaded_from_yahoo": [],
-    "loaded_from_manual": [
+    "finnhub_enabled": true,
+    "finnhub_status": "loaded",
+    "loaded_from_finnhub": [
       "NVDA"
     ],
+    "loaded_from_yahoo": [],
+    "loaded_from_manual": [],
     "missing": [
       "AAPL",
       "AMD",
@@ -146,6 +146,11 @@
       "SEI",
       "TSLA"
     ],
-    "api_failed": []
+    "api_failed": [],
+    "finnhub_window": {
+      "from": "2026-05-17",
+      "to": "2026-05-31"
+    },
+    "finnhub_rows_matched": 1
   }
 }
