@@ -1,2 +1,2 @@
-# No third-party packages required. Python 3.9+ only.
 certifi>=2024.0.0
+finnhub-python>=2.4.20
