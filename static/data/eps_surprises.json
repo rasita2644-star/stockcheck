@@ -1,11 +1,1916 @@
 {
-  "generated_at": null,
+  "generated_at": "2026-05-17T15:03:56+07:00",
   "source": "Finnhub company_earnings",
-  "api_key_present": false,
-  "tickers_checked": 0,
-  "count": 0,
-  "earnings": {},
+  "api_key_present": true,
+  "tickers_checked": 80,
+  "earnings": {
+    "NVDA": [
+      {
+        "symbol": "NVDA",
+        "period": "2026-03-31",
+        "quarter": 4,
+        "year": 2026,
+        "actual": 1.62,
+        "estimate": 1.5634,
+        "surprise": 0.0566,
+        "surprisePercent": 3.6203
+      },
+      {
+        "symbol": "NVDA",
+        "period": "2025-12-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 1.3,
+        "estimate": 1.2746,
+        "surprise": 0.0254,
+        "surprisePercent": 1.9928
+      },
+      {
+        "symbol": "NVDA",
+        "period": "2025-09-30",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 1.05,
+        "estimate": 1.0281,
+        "surprise": 0.0219,
+        "surprisePercent": 2.1301
+      },
+      {
+        "symbol": "NVDA",
+        "period": "2025-06-30",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.96,
+        "estimate": 0.9521,
+        "surprise": 0.0079,
+        "surprisePercent": 0.8297
+      }
+    ],
+    "AMD": [
+      {
+        "symbol": "AMD",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 1.37,
+        "estimate": 1.3074,
+        "surprise": 0.0626,
+        "surprisePercent": 4.7881
+      },
+      {
+        "symbol": "AMD",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.53,
+        "estimate": 1.3324,
+        "surprise": 0.1976,
+        "surprisePercent": 14.8304
+      },
+      {
+        "symbol": "AMD",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 1.2,
+        "estimate": 1.175,
+        "surprise": 0.025,
+        "surprisePercent": 2.1277
+      },
+      {
+        "symbol": "AMD",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 0.48,
+        "estimate": 0.4961,
+        "surprise": -0.0161,
+        "surprisePercent": -3.2453
+      }
+    ],
+    "MSFT": [
+      {
+        "symbol": "MSFT",
+        "period": "2026-03-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 4.27,
+        "estimate": 4.1432,
+        "surprise": 0.1268,
+        "surprisePercent": 3.0604
+      },
+      {
+        "symbol": "MSFT",
+        "period": "2025-12-31",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 4.14,
+        "estimate": 4.0345,
+        "surprise": 0.1055,
+        "surprisePercent": 2.6149
+      },
+      {
+        "symbol": "MSFT",
+        "period": "2025-09-30",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 4.13,
+        "estimate": 3.7391,
+        "surprise": 0.3909,
+        "surprisePercent": 10.4544
+      },
+      {
+        "symbol": "MSFT",
+        "period": "2025-06-30",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 3.65,
+        "estimate": 3.4368,
+        "surprise": 0.2132,
+        "surprisePercent": 6.2034
+      }
+    ],
+    "AMZN": [
+      {
+        "symbol": "AMZN",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 1.61,
+        "estimate": 1.6703,
+        "surprise": -0.0603,
+        "surprisePercent": -3.6101
+      },
+      {
+        "symbol": "AMZN",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.95,
+        "estimate": 2.011,
+        "surprise": -0.061,
+        "surprisePercent": -3.0333
+      },
+      {
+        "symbol": "AMZN",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 1.95,
+        "estimate": 1.605,
+        "surprise": 0.345,
+        "surprisePercent": 21.4953
+      },
+      {
+        "symbol": "AMZN",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 1.68,
+        "estimate": 1.3545,
+        "surprise": 0.3255,
+        "surprisePercent": 24.031
+      }
+    ],
+    "PLTR": [
+      {
+        "symbol": "PLTR",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.33,
+        "estimate": 0.2849,
+        "surprise": 0.0451,
+        "surprisePercent": 15.8301
+      },
+      {
+        "symbol": "PLTR",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.25,
+        "estimate": 0.2348,
+        "surprise": 0.0152,
+        "surprisePercent": 6.4736
+      },
+      {
+        "symbol": "PLTR",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.21,
+        "estimate": 0.1718,
+        "surprise": 0.0382,
+        "surprisePercent": 22.2352
+      },
+      {
+        "symbol": "PLTR",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 0.16,
+        "estimate": 0.1405,
+        "surprise": 0.0195,
+        "surprisePercent": 13.879
+      }
+    ],
+    "HOOD": [
+      {
+        "symbol": "HOOD",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.38,
+        "estimate": 0.4343,
+        "surprise": -0.0543,
+        "surprisePercent": -12.5029
+      },
+      {
+        "symbol": "HOOD",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.66,
+        "estimate": 0.6398,
+        "surprise": 0.0202,
+        "surprisePercent": 3.1572
+      },
+      {
+        "symbol": "HOOD",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.61,
+        "estimate": 0.5446,
+        "surprise": 0.0654,
+        "surprisePercent": 12.0088
+      },
+      {
+        "symbol": "HOOD",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 0.42,
+        "estimate": 0.3187,
+        "surprise": 0.1013,
+        "surprisePercent": 31.7854
+      }
+    ],
+    "TSLA": [
+      {
+        "symbol": "TSLA",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.41,
+        "estimate": 0.3773,
+        "surprise": 0.0327,
+        "surprisePercent": 8.6668
+      },
+      {
+        "symbol": "TSLA",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.5,
+        "estimate": 0.4541,
+        "surprise": 0.0459,
+        "surprisePercent": 10.1079
+      },
+      {
+        "symbol": "TSLA",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.5,
+        "estimate": 0.5586,
+        "surprise": -0.0586,
+        "surprisePercent": -10.4905
+      },
+      {
+        "symbol": "TSLA",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 0.4,
+        "estimate": 0.4373,
+        "surprise": -0.0373,
+        "surprisePercent": -8.5296
+      }
+    ],
+    "AAPL": [
+      {
+        "symbol": "AAPL",
+        "period": "2026-03-31",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 2.01,
+        "estimate": 1.9884,
+        "surprise": 0.0216,
+        "surprisePercent": 1.0863
+      },
+      {
+        "symbol": "AAPL",
+        "period": "2025-12-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 2.84,
+        "estimate": 2.7257,
+        "surprise": 0.1143,
+        "surprisePercent": 4.1934
+      },
+      {
+        "symbol": "AAPL",
+        "period": "2025-09-30",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.85,
+        "estimate": 1.8075,
+        "surprise": 0.0425,
+        "surprisePercent": 2.3513
+      },
+      {
+        "symbol": "AAPL",
+        "period": "2025-06-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 1.57,
+        "estimate": 1.4626,
+        "surprise": 0.1074,
+        "surprisePercent": 7.3431
+      }
+    ],
+    "SEI": [
+      {
+        "symbol": "SEI",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.44,
+        "estimate": 0.2651,
+        "surprise": 0.1749,
+        "surprisePercent": 65.9751
+      },
+      {
+        "symbol": "SEI",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.35,
+        "estimate": 0.2707,
+        "surprise": 0.0793,
+        "surprisePercent": 29.2944
+      },
+      {
+        "symbol": "SEI",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.34,
+        "estimate": 0.2463,
+        "surprise": 0.0937,
+        "surprisePercent": 38.043
+      },
+      {
+        "symbol": "SEI",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 0.34,
+        "estimate": 0.1805,
+        "surprise": 0.1595,
+        "surprisePercent": 88.3657
+      }
+    ],
+    "PUMP": [
+      {
+        "symbol": "PUMP",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.03,
+        "estimate": -0.1032,
+        "surprise": 0.0732,
+        "surprisePercent": 70.9302
+      },
+      {
+        "symbol": "PUMP",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.01,
+        "estimate": -0.1242,
+        "surprise": 0.1342,
+        "surprisePercent": 108.0515
+      },
+      {
+        "symbol": "PUMP",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": -0.02,
+        "estimate": -0.1242,
+        "surprise": 0.1042,
+        "surprisePercent": 83.8969
+      },
+      {
+        "symbol": "PUMP",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -0.07,
+        "estimate": 0.0606,
+        "surprise": -0.1306,
+        "surprisePercent": -215.5116
+      }
+    ],
+    "WMT": [
+      {
+        "symbol": "WMT",
+        "period": "2026-03-31",
+        "quarter": 4,
+        "year": 2026,
+        "actual": 0.74,
+        "estimate": 0.7334,
+        "surprise": 0.0066,
+        "surprisePercent": 0.8999
+      },
+      {
+        "symbol": "WMT",
+        "period": "2025-12-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 0.62,
+        "estimate": 0.6068,
+        "surprise": 0.0132,
+        "surprisePercent": 2.1753
+      },
+      {
+        "symbol": "WMT",
+        "period": "2025-09-30",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 0.68,
+        "estimate": 0.7486,
+        "surprise": -0.0686,
+        "surprisePercent": -9.1638
+      },
+      {
+        "symbol": "WMT",
+        "period": "2025-06-30",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.61,
+        "estimate": 0.5816,
+        "surprise": 0.0284,
+        "surprisePercent": 4.8831
+      }
+    ],
+    "AMAT": [
+      {
+        "symbol": "AMAT",
+        "period": "2026-06-30",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 2.86,
+        "estimate": 2.7176,
+        "surprise": 0.1424,
+        "surprisePercent": 5.2399
+      },
+      {
+        "symbol": "AMAT",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 2.38,
+        "estimate": 2.2482,
+        "surprise": 0.1318,
+        "surprisePercent": 5.8625
+      },
+      {
+        "symbol": "AMAT",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 2.17,
+        "estimate": 2.1352,
+        "surprise": 0.0348,
+        "surprisePercent": 1.6298
+      },
+      {
+        "symbol": "AMAT",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 2.48,
+        "estimate": 2.4069,
+        "surprise": 0.0731,
+        "surprisePercent": 3.0371
+      }
+    ],
+    "SIDU": [
+      {
+        "symbol": "SIDU",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.08,
+        "estimate": null,
+        "surprise": null,
+        "surprisePercent": null
+      },
+      {
+        "symbol": "SIDU",
+        "period": "2023-09-30",
+        "quarter": 3,
+        "year": 2023,
+        "actual": -0.05,
+        "estimate": -0.0408,
+        "surprise": -0.0092,
+        "surprisePercent": -22.549
+      },
+      {
+        "symbol": "SIDU",
+        "period": "2023-06-30",
+        "quarter": 2,
+        "year": 2023,
+        "actual": -7.0,
+        "estimate": -6.12,
+        "surprise": -0.88,
+        "surprisePercent": -14.3791
+      },
+      {
+        "symbol": "SIDU",
+        "period": "2023-03-31",
+        "quarter": 1,
+        "year": 2023,
+        "actual": -12.0,
+        "estimate": -8.16,
+        "surprise": -3.84,
+        "surprisePercent": -47.0588
+      }
+    ],
+    "SPIR": [
+      {
+        "symbol": "SPIR",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.78,
+        "estimate": -0.6446,
+        "surprise": -0.1354,
+        "surprisePercent": -21.0053
+      },
+      {
+        "symbol": "SPIR",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": -0.76,
+        "estimate": -0.6392,
+        "surprise": -0.1208,
+        "surprisePercent": -18.8986
+      },
+      {
+        "symbol": "SPIR",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": -0.4,
+        "estimate": -0.3162,
+        "surprise": -0.0838,
+        "surprisePercent": -26.5022
+      },
+      {
+        "symbol": "SPIR",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -0.48,
+        "estimate": -0.459,
+        "surprise": -0.021,
+        "surprisePercent": -4.5752
+      }
+    ],
+    "LUNR": [
+      {
+        "symbol": "LUNR",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.25,
+        "estimate": -0.0743,
+        "surprise": -0.1757,
+        "surprisePercent": -236.4738
+      },
+      {
+        "symbol": "LUNR",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": -0.23,
+        "estimate": -0.0731,
+        "surprise": -0.1569,
+        "surprisePercent": -214.6375
+      },
+      {
+        "symbol": "LUNR",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": -0.06,
+        "estimate": -0.0495,
+        "surprise": -0.0105,
+        "surprisePercent": -21.2121
+      },
+      {
+        "symbol": "LUNR",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -0.22,
+        "estimate": -0.0012,
+        "surprise": -0.2188,
+        "surprisePercent": -18233.3333
+      }
+    ],
+    "SATS": [
+      {
+        "symbol": "SATS",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.28,
+        "estimate": -0.8364,
+        "surprise": 0.5564,
+        "surprisePercent": 66.5232
+      },
+      {
+        "symbol": "SATS",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": -4.2,
+        "estimate": -0.7456,
+        "surprise": -3.4544,
+        "surprisePercent": -463.3047
+      },
+      {
+        "symbol": "SATS",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 12.85,
+        "estimate": -1.2325,
+        "surprise": 14.0825,
+        "surprisePercent": 1142.5963
+      },
+      {
+        "symbol": "SATS",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -1.06,
+        "estimate": -1.0222,
+        "surprise": -0.0378,
+        "surprisePercent": -3.6979
+      }
+    ],
+    "SATL": [
+      {
+        "symbol": "SATL",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.84,
+        "estimate": -0.0428,
+        "surprise": -0.7972,
+        "surprisePercent": -1862.6168
+      },
+      {
+        "symbol": "SATL",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": -0.17,
+        "estimate": -0.051,
+        "surprise": -0.119,
+        "surprisePercent": -233.3333
+      }
+    ],
+    "CSX": [
+      {
+        "symbol": "CSX",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.43,
+        "estimate": 0.3936,
+        "surprise": 0.0364,
+        "surprisePercent": 9.248
+      },
+      {
+        "symbol": "CSX",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.39,
+        "estimate": 0.4152,
+        "surprise": -0.0252,
+        "surprisePercent": -6.0694
+      },
+      {
+        "symbol": "CSX",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.44,
+        "estimate": 0.4296,
+        "surprise": 0.0104,
+        "surprisePercent": 2.4209
+      },
+      {
+        "symbol": "CSX",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 0.44,
+        "estimate": 0.422,
+        "surprise": 0.018,
+        "surprisePercent": 4.2654
+      }
+    ],
+    "FANG": [
+      {
+        "symbol": "FANG",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 4.23,
+        "estimate": 3.3704,
+        "surprise": 0.8596,
+        "surprisePercent": 25.5044
+      },
+      {
+        "symbol": "FANG",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.74,
+        "estimate": 2.1218,
+        "surprise": -0.3818,
+        "surprisePercent": -17.9942
+      },
+      {
+        "symbol": "FANG",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 3.08,
+        "estimate": 2.9846,
+        "surprise": 0.0954,
+        "surprisePercent": 3.1964
+      },
+      {
+        "symbol": "FANG",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 2.67,
+        "estimate": 2.8715,
+        "surprise": -0.2015,
+        "surprisePercent": -7.0172
+      }
+    ],
+    "PL": [
+      {
+        "symbol": "PL",
+        "period": "2026-03-31",
+        "quarter": 0,
+        "year": 2026,
+        "actual": 0.0,
+        "estimate": -0.0486,
+        "surprise": 0.0486,
+        "surprisePercent": 100.0
+      },
+      {
+        "symbol": "PL",
+        "period": "2026-03-31",
+        "quarter": 4,
+        "year": 2026,
+        "actual": 0.0,
+        "estimate": -0.0486,
+        "surprise": 0.0486,
+        "surprisePercent": 100.0
+      },
+      {
+        "symbol": "PL",
+        "period": "2025-12-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 0.0,
+        "estimate": -0.0357,
+        "surprise": 0.0357,
+        "surprisePercent": 100.0
+      },
+      {
+        "symbol": "PL",
+        "period": "2025-12-31",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.0,
+        "estimate": -0.0357,
+        "surprise": 0.0357,
+        "surprisePercent": 100.0
+      }
+    ],
+    "UFO": [],
+    "MRCY": [
+      {
+        "symbol": "MRCY",
+        "period": "2026-03-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 0.27,
+        "estimate": 0.0703,
+        "surprise": 0.1997,
+        "surprisePercent": 284.0683
+      },
+      {
+        "symbol": "MRCY",
+        "period": "2025-12-31",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 0.16,
+        "estimate": 0.0657,
+        "surprise": 0.0943,
+        "surprisePercent": 143.5312
+      },
+      {
+        "symbol": "MRCY",
+        "period": "2025-09-30",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.26,
+        "estimate": 0.0889,
+        "surprise": 0.1711,
+        "surprisePercent": 192.4634
+      },
+      {
+        "symbol": "MRCY",
+        "period": "2025-06-30",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.47,
+        "estimate": 0.2295,
+        "surprise": 0.2405,
+        "surprisePercent": 104.793
+      }
+    ],
+    "COST": [
+      {
+        "symbol": "COST",
+        "period": "2026-03-31",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 4.58,
+        "estimate": 4.6516,
+        "surprise": -0.0716,
+        "surprisePercent": -1.5393
+      },
+      {
+        "symbol": "COST",
+        "period": "2025-12-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 4.5,
+        "estimate": 4.3571,
+        "surprise": 0.1429,
+        "surprisePercent": 3.2797
+      },
+      {
+        "symbol": "COST",
+        "period": "2025-09-30",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 5.87,
+        "estimate": 5.9183,
+        "surprise": -0.0483,
+        "surprisePercent": -0.8161
+      },
+      {
+        "symbol": "COST",
+        "period": "2025-06-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 4.28,
+        "estimate": 4.3223,
+        "surprise": -0.0423,
+        "surprisePercent": -0.9786
+      }
+    ],
+    "KO": [
+      {
+        "symbol": "KO",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.86,
+        "estimate": 0.8358,
+        "surprise": 0.0242,
+        "surprisePercent": 2.8954
+      },
+      {
+        "symbol": "KO",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.58,
+        "estimate": 0.5803,
+        "surprise": -0.0003,
+        "surprisePercent": -0.0517
+      },
+      {
+        "symbol": "KO",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.82,
+        "estimate": 0.8011,
+        "surprise": 0.0189,
+        "surprisePercent": 2.3593
+      },
+      {
+        "symbol": "KO",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 0.87,
+        "estimate": 0.8574,
+        "surprise": 0.0126,
+        "surprisePercent": 1.4696
+      }
+    ],
+    "LITE": [
+      {
+        "symbol": "LITE",
+        "period": "2026-03-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 2.37,
+        "estimate": 2.3335,
+        "surprise": 0.0365,
+        "surprisePercent": 1.5642
+      },
+      {
+        "symbol": "LITE",
+        "period": "2025-12-31",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 1.67,
+        "estimate": 1.4224,
+        "surprise": 0.2476,
+        "surprisePercent": 17.4072
+      },
+      {
+        "symbol": "LITE",
+        "period": "2025-09-30",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 1.1,
+        "estimate": 1.0486,
+        "surprise": 0.0514,
+        "surprisePercent": 4.9018
+      },
+      {
+        "symbol": "LITE",
+        "period": "2025-06-30",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.88,
+        "estimate": 0.8169,
+        "surprise": 0.0631,
+        "surprisePercent": 7.7243
+      }
+    ],
+    "NBIS": [
+      {
+        "symbol": "NBIS",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.32,
+        "estimate": -0.7831,
+        "surprise": 0.4631,
+        "surprisePercent": 59.1368
+      },
+      {
+        "symbol": "NBIS",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": -0.7,
+        "estimate": -1.1648,
+        "surprise": 0.4648,
+        "surprisePercent": 39.9038
+      },
+      {
+        "symbol": "NBIS",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": -0.4,
+        "estimate": -0.5406,
+        "surprise": 0.1406,
+        "surprisePercent": 26.0081
+      },
+      {
+        "symbol": "NBIS",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -0.38,
+        "estimate": -0.476,
+        "surprise": 0.096,
+        "surprisePercent": 20.1681
+      }
+    ],
+    "ASTS": [
+      {
+        "symbol": "ASTS",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.66,
+        "estimate": -0.2288,
+        "surprise": -0.4312,
+        "surprisePercent": -188.4615
+      },
+      {
+        "symbol": "ASTS",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": -0.26,
+        "estimate": -0.1632,
+        "surprise": -0.0968,
+        "surprisePercent": -59.3137
+      },
+      {
+        "symbol": "ASTS",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": -0.45,
+        "estimate": -0.2273,
+        "surprise": -0.2227,
+        "surprisePercent": -97.9762
+      },
+      {
+        "symbol": "ASTS",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -0.41,
+        "estimate": -0.2122,
+        "surprise": -0.1978,
+        "surprisePercent": -93.2139
+      }
+    ],
+    "CORZ": [
+      {
+        "symbol": "CORZ",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -1.06,
+        "estimate": -0.0716,
+        "surprise": -0.9884,
+        "surprisePercent": -1380.4469
+      },
+      {
+        "symbol": "CORZ",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.42,
+        "estimate": -0.0861,
+        "surprise": 0.5061,
+        "surprisePercent": 587.8049
+      },
+      {
+        "symbol": "CORZ",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": -0.46,
+        "estimate": -0.0596,
+        "surprise": -0.4004,
+        "surprisePercent": -671.8121
+      },
+      {
+        "symbol": "CORZ",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -0.04,
+        "estimate": -0.0782,
+        "surprise": 0.0382,
+        "surprisePercent": 48.8491
+      }
+    ],
+    "COHR": [
+      {
+        "symbol": "COHR",
+        "period": "2026-03-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 1.41,
+        "estimate": 1.4251,
+        "surprise": -0.0151,
+        "surprisePercent": -1.0596
+      },
+      {
+        "symbol": "COHR",
+        "period": "2025-12-31",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 1.29,
+        "estimate": 1.2318,
+        "surprise": 0.0582,
+        "surprisePercent": 4.7248
+      },
+      {
+        "symbol": "COHR",
+        "period": "2025-09-30",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 1.16,
+        "estimate": 1.0623,
+        "surprise": 0.0977,
+        "surprisePercent": 9.197
+      },
+      {
+        "symbol": "COHR",
+        "period": "2025-06-30",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.0,
+        "estimate": 0.9322,
+        "surprise": 0.0678,
+        "surprisePercent": 7.2731
+      }
+    ],
+    "BW": [
+      {
+        "symbol": "BW",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.08,
+        "estimate": -0.0343,
+        "surprise": -0.0457,
+        "surprisePercent": -133.2362
+      },
+      {
+        "symbol": "BW",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.05,
+        "estimate": -0.069,
+        "surprise": 0.119,
+        "surprisePercent": 172.4638
+      },
+      {
+        "symbol": "BW",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.31,
+        "estimate": -0.0893,
+        "surprise": 0.3993,
+        "surprisePercent": 447.1445
+      },
+      {
+        "symbol": "BW",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -0.63,
+        "estimate": -0.0927,
+        "surprise": -0.5373,
+        "surprisePercent": -579.6117
+      }
+    ],
+    "BITF": [
+      {
+        "symbol": "BITF.TO",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": -0.25,
+        "estimate": -0.0357,
+        "surprise": -0.2143,
+        "surprisePercent": -600.2801
+      },
+      {
+        "symbol": "BITF.TO",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": -0.13,
+        "estimate": -0.0102,
+        "surprise": -0.1198,
+        "surprisePercent": -1174.5098
+      },
+      {
+        "symbol": "BITF.TO",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -0.02,
+        "estimate": -0.0357,
+        "surprise": 0.0157,
+        "surprisePercent": 43.9776
+      },
+      {
+        "symbol": "BITF.TO",
+        "period": "2025-03-31",
+        "quarter": 1,
+        "year": 2025,
+        "actual": -0.03,
+        "estimate": -0.0204,
+        "surprise": -0.0096,
+        "surprisePercent": -47.0588
+      }
+    ],
+    "GOOG": [
+      {
+        "symbol": "GOOGL",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 2.62,
+        "estimate": 2.7051,
+        "surprise": -0.0851,
+        "surprisePercent": -3.1459
+      },
+      {
+        "symbol": "GOOGL",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 2.82,
+        "estimate": 2.7063,
+        "surprise": 0.1137,
+        "surprisePercent": 4.2013
+      },
+      {
+        "symbol": "GOOGL",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 3.1,
+        "estimate": 2.3954,
+        "surprise": 0.7046,
+        "surprisePercent": 29.4147
+      },
+      {
+        "symbol": "GOOGL",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 2.31,
+        "estimate": 2.25,
+        "surprise": 0.06,
+        "surprisePercent": 2.6667
+      }
+    ],
+    "ASML": [
+      {
+        "symbol": "ASML.AS",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 7.15,
+        "estimate": 6.6744,
+        "surprise": 0.4756,
+        "surprisePercent": 7.1257
+      },
+      {
+        "symbol": "ASML.AS",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 7.34,
+        "estimate": 7.7108,
+        "surprise": -0.3708,
+        "surprisePercent": -4.8088
+      },
+      {
+        "symbol": "ASML.AS",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 5.48,
+        "estimate": 5.56,
+        "surprise": -0.08,
+        "surprisePercent": -1.4388
+      },
+      {
+        "symbol": "ASML.AS",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 5.9,
+        "estimate": 5.3042,
+        "surprise": 0.5958,
+        "surprisePercent": 11.2326
+      }
+    ],
+    "LRCX": [
+      {
+        "symbol": "LRCX",
+        "period": "2026-03-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 1.46,
+        "estimate": 1.3914,
+        "surprise": 0.0686,
+        "surprisePercent": 4.9303
+      },
+      {
+        "symbol": "LRCX",
+        "period": "2025-12-31",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 1.27,
+        "estimate": 1.1935,
+        "surprise": 0.0765,
+        "surprisePercent": 6.4097
+      },
+      {
+        "symbol": "LRCX",
+        "period": "2025-09-30",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 1.26,
+        "estimate": 1.2464,
+        "surprise": 0.0136,
+        "surprisePercent": 1.0911
+      },
+      {
+        "symbol": "LRCX",
+        "period": "2025-06-30",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.33,
+        "estimate": 1.2338,
+        "surprise": 0.0962,
+        "surprisePercent": 7.797
+      }
+    ],
+    "LIN": [
+      {
+        "symbol": "LIN",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 4.33,
+        "estimate": 4.3073,
+        "surprise": 0.0227,
+        "surprisePercent": 0.527
+      },
+      {
+        "symbol": "LIN",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 4.2,
+        "estimate": 4.2183,
+        "surprise": -0.0183,
+        "surprisePercent": -0.4338
+      },
+      {
+        "symbol": "LIN",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 4.21,
+        "estimate": 4.2194,
+        "surprise": -0.0094,
+        "surprisePercent": -0.2228
+      },
+      {
+        "symbol": "LIN",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 4.09,
+        "estimate": 4.0726,
+        "surprise": 0.0174,
+        "surprisePercent": 0.4272
+      }
+    ],
+    "ADI": [
+      {
+        "symbol": "ADI",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 2.46,
+        "estimate": 2.3344,
+        "surprise": 0.1256,
+        "surprisePercent": 5.3804
+      },
+      {
+        "symbol": "ADI",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 2.26,
+        "estimate": 2.2432,
+        "surprise": 0.0168,
+        "surprisePercent": 0.7489
+      },
+      {
+        "symbol": "ADI",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 2.05,
+        "estimate": 1.9727,
+        "surprise": 0.0773,
+        "surprisePercent": 3.9185
+      },
+      {
+        "symbol": "ADI",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 1.85,
+        "estimate": 1.7182,
+        "surprise": 0.1318,
+        "surprisePercent": 7.6708
+      }
+    ],
+    "MRVL": [
+      {
+        "symbol": "MRVL",
+        "period": "2026-03-31",
+        "quarter": 4,
+        "year": 2026,
+        "actual": 0.8,
+        "estimate": 0.8033,
+        "surprise": -0.0033,
+        "surprisePercent": -0.4108
+      },
+      {
+        "symbol": "MRVL",
+        "period": "2025-12-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 0.76,
+        "estimate": 0.7495,
+        "surprise": 0.0105,
+        "surprisePercent": 1.4009
+      },
+      {
+        "symbol": "MRVL",
+        "period": "2025-09-30",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 0.67,
+        "estimate": 0.6682,
+        "surprise": 0.0018,
+        "surprisePercent": 0.2694
+      },
+      {
+        "symbol": "MRVL",
+        "period": "2025-06-30",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.62,
+        "estimate": 0.6257,
+        "surprise": -0.0057,
+        "surprisePercent": -0.911
+      }
+    ],
+    "SBUX": [
+      {
+        "symbol": "SBUX",
+        "period": "2026-03-31",
+        "quarter": 2,
+        "year": 2026,
+        "actual": 0.5,
+        "estimate": 0.4379,
+        "surprise": 0.0621,
+        "surprisePercent": 14.1813
+      },
+      {
+        "symbol": "SBUX",
+        "period": "2025-12-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.56,
+        "estimate": 0.5978,
+        "surprise": -0.0378,
+        "surprisePercent": -6.3232
+      },
+      {
+        "symbol": "SBUX",
+        "period": "2025-09-30",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.52,
+        "estimate": 0.5743,
+        "surprise": -0.0543,
+        "surprisePercent": -9.455
+      },
+      {
+        "symbol": "SBUX",
+        "period": "2025-06-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.61,
+        "estimate": 0.6616,
+        "surprise": -0.0516,
+        "surprisePercent": -7.7993
+      }
+    ],
+    "MPWR": [
+      {
+        "symbol": "MPWR",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 5.1,
+        "estimate": 4.9932,
+        "surprise": 0.1068,
+        "surprisePercent": 2.1389
+      },
+      {
+        "symbol": "MPWR",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 4.79,
+        "estimate": 4.8187,
+        "surprise": -0.0287,
+        "surprisePercent": -0.5956
+      },
+      {
+        "symbol": "MPWR",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 4.73,
+        "estimate": 4.7302,
+        "surprise": -0.0002,
+        "surprisePercent": -0.0042
+      },
+      {
+        "symbol": "MPWR",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 4.21,
+        "estimate": 4.1969,
+        "surprise": 0.0131,
+        "surprisePercent": 0.3121
+      }
+    ],
+    "ARKQ": [],
+    "ILMN": [
+      {
+        "symbol": "ILMN",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 1.15,
+        "estimate": 1.0754,
+        "surprise": 0.0746,
+        "surprisePercent": 6.937
+      },
+      {
+        "symbol": "ILMN",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.35,
+        "estimate": 1.2544,
+        "surprise": 0.0956,
+        "surprisePercent": 7.6212
+      },
+      {
+        "symbol": "ILMN",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 1.34,
+        "estimate": 1.1895,
+        "surprise": 0.1505,
+        "surprisePercent": 12.6524
+      },
+      {
+        "symbol": "ILMN",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 1.19,
+        "estimate": 1.0323,
+        "surprise": 0.1577,
+        "surprisePercent": 15.2766
+      }
+    ],
+    "VRT": [
+      {
+        "symbol": "VRT",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 1.17,
+        "estimate": 1.0086,
+        "surprise": 0.1614,
+        "surprisePercent": 16.0024
+      },
+      {
+        "symbol": "VRT",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.36,
+        "estimate": 1.2943,
+        "surprise": 0.0657,
+        "surprisePercent": 5.0761
+      },
+      {
+        "symbol": "VRT",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 1.24,
+        "estimate": 0.9974,
+        "surprise": 0.2426,
+        "surprisePercent": 24.3232
+      },
+      {
+        "symbol": "VRT",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 0.95,
+        "estimate": 0.8428,
+        "surprise": 0.1072,
+        "surprisePercent": 12.7195
+      }
+    ],
+    "SOXX": [],
+    "CVX": [
+      {
+        "symbol": "CVX",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 1.41,
+        "estimate": 0.9623,
+        "surprise": 0.4477,
+        "surprisePercent": 46.524
+      },
+      {
+        "symbol": "CVX",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.52,
+        "estimate": 1.4628,
+        "surprise": 0.0572,
+        "surprisePercent": 3.9103
+      },
+      {
+        "symbol": "CVX",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 1.85,
+        "estimate": 1.6984,
+        "surprise": 0.1516,
+        "surprisePercent": 8.926
+      },
+      {
+        "symbol": "CVX",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 1.77,
+        "estimate": 1.722,
+        "surprise": 0.048,
+        "surprisePercent": 2.7875
+      }
+    ],
+    "BKSY": [
+      {
+        "symbol": "BKSY",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.82,
+        "estimate": -0.391,
+        "surprise": -0.429,
+        "surprisePercent": -109.7187
+      },
+      {
+        "symbol": "BKSY",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": -0.02,
+        "estimate": -0.2225,
+        "surprise": 0.2025,
+        "surprisePercent": 91.0112
+      },
+      {
+        "symbol": "BKSY",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": -0.32,
+        "estimate": -0.4794,
+        "surprise": 0.1594,
+        "surprisePercent": 33.2499
+      },
+      {
+        "symbol": "BKSY",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": -1.27,
+        "estimate": -0.4437,
+        "surprise": -0.8263,
+        "surprisePercent": -186.2294
+      }
+    ],
+    "VSAT": [
+      {
+        "symbol": "VSAT",
+        "period": "2025-12-31",
+        "quarter": 3,
+        "year": 2026,
+        "actual": 0.18,
+        "estimate": -0.3856,
+        "surprise": 0.5656,
+        "surprisePercent": 146.6805
+      },
+      {
+        "symbol": "VSAT",
+        "period": "2025-09-30",
+        "quarter": 2,
+        "year": 2026,
+        "actual": -0.45,
+        "estimate": -0.6283,
+        "surprise": 0.1783,
+        "surprisePercent": 28.3782
+      },
+      {
+        "symbol": "VSAT",
+        "period": "2025-06-30",
+        "quarter": 1,
+        "year": 2026,
+        "actual": -0.43,
+        "estimate": -0.6953,
+        "surprise": 0.2653,
+        "surprisePercent": 38.1562
+      },
+      {
+        "symbol": "VSAT",
+        "period": "2025-03-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": -1.89,
+        "estimate": -0.4459,
+        "surprise": -1.4441,
+        "surprisePercent": -323.8619
+      }
+    ],
+    "MNST": [
+      {
+        "symbol": "MNST",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 0.58,
+        "estimate": 0.5354,
+        "surprise": 0.0446,
+        "surprisePercent": 8.3302
+      },
+      {
+        "symbol": "MNST",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 0.51,
+        "estimate": 0.4929,
+        "surprise": 0.0171,
+        "surprisePercent": 3.4693
+      },
+      {
+        "symbol": "MNST",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 0.56,
+        "estimate": 0.4927,
+        "surprise": 0.0673,
+        "surprisePercent": 13.6594
+      },
+      {
+        "symbol": "MNST",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 0.51,
+        "estimate": 0.49,
+        "surprise": 0.02,
+        "surprisePercent": 4.0816
+      }
+    ],
+    "TWLO": [
+      {
+        "symbol": "TWLO",
+        "period": "2026-03-31",
+        "quarter": 1,
+        "year": 2026,
+        "actual": 1.5,
+        "estimate": 1.2983,
+        "surprise": 0.2017,
+        "surprisePercent": 15.5357
+      },
+      {
+        "symbol": "TWLO",
+        "period": "2025-12-31",
+        "quarter": 4,
+        "year": 2025,
+        "actual": 1.33,
+        "estimate": 1.2611,
+        "surprise": 0.0689,
+        "surprisePercent": 5.4635
+      },
+      {
+        "symbol": "TWLO",
+        "period": "2025-09-30",
+        "quarter": 3,
+        "year": 2025,
+        "actual": 1.25,
+        "estimate": 1.1057,
+        "surprise": 0.1443,
+        "surprisePercent": 13.0506
+      },
+      {
+        "symbol": "TWLO",
+        "period": "2025-06-30",
+        "quarter": 2,
+        "year": 2025,
+        "actual": 1.19,
+        "estimate": 1.0674,
+        "surprise": 0.1226,
+        "surprisePercent": 11.4859
+      }
+    ],
+    "SMH": []
+  },
   "errors": {
-    "_not_generated": "Run scripts/generate_eps_surprises.py in GitHub Actions with FINNHUB_API_KEY secret."
-  }
+    "MDA.TO": "FinnhubAPIException(status_code: 403): You don't have access to this resource.",
+    "UNH": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "RDW": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "IREN": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "CIFR": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "BE": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "APLD": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "RIOT": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "LBRT": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "INTC": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "AVGO": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "ARM": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "KLAC": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "NXPI": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "ODFL": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "MCHP": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "ARKX": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "PRNT": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "ROKU": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "GH": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "IRDM": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "TSM": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "VCYT": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "9984.T": "FinnhubAPIException(status_code: 403): You don't have access to this resource.",
+    "DELL": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "GSAT": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "TSAT": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "HWM": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "CSCO": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "DDD": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0",
+    "MU": "FinnhubAPIException(status_code: 429): API limit reached. Please try again later. Remaining Limit: 0"
+  },
+  "count": 45
 }
