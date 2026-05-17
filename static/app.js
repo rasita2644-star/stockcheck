@@ -5,7 +5,7 @@
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
-const BUILD_VERSION = "v8.0 Stability & Data Integrity";
+const BUILD_VERSION = "v8.1.1 Attention Render Fix";
 
 const ETF_TICKERS = new Set(["ARKK", "ARKQ", "ARKW", "ARKG", "ARKF", "ARKX", "PRNT", "SMH", "SOXX", "QQQI", "JEPQ", "AIQ", "COPX", "UFO"]);
 const BASE_WATCHLIST = ["PUMP", "SEI", "NVDA", "TSLA", "AMD", "AAPL", "AMZN", "PLTR", "SOUN"];
@@ -4204,7 +4204,7 @@ if (state.staticMode || isStaticDeployHost()) {
   setTimeout(() => { cleanLegacyStorage(); try { renderPortfolioTabs(); renderDataIntegrityBanner(); } catch (_) {} }, 0);
 })();
 
-/* v8.1 Today's Attention List: quiet radar / daily attention filter */
+/* v8.1.1 Today's Attention List render fix: keep page inside app shell */
 (function initAttentionList(){
   const ATTENTION_URL = "data/attention_today.json";
   const PORTFOLIO_URL = "data/portfolio.json";
@@ -4253,7 +4253,9 @@ if (state.staticMode || isStaticDeployHost()) {
         <section class="panel-card attention-table-card" id="attentionTableCard"></section>
         <section class="attention-card-list" id="attentionCardList"></section>
       </div>`;
-    shell.insertAdjacentElement("afterend", page);
+    const topbar = shell.querySelector(".topbar");
+    if (topbar) topbar.insertAdjacentElement("afterend", page);
+    else shell.prepend(page);
   }
 
   function isStale(updatedAt){
