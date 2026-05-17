@@ -1,0 +1,11 @@
+{
+  "generated_at": null,
+  "source": "Finnhub company_earnings",
+  "api_key_present": false,
+  "tickers_checked": 0,
+  "count": 0,
+  "earnings": {},
+  "errors": {
+    "_not_generated": "Run scripts/generate_eps_surprises.py in GitHub Actions with FINNHUB_API_KEY secret."
+  }
+}
