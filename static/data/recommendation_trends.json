@@ -1,0 +1,430 @@
+{
+  "generated_at": "2026-05-17T14:06:43+07:00",
+  "source": "Finnhub recommendation_trends",
+  "api_key_present": true,
+  "count": 10,
+  "tickers_checked": 10,
+  "trends": {
+    "AAPL": [
+      {
+        "period": "2026-02",
+        "symbol": "AAPL",
+        "strongBuy": 14,
+        "buy": 21,
+        "hold": 17,
+        "sell": 2,
+        "strongSell": 0,
+        "total": 54
+      },
+      {
+        "period": "2026-03",
+        "symbol": "AAPL",
+        "strongBuy": 14,
+        "buy": 22,
+        "hold": 16,
+        "sell": 2,
+        "strongSell": 0,
+        "total": 54
+      },
+      {
+        "period": "2026-04",
+        "symbol": "AAPL",
+        "strongBuy": 14,
+        "buy": 23,
+        "hold": 15,
+        "sell": 2,
+        "strongSell": 0,
+        "total": 54
+      },
+      {
+        "period": "2026-05",
+        "symbol": "AAPL",
+        "strongBuy": 15,
+        "buy": 24,
+        "hold": 13,
+        "sell": 2,
+        "strongSell": 0,
+        "total": 54
+      }
+    ],
+    "AMD": [
+      {
+        "period": "2026-02",
+        "symbol": "AMD",
+        "strongBuy": 15,
+        "buy": 31,
+        "hold": 13,
+        "sell": 0,
+        "strongSell": 1,
+        "total": 60
+      },
+      {
+        "period": "2026-03",
+        "symbol": "AMD",
+        "strongBuy": 15,
+        "buy": 32,
+        "hold": 13,
+        "sell": 0,
+        "strongSell": 1,
+        "total": 61
+      },
+      {
+        "period": "2026-04",
+        "symbol": "AMD",
+        "strongBuy": 15,
+        "buy": 30,
+        "hold": 13,
+        "sell": 0,
+        "strongSell": 1,
+        "total": 59
+      },
+      {
+        "period": "2026-05",
+        "symbol": "AMD",
+        "strongBuy": 15,
+        "buy": 30,
+        "hold": 13,
+        "sell": 0,
+        "strongSell": 1,
+        "total": 59
+      }
+    ],
+    "AMZN": [
+      {
+        "period": "2026-02",
+        "symbol": "AMZN",
+        "strongBuy": 21,
+        "buy": 50,
+        "hold": 5,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 76
+      },
+      {
+        "period": "2026-03",
+        "symbol": "AMZN",
+        "strongBuy": 21,
+        "buy": 50,
+        "hold": 5,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 76
+      },
+      {
+        "period": "2026-04",
+        "symbol": "AMZN",
+        "strongBuy": 21,
+        "buy": 50,
+        "hold": 5,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 76
+      },
+      {
+        "period": "2026-05",
+        "symbol": "AMZN",
+        "strongBuy": 22,
+        "buy": 50,
+        "hold": 6,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 78
+      }
+    ],
+    "HOOD": [
+      {
+        "period": "2026-02",
+        "symbol": "HOOD",
+        "strongBuy": 8,
+        "buy": 18,
+        "hold": 5,
+        "sell": 1,
+        "strongSell": 0,
+        "total": 32
+      },
+      {
+        "period": "2026-03",
+        "symbol": "HOOD",
+        "strongBuy": 8,
+        "buy": 19,
+        "hold": 4,
+        "sell": 1,
+        "strongSell": 0,
+        "total": 32
+      },
+      {
+        "period": "2026-04",
+        "symbol": "HOOD",
+        "strongBuy": 9,
+        "buy": 19,
+        "hold": 4,
+        "sell": 1,
+        "strongSell": 0,
+        "total": 33
+      },
+      {
+        "period": "2026-05",
+        "symbol": "HOOD",
+        "strongBuy": 9,
+        "buy": 19,
+        "hold": 5,
+        "sell": 1,
+        "strongSell": 0,
+        "total": 34
+      }
+    ],
+    "MSFT": [
+      {
+        "period": "2026-02",
+        "symbol": "MSFT",
+        "strongBuy": 25,
+        "buy": 37,
+        "hold": 4,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 66
+      },
+      {
+        "period": "2026-03",
+        "symbol": "MSFT",
+        "strongBuy": 24,
+        "buy": 36,
+        "hold": 6,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 66
+      },
+      {
+        "period": "2026-04",
+        "symbol": "MSFT",
+        "strongBuy": 23,
+        "buy": 36,
+        "hold": 6,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 65
+      },
+      {
+        "period": "2026-05",
+        "symbol": "MSFT",
+        "strongBuy": 24,
+        "buy": 36,
+        "hold": 6,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 66
+      }
+    ],
+    "NVDA": [
+      {
+        "period": "2026-02",
+        "symbol": "NVDA",
+        "strongBuy": 25,
+        "buy": 40,
+        "hold": 6,
+        "sell": 1,
+        "strongSell": 0,
+        "total": 72
+      },
+      {
+        "period": "2026-03",
+        "symbol": "NVDA",
+        "strongBuy": 25,
+        "buy": 42,
+        "hold": 5,
+        "sell": 1,
+        "strongSell": 0,
+        "total": 73
+      },
+      {
+        "period": "2026-04",
+        "symbol": "NVDA",
+        "strongBuy": 24,
+        "buy": 42,
+        "hold": 4,
+        "sell": 1,
+        "strongSell": 0,
+        "total": 71
+      },
+      {
+        "period": "2026-05",
+        "symbol": "NVDA",
+        "strongBuy": 24,
+        "buy": 42,
+        "hold": 4,
+        "sell": 1,
+        "strongSell": 0,
+        "total": 71
+      }
+    ],
+    "PLTR": [
+      {
+        "period": "2026-02",
+        "symbol": "PLTR",
+        "strongBuy": 5,
+        "buy": 8,
+        "hold": 17,
+        "sell": 2,
+        "strongSell": 1,
+        "total": 33
+      },
+      {
+        "period": "2026-03",
+        "symbol": "PLTR",
+        "strongBuy": 8,
+        "buy": 14,
+        "hold": 10,
+        "sell": 1,
+        "strongSell": 1,
+        "total": 34
+      },
+      {
+        "period": "2026-04",
+        "symbol": "PLTR",
+        "strongBuy": 9,
+        "buy": 15,
+        "hold": 10,
+        "sell": 1,
+        "strongSell": 1,
+        "total": 36
+      },
+      {
+        "period": "2026-05",
+        "symbol": "PLTR",
+        "strongBuy": 11,
+        "buy": 15,
+        "hold": 10,
+        "sell": 1,
+        "strongSell": 1,
+        "total": 38
+      }
+    ],
+    "PUMP": [
+      {
+        "period": "2026-02",
+        "symbol": "PUMP",
+        "strongBuy": 3,
+        "buy": 6,
+        "hold": 6,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 15
+      },
+      {
+        "period": "2026-03",
+        "symbol": "PUMP",
+        "strongBuy": 3,
+        "buy": 6,
+        "hold": 6,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 15
+      },
+      {
+        "period": "2026-04",
+        "symbol": "PUMP",
+        "strongBuy": 4,
+        "buy": 6,
+        "hold": 6,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 16
+      },
+      {
+        "period": "2026-05",
+        "symbol": "PUMP",
+        "strongBuy": 5,
+        "buy": 6,
+        "hold": 6,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 17
+      }
+    ],
+    "SEI": [
+      {
+        "period": "2026-02",
+        "symbol": "SEI",
+        "strongBuy": 4,
+        "buy": 10,
+        "hold": 1,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 15
+      },
+      {
+        "period": "2026-03",
+        "symbol": "SEI",
+        "strongBuy": 4,
+        "buy": 10,
+        "hold": 1,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 15
+      },
+      {
+        "period": "2026-04",
+        "symbol": "SEI",
+        "strongBuy": 4,
+        "buy": 11,
+        "hold": 2,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 17
+      },
+      {
+        "period": "2026-05",
+        "symbol": "SEI",
+        "strongBuy": 4,
+        "buy": 12,
+        "hold": 2,
+        "sell": 0,
+        "strongSell": 0,
+        "total": 18
+      }
+    ],
+    "TSLA": [
+      {
+        "period": "2026-02",
+        "symbol": "TSLA",
+        "strongBuy": 8,
+        "buy": 19,
+        "hold": 21,
+        "sell": 8,
+        "strongSell": 2,
+        "total": 58
+      },
+      {
+        "period": "2026-03",
+        "symbol": "TSLA",
+        "strongBuy": 8,
+        "buy": 20,
+        "hold": 21,
+        "sell": 8,
+        "strongSell": 2,
+        "total": 59
+      },
+      {
+        "period": "2026-04",
+        "symbol": "TSLA",
+        "strongBuy": 9,
+        "buy": 20,
+        "hold": 21,
+        "sell": 8,
+        "strongSell": 2,
+        "total": 60
+      },
+      {
+        "period": "2026-05",
+        "symbol": "TSLA",
+        "strongBuy": 9,
+        "buy": 20,
+        "hold": 24,
+        "sell": 7,
+        "strongSell": 1,
+        "total": 61
+      }
+    ]
+  },
+  "errors": {}
+}
