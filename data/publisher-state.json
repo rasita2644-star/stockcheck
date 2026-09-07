@@ -26,12 +26,12 @@
       "publisher_run_id": "34085935655"
     },
     "Update static fundamental data": {
-      "last_run_id": 34059172482,
+      "last_run_id": 34085949203,
       "last_run_attempt": 1,
-      "last_produced_at": "2026-09-06T20:51:41+00:00",
-      "last_patch_sha256": "485a4a4e0e099c0b39ef81400dcd5da8cb6fade1b59d3b71ec7e50ce9cc703ab",
-      "last_published_source_sha": "376fd0528b5b5d181469ebbbf7ea2ccee364a0b8",
-      "publisher_run_id": "34059291517"
+      "last_produced_at": "2026-09-07T05:16:24+00:00",
+      "last_patch_sha256": "11e1c5804136cd63bd7263e547bf540f8503b44dce53476b0babbd1561b9d68f",
+      "last_published_source_sha": "ee89370052df105581332e648ff55e74a432e79c",
+      "publisher_run_id": "34086175081"
     },
     "Refresh Live Data v10 PR3": {
       "last_run_id": 33929084259,
