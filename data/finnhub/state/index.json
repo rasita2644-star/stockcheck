@@ -1289,67 +1289,6 @@
         "missing_key": false,
         "refreshed": {
           "basic_financials": [
-            "EVTL",
-            "EXC",
-            "FANG",
-            "FAST",
-            "FATE",
-            "FER",
-            "FICO",
-            "FPS"
-          ],
-          "company_profile": [
-            "PDD",
-            "PEP",
-            "PERI",
-            "PINS"
-          ],
-          "recommendation_trends": [
-            "ALNY",
-            "AMAT",
-            "AMD",
-            "AMGN",
-            "AMPH",
-            "AMSC",
-            "AMZN",
-            "ANET",
-            "APLD",
-            "APP",
-            "ARKF",
-            "ARKG",
-            "ARKK",
-            "ARKQ",
-            "ARKW",
-            "ARKX",
-            "ARM",
-            "ASML",
-            "ASTS",
-            "AVAV",
-            "AVEX",
-            "AVGO",
-            "AXON",
-            "AXP"
-          ]
-        },
-        "role": "analyst"
-      },
-      "completed_at": "2026-09-02T05:03:22+00:00",
-      "mode": "analyst",
-      "started_at": "2026-09-02T05:02:34+00:00",
-      "universe_count": 305
-    },
-    {
-      "analyst": {
-        "calls_used": 36,
-        "enabled_endpoints": [
-          "recommendation_trends",
-          "company_profile",
-          "basic_financials"
-        ],
-        "errors": [],
-        "missing_key": false,
-        "refreshed": {
-          "basic_financials": [
             "FROG",
             "FTNT",
             "FUTU",
@@ -2522,9 +2461,70 @@
       "mode": "analyst",
       "started_at": "2026-09-06T20:48:07+00:00",
       "universe_count": 305
+    },
+    {
+      "analyst": {
+        "calls_used": 36,
+        "enabled_endpoints": [
+          "recommendation_trends",
+          "company_profile",
+          "basic_financials"
+        ],
+        "errors": [],
+        "missing_key": false,
+        "refreshed": {
+          "basic_financials": [
+            "TER",
+            "TGT",
+            "TMC",
+            "TMDX",
+            "TMUS",
+            "TOST",
+            "TRI",
+            "TRMB"
+          ],
+          "company_profile": [
+            "UUUU",
+            "VCYT",
+            "VICR",
+            "VRSK"
+          ],
+          "recommendation_trends": [
+            "NVDA",
+            "NVTS",
+            "NXPI",
+            "ODFL",
+            "OKLO",
+            "ONDS",
+            "OPEN",
+            "ORCL",
+            "ORLY",
+            "OSCR",
+            "OSS",
+            "PACB",
+            "PANW",
+            "PATH",
+            "PAYX",
+            "PCAR",
+            "PDD",
+            "PEP",
+            "PERI",
+            "PINS",
+            "PL",
+            "PLTR",
+            "PRCT",
+            "PRME"
+          ]
+        },
+        "role": "analyst"
+      },
+      "completed_at": "2026-09-07T05:12:47+00:00",
+      "mode": "analyst",
+      "started_at": "2026-09-07T05:11:58+00:00",
+      "universe_count": 305
     }
   ],
   "schema_version": "2.0.0",
   "state_schema_version": "1.0.0",
-  "updated_at": "2026-09-06T20:48:55+00:00"
+  "updated_at": "2026-09-07T05:12:48+00:00"
 }

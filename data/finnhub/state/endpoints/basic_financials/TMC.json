@@ -3,13 +3,13 @@
     "metric": {
       "52WeekHigh": 11.35,
       "52WeekLow": 3.4,
-      "beta": 1.8396702,
+      "beta": 2.1044936,
       "pbAnnual": 30.8668,
-      "roaTTM": -178.74,
+      "roaTTM": -169.1,
       "roeTTM": -90.81
     },
     "symbol": "TMC"
   },
   "status": "ok",
-  "updated_at": "2026-08-26T21:12:33+00:00"
+  "updated_at": "2026-09-07T05:12:10+00:00"
 }

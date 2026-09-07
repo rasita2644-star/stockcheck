@@ -18,12 +18,12 @@
       "publisher_run_id": "34043842519"
     },
     "Refresh Finnhub Analyst Features": {
-      "last_run_id": 34059048749,
+      "last_run_id": 34085789385,
       "last_run_attempt": 1,
-      "last_produced_at": "2026-09-06T20:48:57+00:00",
-      "last_patch_sha256": "056b6d6a173595537239f2527e007cc44501506d1cfd101b7dc2dc30d41baa1a",
-      "last_published_source_sha": "376fd0528b5b5d181469ebbbf7ea2ccee364a0b8",
-      "publisher_run_id": "34059153567"
+      "last_produced_at": "2026-09-07T05:12:51+00:00",
+      "last_patch_sha256": "de2d906471af8a5a4f91eabc4e025ce7ded8f8c295f97433e67f8fbdd042e8e8",
+      "last_published_source_sha": "ee89370052df105581332e648ff55e74a432e79c",
+      "publisher_run_id": "34085935655"
     },
     "Update static fundamental data": {
       "last_run_id": 34059172482,
